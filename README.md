@@ -232,6 +232,8 @@ The `includes/private/` folder is not part of the repository; you can use it for
 
 - `site.db`, `.env*` and backup files are blocked from web access via `.htaccess`; still, keep the database outside the web root if you can.
 - The admin panel limits login attempts and uses CSRF protection. Password-protected works share the same attempt limit.
+- Passwords for protected works are stored hashed, so the admin cannot show them again. If you forget one, set a new password.
+- HTML in page and work content is cleaned before it is shown: scripts, event handlers (`onclick` and the like) and `javascript:` links are removed, and only YouTube and Vimeo embeds are kept. Embed codes from other services (Instagram, Spotify, Google Maps…) are dropped.
 - Set the domains your site answers to, so a forged `Host` header cannot leak into links, the sitemap or emails. Use the `ALLOWED_HOSTS` environment variable (`ALLOWED_HOSTS=example.com,www.example.com`) or an `includes/private/hosts.php` file that returns an array (`<?php return ['www.example.com', 'example.com'];`). The first name is used when an unknown host arrives. If neither is set, every host is accepted.
 
 ## License

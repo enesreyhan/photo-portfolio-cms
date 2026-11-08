@@ -232,6 +232,8 @@ Varsayılan SQLite'tır. MySQL için sunucu ortam değişkenlerini tanımlayın:
 
 - `site.db`, `.env*` ve yedek dosyaları `.htaccess` ile web'den erişime kapalıdır; yine de veritabanını mümkünse web kökü dışında tutun.
 - Yönetim paneli giriş denemelerini sınırlar ve CSRF koruması kullanır. Parola korumalı çalışmalar da aynı deneme sınırını kullanır.
+- Korumalı çalışmaların parolaları hash'lenerek saklanır, bu yüzden panel onları tekrar gösteremez. Unutursanız yeni bir parola belirleyin.
+- Sayfa ve çalışma içeriğindeki HTML gösterilmeden önce temizlenir: betikler, olay nitelikleri (`onclick` vb.) ve `javascript:` bağlantıları kaldırılır; yerleştirmelerden yalnızca YouTube ve Vimeo korunur. Başka servislerin yerleştirme kodları (Instagram, Spotify, Google Haritalar…) silinir.
 - Sitenizin yanıt verdiği alan adlarını tanımlayın; böylece sahte bir `Host` başlığı bağlantılara, site haritasına veya e-postalara sızamaz. `ALLOWED_HOSTS` ortam değişkenini (`ALLOWED_HOSTS=example.com,www.example.com`) ya da dizi döndüren bir `includes/private/hosts.php` dosyasını (`<?php return ['www.example.com', 'example.com'];`) kullanın. Bilinmeyen bir alan adı geldiğinde listedeki ilk ad kullanılır. İkisi de yoksa her alan adı kabul edilir.
 
 ## Lisans
