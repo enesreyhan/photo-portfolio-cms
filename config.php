@@ -9,8 +9,21 @@ if (!ob_get_level()) {
 }
 
 // Hata raporlama: Lokalde hataları göster, canlı sunucuda gizle ve logla
-$is_local = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1']) ||
-            (isset($_SERVER['HTTP_HOST']) && (str_contains($_SERVER['HTTP_HOST'], 'localhost') || str_contains($_SERVER['HTTP_HOST'], '127.0.0.1')));
+// Host başlığı istemciden gelir; buna güvenmek canlıda hata ayıklama çıktısını açtırabilirdi
+$is_local = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true);
+
+// İzinli alan adları: ALLOWED_HOSTS ortam değişkeni (virgüllü) veya includes/private/hosts.php (dizi döner).
+// Liste boşsa kısıtlama yok. Listede olmayan Host başlığı listenin ilk adıyla değiştirilir (cache/SEO zehirlenmesine karşı).
+$allowed_hosts = array_filter(array_map('trim', explode(',', strtolower((string)getenv('ALLOWED_HOSTS')))));
+if (!$allowed_hosts && is_file(__DIR__ . '/includes/private/hosts.php')) {
+    $allowed_hosts = array_map('strtolower', (array)require __DIR__ . '/includes/private/hosts.php');
+}
+if ($allowed_hosts && isset($_SERVER['HTTP_HOST'])) {
+    $req_host = strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
+    if (!in_array($req_host, $allowed_hosts, true) && !in_array($req_host, ['localhost', '127.0.0.1'], true)) {
+        $_SERVER['HTTP_HOST'] = reset($allowed_hosts);
+    }
+}
 
 if ($is_local) {
     error_reporting(E_ALL);

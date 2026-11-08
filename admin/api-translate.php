@@ -121,7 +121,6 @@ function translate_plain_segment(string $text, string $sl, string $tl, ?string &
                 CURLOPT_TIMEOUT        => 8,
                 CURLOPT_CONNECTTIMEOUT => 4,
                 CURLOPT_USERAGENT      => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-                CURLOPT_SSL_VERIFYPEER => false,
             ]);
             $res_body = (string)curl_exec($ch);
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -134,10 +133,6 @@ function translate_plain_segment(string $text, string $sl, string $tl, ?string &
                     'method'  => 'GET',
                     'timeout' => 8,
                     'header'  => "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36\r\n",
-                ],
-                'ssl' => [
-                    'verify_peer'      => false,
-                    'verify_peer_name' => false,
                 ],
             ]);
             $res_body = (string)@file_get_contents($url, false, $ctx);
@@ -175,7 +170,6 @@ function translate_plain_segment(string $text, string $sl, string $tl, ?string &
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 6,
             CURLOPT_USERAGENT      => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-            CURLOPT_SSL_VERIFYPEER => false,
         ]);
         $mm_body = (string)curl_exec($ch);
     }

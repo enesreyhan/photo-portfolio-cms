@@ -229,7 +229,7 @@ if (in_array($raw_path, $supported_languages)) {
     $is_tr = ($lang === 'tr');
     // Cookie güncelle
     if (!headers_sent()) {
-        setcookie('site_lang', $lang, time() + 86400 * 365, '/');
+        setcookie('site_lang', $lang, ['expires' => time() + 86400 * 365, 'path' => '/', 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off']);
     }
 
     // Ana Sayfa Küratöryel Seçkisi
@@ -302,7 +302,7 @@ if (!in_array($lang, $supported_languages)) {
 
 // Tercih edilen dil çerezini güncelle
 if (!headers_sent()) {
-    setcookie('site_lang', $lang, time() + 86400 * 365, '/');
+    setcookie('site_lang', $lang, ['expires' => time() + 86400 * 365, 'path' => '/', 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off']);
 }
 
 $sub_path = $segments[1] ?? '';
@@ -513,11 +513,16 @@ if ($slug !== '') {
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_password'])) {
                 $submitted_pass = trim($_POST['item_password'] ?? '');
-                if ($submitted_pass !== '' && hash_equals($item['access_password'], $submitted_pass)) {
+                // Admin girişiyle aynı IP kilidi: 15 dk'da 5 hatalı deneme
+                if (($lock_min = login_lock_remaining_minutes()) > 0) {
+                    $password_error = site_t("Çok fazla hatalı deneme. {$lock_min} dakika sonra tekrar deneyin.", "Too many failed attempts. Try again in {$lock_min} minutes.");
+                } elseif ($submitted_pass !== '' && hash_equals($item['access_password'], $submitted_pass)) {
                     $_SESSION[$session_key] = true;
                     header('Location: ' . item_url($item, $lang));
                     exit;
                 } else {
+                    login_record_failure();
+                    usleep(500000);
                     $password_error = site_t('Hatalı parola girdiniz. Lütfen tekrar deneyin.', 'Incorrect password. Please try again.');
                 }
             }

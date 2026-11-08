@@ -74,6 +74,10 @@ $target_folder = trim($target_folder, '/\\');
 if ($target_folder === '') {
     $target_folder = 'uploads';
 }
+if (!preg_match('#^(uploads|content)(/|$)#', $target_folder)) {
+    echo json_encode(['success' => false, 'error' => 'Hedef klasör uploads/ veya content/ altında olmalı.']);
+    exit;
+}
 
 $base_dir = dirname(__DIR__);
 $upload_dir = $base_dir . '/' . $target_folder;

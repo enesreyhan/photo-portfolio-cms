@@ -355,9 +355,12 @@ if (document.documentElement.classList.contains('sidebar-collapsed')) {
                 </div>
             </details>
             <?php endif; ?>
-            <a href="<?= url('admin/logout.php') ?>" class="user-logout-btn" title="<?= e(__a('logout_title')) ?>">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-            </a>
+            <form method="post" action="<?= url('admin/logout.php') ?>" style="margin:0;display:flex;">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                <button type="submit" class="user-logout-btn" title="<?= e(__a('logout_title')) ?>" aria-label="<?= e(__a('logout_title')) ?>">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                </button>
+            </form>
         </div>
     </div>
 </aside>

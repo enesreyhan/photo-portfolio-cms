@@ -12,6 +12,13 @@ DirectoryIndex index.php index.html
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+    # HSTS yalnızca HTTPS yanıtlarında (lokal HTTP geliştirmeyi etkilemez)
+    Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+    # Yüklenen SVG'ler doğrudan açılırsa içlerindeki script çalışmasın
+    <FilesMatch "\.svg$">
+        Header set Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    </FilesMatch>
 </IfModule>
 
 # Hassas Dosyaları Dışarıdan Doğrudan Erişime Kapat
@@ -82,6 +89,8 @@ DirectoryIndex index.php index.html
     # Komut satırı betikleri ve veritabanı dosyaları web'den açılamaz
     RewriteRule ^scripts(/|$) - [F,L]
     RewriteRule \.(db|sqlite|sql|bak.*)$ - [F,L,NC]
+    # Medya klasörlerinde betik çalıştırılamaz
+    RewriteRule ^(uploads|content)/.*\.(php[0-9]?|phtml|phar|phps|cgi|pl|py|sh)$ - [F,L,NC]
 
     # HTTP -> HTTPS Yönlendirmesi (Canlı Sunucu İçin)
     RewriteCond %{HTTPS} off

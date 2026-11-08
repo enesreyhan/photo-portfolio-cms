@@ -84,6 +84,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') ==
     $parent = str_replace(['..', "\0"], '', $parent);
     $parent = trim($parent, '/\\');
     if ($parent === '') $parent = 'uploads';
+    if (!preg_match('#^(uploads|content)(/|$)#', $parent)) {
+        echo json_encode(['success' => false, 'error' => 'Klasör uploads/ veya content/ altında olmalı.']);
+        exit;
+    }
 
     $full_target = $base_dir . '/' . $parent . '/' . $folder_name;
     if (is_dir($full_target)) {

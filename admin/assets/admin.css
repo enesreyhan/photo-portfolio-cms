@@ -797,6 +797,12 @@ tr.sortable-chosen {
     transition: all 0.12s;
 }
 
+button.user-logout-btn {
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
 .user-logout-btn:hover {
     color: var(--danger);
     background: var(--danger-soft);
