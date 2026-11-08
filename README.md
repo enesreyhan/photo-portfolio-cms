@@ -231,7 +231,8 @@ The `includes/private/` folder is not part of the repository; you can use it for
 ## Security notes
 
 - `site.db`, `.env*` and backup files are blocked from web access via `.htaccess`; still, keep the database outside the web root if you can.
-- The admin panel limits login attempts and uses CSRF protection.
+- The admin panel limits login attempts and uses CSRF protection. Password-protected works share the same attempt limit.
+- Set the domains your site answers to, so a forged `Host` header cannot leak into links, the sitemap or emails. Use the `ALLOWED_HOSTS` environment variable (`ALLOWED_HOSTS=example.com,www.example.com`) or an `includes/private/hosts.php` file that returns an array (`<?php return ['www.example.com', 'example.com'];`). The first name is used when an unknown host arrives. If neither is set, every host is accepted.
 
 ## License
 

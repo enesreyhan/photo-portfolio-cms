@@ -231,7 +231,8 @@ Varsayılan SQLite'tır. MySQL için sunucu ortam değişkenlerini tanımlayın:
 ## Güvenlik notları
 
 - `site.db`, `.env*` ve yedek dosyaları `.htaccess` ile web'den erişime kapalıdır; yine de veritabanını mümkünse web kökü dışında tutun.
-- Yönetim paneli giriş denemelerini sınırlar ve CSRF koruması kullanır.
+- Yönetim paneli giriş denemelerini sınırlar ve CSRF koruması kullanır. Parola korumalı çalışmalar da aynı deneme sınırını kullanır.
+- Sitenizin yanıt verdiği alan adlarını tanımlayın; böylece sahte bir `Host` başlığı bağlantılara, site haritasına veya e-postalara sızamaz. `ALLOWED_HOSTS` ortam değişkenini (`ALLOWED_HOSTS=example.com,www.example.com`) ya da dizi döndüren bir `includes/private/hosts.php` dosyasını (`<?php return ['www.example.com', 'example.com'];`) kullanın. Bilinmeyen bir alan adı geldiğinde listedeki ilk ad kullanılır. İkisi de yoksa her alan adı kabul edilir.
 
 ## Lisans
 
