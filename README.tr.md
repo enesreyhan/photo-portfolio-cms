@@ -4,7 +4,7 @@
 
 Fotoğrafçılar için çok dilli portfolyo sitesi ve yönetim paneli. Saf PHP ile yazıldı, veritabanı olarak SQLite kullanır (isteğe bağlı MySQL). Derleme adımı ya da çatı yok: tek klasörü sunucunuza kopyalayıp `/admin/` adresini açmanız yeterli.
 
-![Tam ekran slaytlı ana sayfa](docs/screenshots/site-home.webp)
+![Tam ekran slaytlı ana sayfa](docs/screenshots/tr/site-home.webp)
 
 > Tüm ekran görüntüleri bu CMS ile kurulmuş gerçek bir siteden alındı: [enesreyhan.com](https://www.enesreyhan.com). İçlerindeki fotoğraflar © Enes Reyhan'a aittir ve MIT lisansının **kapsamında değildir**.
 
@@ -30,18 +30,18 @@ Fotoğrafçılar için çok dilli portfolyo sitesi ve yönetim paneli. Saf PHP i
 
 Her kategorinin (Projeler, Seriler, Tekil ya da sizin oluşturduğunuz herhangi biri) kendi liste sayfası olur. Ziyaretçi tam ekran bölümler arasında kaydırarak gezer; sağdaki küçük sayaç nerede olduğunu gösterir.
 
-![Projeler liste sayfası](docs/screenshots/site-projects.webp)
+![Projeler liste sayfası](docs/screenshots/tr/site-projects.webp)
 
 ### Proje sayfası
 
 Proje; başlığı, yeri ve yılları, giriş metni ve kapak fotoğrafıyla açılır. Ziyaretçi **sergi akışı** ile **kontak baskı** görünümü arasında, koyu ve açık zemin arasında geçiş yapabilir.
 
-![Proje sayfasının açılışı](docs/screenshots/site-project.webp)
+![Proje sayfasının açılışı](docs/screenshots/tr/site-project.webp)
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/site-project-story.webp" alt="Sergi akışı: her seferinde tek büyük fotoğraf"></td>
-    <td width="50%"><img src="docs/screenshots/site-contact-sheet.webp" alt="Kontak baskı: projenin tüm fotoğrafları numaralı ızgara olarak"></td>
+    <td width="50%"><img src="docs/screenshots/tr/site-project-story.webp" alt="Sergi akışı: her seferinde tek büyük fotoğraf"></td>
+    <td width="50%"><img src="docs/screenshots/tr/site-contact-sheet.webp" alt="Kontak baskı: projenin tüm fotoğrafları numaralı ızgara olarak"></td>
   </tr>
   <tr>
     <td><b>Sergi akışı:</b> fotoğraflar tek tek; altyazılar, bölümler ve diptikler.</td>
@@ -53,8 +53,8 @@ Proje; başlığı, yeri ve yılları, giriş metni ve kapak fotoğrafıyla aç�
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/site-about.webp" alt="Biyografi ve portreli Hakkımda sayfası"></td>
-    <td width="50%"><img src="docs/screenshots/site-contact.webp" alt="İletişim formu"></td>
+    <td width="50%"><img src="docs/screenshots/tr/site-about.webp" alt="Biyografi ve portreli Hakkımda sayfası"></td>
+    <td width="50%"><img src="docs/screenshots/tr/site-contact.webp" alt="İletişim formu"></td>
   </tr>
   <tr>
     <td><b>Hakkımda:</b> biyografi, portre, sergi ve ödül kronolojisi.</td>
@@ -66,8 +66,8 @@ Proje; başlığı, yeri ve yılları, giriş metni ve kapak fotoğrafıyla aç�
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/site-mobile.webp" alt="Telefonda ana sayfa" width="260"></td>
-    <td align="center"><img src="docs/screenshots/site-mobile-project.webp" alt="Telefonda proje sayfası" width="260"></td>
+    <td align="center"><img src="docs/screenshots/tr/site-mobile.webp" alt="Telefonda ana sayfa" width="260"></td>
+    <td align="center"><img src="docs/screenshots/tr/site-mobile-project.webp" alt="Telefonda proje sayfası" width="260"></td>
   </tr>
 </table>
 
@@ -83,8 +83,8 @@ Tüm sayfalar mobil uyumludur; küçük ekranlarda menü tam ekran bir çekmecey
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/setup-language.webp" alt="Kurulum dilini seçin" width="360"></td>
-    <td align="center"><img src="docs/screenshots/setup-account.webp" alt="Yönetici hesabını oluşturun" width="360"></td>
+    <td align="center"><img src="docs/screenshots/tr/setup-language.webp" alt="Kurulum dilini seçin" width="360"></td>
+    <td align="center"><img src="docs/screenshots/tr/setup-account.webp" alt="Yönetici hesabını oluşturun" width="360"></td>
   </tr>
   <tr>
     <td align="center">1. Dili seçin</td>
@@ -96,29 +96,29 @@ Tüm sayfalar mobil uyumludur; küçük ekranlarda menü tam ekran bir çekmecey
 
 Panelin açılış ekranı son düzenlenen çalışmaları, ziyaretçi sayılarını (Google Analytics bağlıysa), okunmamış mesajları ve sitenin modüllerinin durumunu gösterir; dikkat gereken bir şey varsa uyarır.
 
-![Genel Bakış](docs/screenshots/admin-dashboard.webp)
+![Genel Bakış](docs/screenshots/tr/admin-dashboard.webp)
 
 ### Sayfalar
 
 Sitenin bütün sayfaları tek listede: sabit sayfalar, liste sayfaları ve her çalışma; adresi, durumu ve menüde olup olmadığıyla. **Menü ve önizleme** sekmesinde menü sırasını sürükleyerek değiştirirsiniz.
 
-![Sayfalar](docs/screenshots/admin-pages.webp)
+![Sayfalar](docs/screenshots/tr/admin-pages.webp)
 
 ### Çalışma editörü
 
 Her dil için başlık, kısa açıklama, konum ve yıl; zengin metin editörüyle giriş hikâyesi; odak noktasıyla kapak fotoğrafı; yan panelde adres, kategori, şifre koruması ve eski adresler.
 
-![Çalışma editörü](docs/screenshots/admin-editor.webp)
+![Çalışma editörü](docs/screenshots/tr/admin-editor.webp)
 
 Altında **hikâye tuvali** bulunur: fotoğrafları sürükleyerek sıralayın, bölüm, metin ve alıntı blokları ekleyin, kapağı işaretleyin, iki fotoğrafı diptik yapın, her karenin altyazısını yazın.
 
-![Hikâye tuvali](docs/screenshots/admin-story-canvas.webp)
+![Hikâye tuvali](docs/screenshots/tr/admin-story-canvas.webp)
 
 ### Medya kütüphanesi
 
 Sürükle-bırak toplu yükleme, klasörler, arama ve filtreler (ülke, şehir, yıl, kamera, diyafram, enstantane, ISO). Her yükleme otomatik olarak AVIF ve WebP'ye dönüştürülür, EXIF bilgisi okunur. Bir fotoğrafı silmeden önce kütüphane onun nerede kullanıldığını söyler.
 
-![Medya kütüphanesi](docs/screenshots/admin-media.webp)
+![Medya kütüphanesi](docs/screenshots/tr/admin-media.webp)
 
 ### Temalar ve canlı tasarım editörü
 
@@ -126,8 +126,8 @@ Kendi fotoğraflarınızla önizlenen 26 hazır tema. **Özelleştir** canlı ta
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/admin-themes.webp" alt="Tema galerisi"></td>
-    <td width="50%"><img src="docs/screenshots/admin-customize.webp" alt="Canlı tasarım editörü"></td>
+    <td width="50%"><img src="docs/screenshots/tr/admin-themes.webp" alt="Tema galerisi"></td>
+    <td width="50%"><img src="docs/screenshots/tr/admin-customize.webp" alt="Canlı tasarım editörü"></td>
   </tr>
   <tr>
     <td><b>Temalar:</b> ızgara, tek fotoğraf, yatay, hikâye ve liste düzenleri.</td>
@@ -139,13 +139,13 @@ Kendi fotoğraflarınızla önizlenen 26 hazır tema. **Özelleştir** canlı ta
 
 17 hazır dilden birini tek tıkla ekleyin, yayınlayın ya da gizleyin; varsayılan dili ve panel dilini seçin. Çeviri tablosu ve otomatik çeviri içerikleri doldurmanıza yardım eder.
 
-![Diller](docs/screenshots/admin-languages.webp)
+![Diller](docs/screenshots/tr/admin-languages.webp)
 
 ### Site ayarları
 
 Dile göre site başlığı ve açıklaması, site sahibi, iletişim e-postası ve telefon, sosyal medya hesapları, logo ve favicon, URL yönetimi, gizlilik, entegrasyonlar, hesap ve yedek.
 
-![Site ayarları](docs/screenshots/admin-settings.webp)
+![Site ayarları](docs/screenshots/tr/admin-settings.webp)
 
 ---
 

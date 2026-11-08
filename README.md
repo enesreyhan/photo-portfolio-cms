@@ -4,7 +4,7 @@
 
 A multilingual portfolio website and admin panel for photographers, written in plain PHP with SQLite (MySQL optional). No build step, no framework: copy one folder to your server and open `/admin/`.
 
-![Homepage with a full-screen slideshow](docs/screenshots/site-home.webp)
+![Homepage with a full-screen slideshow](docs/screenshots/en/site-home.webp)
 
 > All screenshots come from a real site built with this CMS: [enesreyhan.com](https://www.enesreyhan.com). The photographs in them are © Enes Reyhan and are **not** covered by the MIT license.
 
@@ -30,18 +30,18 @@ A multilingual portfolio website and admin panel for photographers, written in p
 
 Each category (Projects, Series, Single images, or anything you create) gets its own list page. Visitors scroll through full-screen chapters; the small counter on the right shows where they are.
 
-![Projects list page](docs/screenshots/site-projects.webp)
+![Projects list page](docs/screenshots/en/site-projects.webp)
 
 ### Project page
 
 A project opens with its title, place and years, an introduction text and the cover photo. Visitors can switch between the **exhibition flow** and a **contact sheet**, and between a dark and a light background.
 
-![Project page opening](docs/screenshots/site-project.webp)
+![Project page opening](docs/screenshots/en/site-project.webp)
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/site-project-story.webp" alt="Exhibition flow: one large photo at a time"></td>
-    <td width="50%"><img src="docs/screenshots/site-contact-sheet.webp" alt="Contact sheet: all photos of the project as a numbered grid"></td>
+    <td width="50%"><img src="docs/screenshots/en/site-project-story.webp" alt="Exhibition flow: one large photo at a time"></td>
+    <td width="50%"><img src="docs/screenshots/en/site-contact-sheet.webp" alt="Contact sheet: all photos of the project as a numbered grid"></td>
   </tr>
   <tr>
     <td><b>Exhibition flow:</b> photos one by one, with captions, chapters and diptychs.</td>
@@ -53,8 +53,8 @@ A project opens with its title, place and years, an introduction text and the co
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/site-about.webp" alt="About page with biography and portrait"></td>
-    <td width="50%"><img src="docs/screenshots/site-contact.webp" alt="Contact form"></td>
+    <td width="50%"><img src="docs/screenshots/en/site-about.webp" alt="About page with biography and portrait"></td>
+    <td width="50%"><img src="docs/screenshots/en/site-contact.webp" alt="Contact form"></td>
   </tr>
   <tr>
     <td><b>About:</b> biography, portrait, exhibitions and awards timeline.</td>
@@ -66,8 +66,8 @@ A project opens with its title, place and years, an introduction text and the co
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/site-mobile.webp" alt="Homepage on a phone" width="260"></td>
-    <td align="center"><img src="docs/screenshots/site-mobile-project.webp" alt="Project page on a phone" width="260"></td>
+    <td align="center"><img src="docs/screenshots/en/site-mobile.webp" alt="Homepage on a phone" width="260"></td>
+    <td align="center"><img src="docs/screenshots/en/site-mobile-project.webp" alt="Project page on a phone" width="260"></td>
   </tr>
 </table>
 
@@ -83,8 +83,8 @@ The first time you open `/admin/`, the wizard asks for the **setup language** (1
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/setup-language.webp" alt="Choose the setup language" width="360"></td>
-    <td align="center"><img src="docs/screenshots/setup-account.webp" alt="Create the administrator account" width="360"></td>
+    <td align="center"><img src="docs/screenshots/en/setup-language.webp" alt="Choose the setup language" width="360"></td>
+    <td align="center"><img src="docs/screenshots/en/setup-account.webp" alt="Create the administrator account" width="360"></td>
   </tr>
   <tr>
     <td align="center">1. Choose the language</td>
@@ -96,29 +96,29 @@ The first time you open `/admin/`, the wizard asks for the **setup language** (1
 
 The dashboard shows your latest works, visitor numbers (when Google Analytics is connected), unread messages and the status of the site's modules, with warnings when something needs attention.
 
-![Admin overview](docs/screenshots/admin-dashboard.webp)
+![Admin overview](docs/screenshots/en/admin-dashboard.webp)
 
 ### Pages
 
 Every page of the site in one list: fixed pages, list pages and each work, with its address, status and whether it is in the menu. The **Menu and preview** tab lets you reorder the menu by dragging.
 
-![Pages](docs/screenshots/admin-pages.webp)
+![Pages](docs/screenshots/en/admin-pages.webp)
 
 ### Work editor
 
 Title, short description, place and year for each language; an introduction text with a rich-text editor; cover photo with a focal point; address, category, password protection and old addresses in the side panel.
 
-![Work editor](docs/screenshots/admin-editor.webp)
+![Work editor](docs/screenshots/en/admin-editor.webp)
 
 Below it is the **story canvas**: drag photos to reorder them, add chapters, text blocks and quotes, mark the cover, pair two photos as a diptych and write a caption for each image.
 
-![Story canvas](docs/screenshots/admin-story-canvas.webp)
+![Story canvas](docs/screenshots/en/admin-story-canvas.webp)
 
 ### Media library
 
 Bulk upload by drag and drop, folders, search and filters (country, city, year, camera, aperture, shutter, ISO). Every upload is converted to AVIF and WebP automatically and its EXIF data is read. Before you delete a photo, the library tells you where it is used.
 
-![Media library](docs/screenshots/admin-media.webp)
+![Media library](docs/screenshots/en/admin-media.webp)
 
 ### Themes and live design editor
 
@@ -126,8 +126,8 @@ Bulk upload by drag and drop, folders, search and filters (country, city, year, 
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/admin-themes.webp" alt="Theme gallery"></td>
-    <td width="50%"><img src="docs/screenshots/admin-customize.webp" alt="Live design editor"></td>
+    <td width="50%"><img src="docs/screenshots/en/admin-themes.webp" alt="Theme gallery"></td>
+    <td width="50%"><img src="docs/screenshots/en/admin-customize.webp" alt="Live design editor"></td>
   </tr>
   <tr>
     <td><b>Themes:</b> grid, single photo, horizontal, story and list layouts.</td>
@@ -139,13 +139,13 @@ Bulk upload by drag and drop, folders, search and filters (country, city, year, 
 
 Add a language with one click from 17 ready-made ones, publish or hide it, choose the default language and the admin panel language. A translation table and automatic translation help you fill in the content.
 
-![Languages](docs/screenshots/admin-languages.webp)
+![Languages](docs/screenshots/en/admin-languages.webp)
 
 ### Site settings
 
 Site title and description per language, site owner, contact email and phone, social media accounts, logo and favicon, URL management, privacy, integrations, account and backup.
 
-![Site settings](docs/screenshots/admin-settings.webp)
+![Site settings](docs/screenshots/en/admin-settings.webp)
 
 ---
 
