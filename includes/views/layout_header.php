@@ -219,7 +219,6 @@ foreach ($active_site_langs as $asl) {
     <link rel="alternate" type="application/rss+xml" title="<?= e($site_title) ?>" href="<?= e(url('rss.xml')) ?>" />
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="<?= e(asset_url('giallo-light.css')) ?>" />
     <link rel="stylesheet" type="text/css" href="<?= e(asset_url('theme/light.css')) ?>" />
     <link rel="stylesheet" type="text/css" href="<?= e(asset_url('theme/dark.css')) ?>" />
     <link rel="stylesheet" type="text/css" media="screen" href="<?= e(asset_url('main.css')) ?>" />
