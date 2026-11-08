@@ -21,6 +21,7 @@ icons/favicon.png
 KURULUM.md
 deploy.sh
 pull_db.sh
+cleanup_remote.sh
 scripts/fast_deploy.py
 scripts/migrate_from_content.php
 scripts/migrate_to_normal_format.php
