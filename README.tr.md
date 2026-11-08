@@ -184,9 +184,10 @@ Tarayıcıda `http://localhost:8000/admin/` adresini açın.
 
 ### Sunucuya kurmak (cPanel / paylaşımlı hosting)
 
-1. Dosyaları alan adınızın kök klasörüne (`public_html`) yükleyin.
-2. PHP'nin bu klasöre yazabildiğinden emin olun (`site.db`, `uploads/`, `processed_images/` burada oluşur).
-3. `https://alanadiniz.com/admin/` adresini açın.
+1. [Sürümler sayfasından](https://github.com/enesreyhan/photo-portfolio-cms/releases/latest) en son sürümü (**Source code (zip)**) indirip açın.
+2. Açılan klasörün **içindekileri** alan adınızın kök klasörüne (`public_html`) yükleyin.
+3. PHP'nin bu klasöre yazabildiğinden emin olun (`site.db`, `uploads/`, `processed_images/` burada oluşur).
+4. `https://alanadiniz.com/admin/` adresini açın.
 
 ### İlk açılış
 

@@ -184,9 +184,10 @@ Open `http://localhost:8000/admin/` in your browser.
 
 ### Install on a server (cPanel / shared hosting)
 
-1. Upload the files to your domain's root folder (`public_html`).
-2. Make sure PHP can write to that folder (`site.db`, `uploads/` and `processed_images/` are created there).
-3. Open `https://yourdomain.com/admin/`.
+1. Download the latest release from the [Releases page](https://github.com/enesreyhan/photo-portfolio-cms/releases/latest) (**Source code (zip)**) and unzip it.
+2. Upload the **contents** of the unzipped folder to your domain's root folder (`public_html`).
+3. Make sure PHP can write to that folder (`site.db`, `uploads/` and `processed_images/` are created there).
+4. Open `https://yourdomain.com/admin/`.
 
 ### First run
 
