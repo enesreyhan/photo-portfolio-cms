@@ -1,98 +1,86 @@
-# Fotoğraf Portfolyo CMS
+# Photo Portfolio CMS
 
-Fotoğrafçılar için çok dilli, veritabanı olarak SQLite (isteğe bağlı MySQL) kullanan, kurulumu tek klasör kopyalamak kadar basit bir PHP portfolyo sitesi ve yönetim paneli.
+**English** | [Türkçe](README.tr.md)
 
-*English summary below.*
+A multilingual portfolio website and admin panel for photographers, written in plain PHP with SQLite (MySQL optional). Installing it is as simple as copying one folder.
 
-## Özellikler
+## Features
 
-- **Portfolyo:** Kendi kategorilerinizi (projeler, seriler, kitaplar…) oluşturun; her çalışma için görsel hikâye tuvali, kapak, odak noktası, şifreli bağlantı, taslak.
-- **Ana sayfa:** Slayt seçkisi veya tüm çalışmalar; 20+ hazır tema ve canlı tasarım editörü.
-- **Medya kütüphanesi:** Toplu yükleme, klasörler, EXIF okuma, otomatik AVIF/WebP dönüştürme, kullanım uyarısı.
-- **Çok dilli:** Site ve panel için 17 hazır dil, dile göre URL'ler, otomatik çeviri yardımı.
-- **Sayfalar:** Hakkımda, İletişim (form + mesaj kutusu), Blog, KVKK aydınlatma ve açık rıza metinleri.
-- **Diğer:** Sitemap, RSS/Atom, Schema.org, çerez onayı, Google Analytics 4 istatistikleri, bakım modu, yedek indirme.
+- **Portfolio:** Create your own categories (projects, series, books…); each work gets a visual story canvas, cover image, focal point, password-protected link and draft mode.
+- **Homepage:** A curated slideshow or all works; 20+ ready-made themes and a live design editor.
+- **Media library:** Bulk upload, folders, EXIF reading, automatic AVIF/WebP conversion, and a warning before deleting photos that are in use.
+- **Multilingual:** 17 built-in languages for the site and the admin panel, language-specific URLs, automatic translation help.
+- **Pages:** About, Contact (form + inbox), Blog, privacy notice and explicit consent texts (KVKK/GDPR-style).
+- **More:** Sitemap, RSS/Atom, Schema.org, cookie consent, Google Analytics 4 statistics, maintenance mode, database backup download.
 
-## Gereksinimler
+## Requirements
 
-- PHP **8.1+** (8.2+ önerilir)
-- PHP eklentileri: `pdo_sqlite`, `gd` (AVIF için GD'nin AVIF desteği), `mbstring`, `json`
-- İsteğe bağlı: `curl` ve `openssl` (Google Analytics, otomatik çeviri), `exif`
-- Apache/LiteSpeed (`.htaccess` ile) veya PHP'nin yerleşik sunucusu (geliştirme için)
+- PHP **8.1+** (8.2+ recommended)
+- PHP extensions: `pdo_sqlite`, `gd` (with AVIF support for AVIF output), `mbstring`, `json`
+- Optional: `curl` and `openssl` (Google Analytics, automatic translation), `exif`
+- Apache/LiteSpeed (via `.htaccess`) or PHP's built-in server (for development)
 
-## Kurulum
+## Installation
 
-### Yerelde denemek
-
-```bash
-git clone <depo-adresi> portfolyo
-cd portfolyo
-./start.sh            # ya da: php -S localhost:8000 router.php
-```
-
-Tarayıcıda `http://localhost:8000/admin/` adresini açın.
-
-### Sunucuya kurmak (cPanel / paylaşımlı hosting)
-
-1. Dosyaları alan adınızın kök klasörüne (`public_html`) yükleyin.
-2. PHP'nin bu klasöre yazabildiğinden emin olun (`site.db`, `uploads/`, `processed_images/` burada oluşur).
-3. `https://alanadiniz.com/admin/` adresini açın.
-
-### İlk açılış (kurulum sihirbazı)
-
-1. **Kurulum dilini seçin.** Yönetim paneli bu dilde açılır.
-2. **Yönetici hesabını oluşturun:** kullanıcı adı, adınız (telif ve künye metinlerinde görünür), e-posta, parola.
-3. Panel açılır. Sitede Hakkımda ve İletişim sayfaları ile menü hazırdır; portfolyo kategorilerinizi (ör. Projeler, Seriler) **İçerik › Sayfalar › Yeni › Yeni liste sayfası** ile ekleyin; ardından çalışmalarınızı yükleyin.
-
-Veritabanı (`site.db`) ilk istekte otomatik oluşturulur; ayrıca bir kurulum adımı gerekmez.
-
-### Parolayı unuttuysanız
+### Try it locally
 
 ```bash
-php scripts/reset-password.php <kullanici_adi>
+git clone https://github.com/enesreyhan/photo-portfolio-cms.git portfolio
+cd portfolio
+./start.sh            # or: php -S localhost:8000 router.php
 ```
 
-### MySQL kullanmak (isteğe bağlı)
+Open `http://localhost:8000/admin/` in your browser.
 
-Varsayılan SQLite'tır. MySQL için sunucu ortam değişkenlerini tanımlayın: `DB_DRIVER=mysql`, `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` (bkz. `config.php`).
+### Install on a server (cPanel / shared hosting)
 
-## İlk ayarlar
+1. Upload the files to your domain's root folder (`public_html`).
+2. Make sure PHP can write to that folder (`site.db`, `uploads/` and `processed_images/` are created there).
+3. Open `https://yourdomain.com/admin/`.
 
-- **Site Ayarları › Genel:** site başlığı, açıklama, site sahibi, e-posta, telefon, sosyal medya.
-- **Site Ayarları › Logo:** amblem, tam logo ve favicon yükleyin.
-- **Temalar:** hazır temalardan birini seçip özelleştirin.
-- **Ayarlar › Diller:** site dillerini ekleyin/kapatın; **URL Yönetimi**'nden sayfa adlarını ve adreslerini değiştirin.
+### First run (setup wizard)
 
-## Klasör yapısı
+1. **Choose the setup language.** The admin panel opens in this language.
+2. **Create the administrator account:** username, your name (shown in copyright and legal notices), email, password.
+3. The panel opens. The site already has About and Contact pages and a menu. Create your portfolio categories (e.g. Projects, Series) under **Content › Pages › New › New list page**, then add your works.
 
-| Klasör | İçerik |
+The database (`site.db`) is created automatically on the first request; no separate install step is needed.
+
+### Forgot your password?
+
+```bash
+php scripts/reset-password.php <username>
+```
+
+### Using MySQL (optional)
+
+SQLite is the default. For MySQL, set these server environment variables: `DB_DRIVER=mysql`, `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` (see `config.php`).
+
+## First settings
+
+- **Site Settings › General:** site title, description, site owner, email, phone, social media.
+- **Site Settings › Logo:** upload your symbol, full logo and favicon.
+- **Themes:** pick a ready-made theme and customise it.
+- **Languages & Translation:** add or turn off site languages; change page names and addresses under **Page Names & URLs**.
+
+## Folder structure
+
+| Folder | Contents |
 | --- | --- |
-| `admin/` | Yönetim paneli |
-| `includes/` | Ortak PHP kodu, görünümler (`views/`), dil dosyaları |
-| `api/` | İletişim formu uç noktası |
-| `assets/brand/` | Varsayılan amblem, favicon ve portre yer tutucusu |
-| `scripts/` | Komut satırı araçları (görsel dönüştürme, medya eşitleme, parola sıfırlama) |
-| `uploads/`, `processed_images/` | Yüklenen ve dönüştürülen görseller (otomatik oluşur, depoda yok) |
+| `admin/` | Admin panel |
+| `includes/` | Shared PHP code, views (`views/`), language files |
+| `api/` | Contact form endpoint |
+| `assets/brand/` | Default symbol, favicon and portrait placeholder |
+| `scripts/` | Command-line tools (image conversion, media sync, password reset) |
+| `uploads/`, `processed_images/` | Uploaded and converted images (created automatically, not in the repository) |
 
-`includes/private/` klasörü depoda yer almaz; siteye özel modüller (eski URL yönlendirmeleri gibi) için kullanılabilir. Bu klasör yoksa ilgili özellikler kapalıdır.
+The `includes/private/` folder is not part of the repository; you can use it for site-specific modules (such as old URL redirects). When it is missing, those features are simply off.
 
-## Güvenlik notları
+## Security notes
 
-- `site.db`, `.env*` ve yedek dosyaları `.htaccess` ile web'den erişime kapalıdır; yine de veritabanını mümkünse web kökü dışında tutun.
-- Yönetim paneli giriş denemelerini sınırlar ve CSRF koruması kullanır.
+- `site.db`, `.env*` and backup files are blocked from web access via `.htaccess`; still, keep the database outside the web root if you can.
+- The admin panel limits login attempts and uses CSRF protection.
 
----
+## License
 
-## English summary
-
-A multilingual photography portfolio CMS in plain PHP with SQLite (MySQL optional).
-
-**Requirements:** PHP 8.1+, `pdo_sqlite`, `gd`, `mbstring` (optional: `curl`, `openssl`, `exif`).
-
-**Install:** upload the files to your web root (or run `./start.sh` locally) and open `/admin/`. The setup wizard asks for the setup language first, then creates the first administrator account; the admin panel opens in the chosen language. The database is created automatically on the first request. Create your portfolio categories (e.g. Projects) under **Content › Pages › New › New list page**, then add your works.
-
-**Forgot password:** `php scripts/reset-password.php <username>`.
-
-## Lisans / License
-
-MIT — bkz. [LICENSE](LICENSE). Yazı tipleri (JetBrains Mono, Space Grotesk, Zed) kendi açık lisanslarıyla (SIL OFL) dağıtılır.
+MIT — see [LICENSE](LICENSE). The fonts (JetBrains Mono, Space Grotesk, Zed) are distributed under their own open licenses (SIL OFL).
