@@ -30,7 +30,7 @@ require __DIR__ . '/layout_header.php';
         <div class="not-found-inner">
             <p class="not-found-code">404</p>
             <h1 class="not-found-title"><?= e($nf_title) ?></h1>
-            <div class="not-found-text"><?= $nf_body ?></div>
+            <div class="not-found-text"><?= sanitize_html($nf_body) ?></div>
             <a class="not-found-btn" href="<?= e(url(($is_tr ? 'tr/' : ''))) ?>">
                 <?= site_t('Ana sayfaya dön', 'Go back home') ?>
             </a>

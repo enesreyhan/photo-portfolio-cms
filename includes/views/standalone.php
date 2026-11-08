@@ -39,7 +39,7 @@ require __DIR__ . '/layout_header.php';
             <section class="body legal-body standalone-body">
                 <?php
                 // Editör HTML kaydeder; eski/elle yazılmış düz metin Markdown olarak çözülür
-                echo preg_match('/<(p|h[1-6]|div|ul|ol|figure|img|blockquote|iframe)\b/i', $raw_content) ? $raw_content : render_markdown($raw_content);
+                echo preg_match('/<(p|h[1-6]|div|ul|ol|figure|img|blockquote|iframe)\b/i', $raw_content) ? sanitize_html($raw_content) : render_markdown($raw_content);
                 ?>
             </section>
         </article>

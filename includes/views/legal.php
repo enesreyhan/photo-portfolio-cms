@@ -61,7 +61,7 @@ require __DIR__ . '/layout_header.php';
             <section class="body legal-body">
                 <?php 
                 $has_html = (strpos($raw_content, '<p') !== false || strpos($raw_content, '<h') !== false || strpos($raw_content, '<div') !== false || strpos($raw_content, '<ul') !== false);
-                echo $has_html ? $raw_content : render_markdown($raw_content);
+                echo $has_html ? sanitize_html($raw_content) : render_markdown($raw_content);
                 ?>
             </section>
         </article>

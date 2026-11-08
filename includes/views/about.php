@@ -62,7 +62,7 @@ $chrono_items   = !empty($chronology['items']) && is_array($chronology['items'])
 $field_map_url  = url($lang . '/' . get_static_slug('field_work', $lang) . '/');
 
 if ($is_custom_page) {
-    $narrative = preg_match('/<(p|h[1-6]|div|ul|ol|figure|img|blockquote|iframe)\b/i', $raw_content) ? $raw_content : render_markdown($raw_content);
+    $narrative = preg_match('/<(p|h[1-6]|div|ul|ol|figure|img|blockquote|iframe)\b/i', $raw_content) ? sanitize_html($raw_content) : render_markdown($raw_content);
     $chrono_items = [];
     $about_show_location_role = false;
     if (empty($item['cover_image'])) $about_portrait_position = 'none';

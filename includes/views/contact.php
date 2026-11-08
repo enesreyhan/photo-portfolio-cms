@@ -38,7 +38,7 @@ if ($is_custom_page) {
     $page_title = $heading;
     $desc    = item_field($item, 'description', $lang);
     $raw     = (string)item_field($item, 'content', $lang);
-    $page_body = preg_match('/<(p|h[1-6]|div|ul|ol|figure|img|blockquote|iframe)\b/i', $raw) ? $raw : render_markdown($raw);
+    $page_body = preg_match('/<(p|h[1-6]|div|ul|ol|figure|img|blockquote|iframe)\b/i', $raw) ? sanitize_html($raw) : render_markdown($raw);
     if (!empty($item['cover_image'])) $contact_image = $item['cover_image'];
 }
 $page_desc = $desc;

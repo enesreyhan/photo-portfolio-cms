@@ -1963,6 +1963,89 @@ function optimize_and_save_uploaded_photo(string $source_tmp, string $target_dir
 }
 
 /**
+ * Yönetici içeriği için izin listesi tabanlı HTML temizleyici (DOM ile; regex değil).
+ * Bilinmeyen etiketlerin yalnız kendisi kalkar (içindeki metin kalır); tehlikeli etiketler içerikleriyle silinir.
+ * on* nitelikleri, izin listesi dışı nitelikler ve javascript:/data: gibi adresler atılır.
+ */
+function sanitize_html(string $html): string {
+    if (trim($html) === '' || strpos($html, '<') === false) return $html;
+
+    static $drop = ['script', 'style', 'object', 'embed', 'applet', 'form', 'input', 'button', 'textarea', 'select',
+        'option', 'link', 'meta', 'base', 'frame', 'frameset', 'template', 'noscript', 'math', 'foreignobject', 'use', 'animate', 'set'];
+    static $tags = ['a', 'abbr', 'article', 'aside', 'audio', 'b', 'blockquote', 'br', 'caption', 'cite', 'code', 'col', 'colgroup',
+        'dd', 'del', 'details', 'div', 'dl', 'dt', 'em', 'figcaption', 'figure', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'header', 'hr', 'i', 'iframe', 'img', 'ins', 'kbd', 'li', 'mark', 'nav', 'ol', 'p', 'picture', 'pre', 'q', 's', 'section',
+        'small', 'source', 'span', 'strike', 'strong', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
+        'time', 'tr', 'track', 'u', 'ul', 'video',
+        'svg', 'g', 'path', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'rect', 'title', 'desc', 'defs', 'lineargradient', 'stop'];
+    static $attrs = ['class', 'id', 'style', 'title', 'lang', 'dir', 'role', 'alt', 'width', 'height', 'loading', 'decoding',
+        'src', 'srcset', 'sizes', 'href', 'target', 'rel', 'type', 'media', 'poster', 'preload', 'controls', 'autoplay', 'muted',
+        'loop', 'playsinline', 'allow', 'allowfullscreen', 'frameborder', 'referrerpolicy', 'colspan', 'rowspan', 'scope',
+        'datetime', 'cite', 'start', 'reversed', 'open', 'kind', 'srclang', 'label', 'default',
+        'viewbox', 'xmlns', 'fill', 'fill-rule', 'clip-rule', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin',
+        'stroke-dasharray', 'stroke-opacity', 'fill-opacity', 'opacity', 'd', 'points', 'cx', 'cy', 'r', 'rx', 'ry',
+        'x', 'y', 'x1', 'x2', 'y1', 'y2', 'transform', 'offset', 'stop-color', 'gradientunits', 'preserveaspectratio'];
+    static $url_attrs = ['href', 'src', 'poster', 'cite'];
+    static $iframe_hosts = ['www.youtube-nocookie.com', 'youtube-nocookie.com', 'www.youtube.com', 'youtube.com', 'player.vimeo.com'];
+
+    // Göreli adres, #çapa veya http(s)/mailto/tel; kontrol karakterleri ve boşluklar şemayı gizleyemesin
+    $safe_url = function (string $u): bool {
+        $u = preg_replace('/[\x00-\x20\x7f]+/', '', $u);
+        return !preg_match('/^[a-z][a-z0-9+.\-]*:/i', $u) || preg_match('/^(https?|mailto|tel):/i', $u);
+    };
+
+    $wrapped = '<div id="__san_root">' . $html . '</div>';
+    if (class_exists('Dom\HTMLDocument')) { // PHP 8.4+: tarayıcıyla aynı HTML5 ayrıştırıcısı
+        $doc = \Dom\HTMLDocument::createFromString('<!doctype html><html><body>' . $wrapped . '</body></html>', LIBXML_NOERROR, 'UTF-8');
+    } else {
+        $doc = new DOMDocument();
+        $prev = libxml_use_internal_errors(true);
+        $doc->loadHTML('<?xml encoding="utf-8"?>' . $wrapped, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+        libxml_use_internal_errors($prev);
+    }
+    $root = $doc->getElementById('__san_root');
+    if (!$root) return htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+
+    $walk = function ($node) use (&$walk, $drop, $tags, $attrs, $url_attrs, $iframe_hosts, $safe_url) {
+        foreach (iterator_to_array($node->childNodes) as $child) {
+            if ($child->nodeType === XML_COMMENT_NODE) { $node->removeChild($child); continue; }
+            if ($child->nodeType !== XML_ELEMENT_NODE) continue;
+            $name = strtolower($child->localName);
+            if (in_array($name, $drop, true)) { $node->removeChild($child); continue; }
+            if ($name === 'iframe' && !in_array(strtolower((string)parse_url($child->getAttribute('src'), PHP_URL_HOST)), $iframe_hosts, true)) {
+                $node->removeChild($child); continue;
+            }
+            if (!in_array($name, $tags, true)) { // etiketi aç, içeriği koru
+                $walk($child);
+                while ($child->firstChild) $node->insertBefore($child->firstChild, $child);
+                $node->removeChild($child);
+                continue;
+            }
+            foreach (iterator_to_array($child->attributes) as $attr) {
+                $an = strtolower($attr->name);
+                $ok = in_array($an, $attrs, true) || str_starts_with($an, 'aria-') || str_starts_with($an, 'data-');
+                if ($ok && in_array($an, $url_attrs, true)) $ok = $safe_url($attr->value);
+                if ($ok && $an === 'srcset') {
+                    foreach (explode(',', $attr->value) as $cand) { if (!$safe_url(trim(strtok(trim($cand), ' ') ?: ''))) { $ok = false; break; } }
+                }
+                if ($ok && $an === 'style') $ok = !preg_match('/expression\s*\(|javascript\s*:|@import|behavior\s*:|-moz-binding/i', $attr->value);
+                if (!$ok) $child->removeAttribute($attr->name);
+            }
+            if ($name === 'a' && strtolower($child->getAttribute('target')) === '_blank' && !preg_match('/\bnoopener\b/i', $child->getAttribute('rel'))) {
+                $child->setAttribute('rel', trim($child->getAttribute('rel') . ' noopener noreferrer'));
+            }
+            $walk($child);
+        }
+    };
+    $walk($root);
+
+    $out = '';
+    foreach ($root->childNodes as $c) $out .= $doc->saveHTML($c);
+    return $out;
+}
+
+/**
  * Markdown Çözümleme ve Shortcode İşleme
  */
 function render_markdown(?string $content): string {
@@ -1994,8 +2077,8 @@ function render_markdown(?string $content): string {
     }, $content);
 
     $parsedown = new Parsedown();
-    $parsedown->setSafeMode(false);
-    return $parsedown->text($content);
+    $parsedown->setSafeMode(false); // ham HTML'e izin verilir; çıktı sanitize_html'den geçer
+    return sanitize_html($parsedown->text($content));
 }
 
 /**
@@ -2032,10 +2115,8 @@ function format_editorial_rich_text(?string $text): string {
         return '<a>';
     }, $clean);
 
-    // 3b. Zararlı JS handler'ları ve javascript: URI'leri temizle (XSS koruması)
-    $clean = preg_replace('/\s+on[a-z]+\s*=\s*(["\']).*?\1/i', '', $clean);
-    $clean = preg_replace('/\s+on[a-z]+\s*=\s*[^ >]+/i', '', $clean);
-    $clean = preg_replace('/\bjavascript\s*:[^"\' >]+/i', '', $clean);
+    // 3b. Nitelik ve adres temizliği DOM tabanlı izin listesiyle (XSS koruması)
+    $clean = sanitize_html($clean);
 
     // 4. Eğer zaten <p>, <blockquote>, başlık veya liste içeriyorsa temiz HTML olarak döndür
     if (preg_match('/<\s*(p|blockquote|h2|h3|h4|h5|h6|ul|ol|div)\b/i', $clean)) {
