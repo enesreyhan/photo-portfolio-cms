@@ -8,7 +8,8 @@
 
 $is_tr = ($lang ?? 'en') === 'tr';
 // Şablonu Hakkımda düzeni olan bağımsız sayfa: kendi başlığı, metni ve kapak görseli kullanılır
-$is_custom_page = ($item['type'] ?? '') === 'page';
+// Asıl Hakkımda kaydı (slug 'aboutme') da 'page' türündedir; bağımsız sayfa moduna girmemeli (çift portre)
+$is_custom_page = ($item['type'] ?? '') === 'page' && ($item['slug'] ?? '') !== 'aboutme';
 $page_title = $is_custom_page ? item_field($item, 'title', $lang) : get_page_custom_title('about', $lang, item_field($item, 'title', $lang));
 $page_desc = item_field($item, 'description', $lang);
 $raw_content = item_field($item, 'content', $lang);
@@ -123,10 +124,13 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
             <!-- ── BAŞLIK & KÜNYE BÖLÜMÜ (Müze, Dergi ve Klasik Modlar) ── -->
             <?php if ($about_template !== 'cinema_hero'): ?>
             <header class="about-mono-header">
-                <?php if ($about_show_location_role): ?>
+                <?php
+                // Künye: Hakkımda'daki konum + unvanın ilk kısmı (ör. "İstanbul, Türkiye • Belgesel Fotoğrafçı"); CSS büyük harfe çevirir
+                $about_meta_line = implode(' • ', array_filter([trim((string)$contact_loc), trim(explode('•', (string)$portrait_role)[0])]));
+                if ($about_show_location_role && $about_meta_line !== ''): ?>
                 <div class="mono-chapter-meta">
                     <span class="mono-chapter-location">
-                        <?= site_t('İSTANBUL, TÜRKİYE • BELGESEL FOTOĞRAFÇI', 'ISTANBUL, TURKEY • DOCUMENTARY PHOTOGRAPHER') ?>
+                        <?= e($about_meta_line) ?>
                     </span>
                 </div>
                 <?php endif; ?>
