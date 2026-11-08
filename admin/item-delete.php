@@ -11,13 +11,13 @@ require_once __DIR__ . '/../includes/auth.php';
 
 require_login();
 
-if (!verify_csrf($_GET['csrf_token'] ?? '')) {
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' || !verify_csrf($_POST['csrf_token'] ?? '')) {
     set_flash('error', 'Güvenlik doğrulaması geçersiz.');
     header('Location: portfolio.php');
     exit;
 }
 
-$id = (int)($_GET['id'] ?? 0);
+$id = (int)($_POST['id'] ?? 0);
 if ($id > 0) {
     $pdo = DB::getConnection();
     $stmt = $pdo->prepare("SELECT type FROM `items` WHERE `id` = ? LIMIT 1");
@@ -28,7 +28,7 @@ if ($id > 0) {
     $del->execute([$id]);
     set_flash('success', 'İçerik başarıyla silindi.');
 
-    if (($_GET['return'] ?? '') === 'pages') {
+    if (($_POST['return'] ?? '') === 'pages') {
         header('Location: pages.php');
         exit;
     }

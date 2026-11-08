@@ -80,7 +80,7 @@ const PAGES_ITEM_TPL_FIELDS = ['inner_opening_layout', 'inner_stream_layout'];
 
 /** Ayarlar panelinin proje alanları (bütün diller) */
 function pages_item_fields(array $it): array {
-    $f = ['status' => (string)($it['status'] ?: 'published'), 'access_password' => (string)($it['access_password'] ?? '')];
+    $f = ['status' => (string)($it['status'] ?: 'published'), 'access_password' => '', 'has_password' => ($it['access_password'] ?? '') !== ''];
     foreach (PAGES_ITEM_TPL_FIELDS as $tk) $f[$tk] = get_setting($tk . '@item-' . (int)$it['id'], '');
     $f['og_image'] = get_setting('item_og_image@item-' . (int)$it['id'], '');
     foreach (array_column(get_active_languages(), 'code') as $c) {
@@ -120,7 +120,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') ==
     }
     if (!array_filter($titles, 'strlen')) pages_json(['ok' => false, 'field' => 'title_' . $pg_langs[0], 'error' => __a('Başlık boş olamaz.', 'The title cannot be empty.')], 422);
     $status = in_array($_POST['status'] ?? '', ['published', 'unlisted', 'draft'], true) ? $_POST['status'] : 'published';
-    $password = mb_substr(trim((string)($_POST['access_password'] ?? '')), 0, 100);
+    $password = item_password_for_save(
+        mb_substr(trim((string)($_POST['access_password'] ?? '')), 0, 100),
+        (string)($item['access_password'] ?? ''),
+        !empty($_POST['remove_access_password'])
+    );
     $first_title = (string)current(array_filter($titles, 'strlen'));
     foreach ($pg_langs as $c) {
         // Yazılan adres, yoksa o dildeki başlık. Latin dışı alfabeler slugify ile okunur harflere çevrilir.
@@ -189,7 +193,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') ==
     foreach ($pg_langs as $c) $urls[$c] = item_url($fresh, $c);
     $out_slugs = [];
     foreach ($pg_langs as $c) $out_slugs[$c] = (string)($fresh['slug_' . $c] ?? '');
-    pages_json(['ok' => true, 'urls' => $urls, 'slugs' => $out_slugs, 'aliases' => count($aliases)]);
+    pages_json(['ok' => true, 'urls' => $urls, 'slugs' => $out_slugs, 'aliases' => count($aliases), 'locked' => $password !== '']);
 }
 
 // ── LİSTE SAYFASI AYARLARI: KAYDET ──
@@ -786,6 +790,9 @@ textarea.pg-in { min-height:74px; resize:vertical; }
         'visibility' => __a('Görünürlük', 'Visibility'), 'published' => __a('Yayında', 'Published'), 'unlisted' => __a('Gizli bağlantı', 'Unlisted'), 'draft' => __a('Taslak', 'Draft'),
         'visHelp' => __a('Gizli bağlantı: listelerde görünmez, bağlantıyı bilen açar. Taslak: yalnızca siz görürsünüz.', 'Unlisted: hidden from lists, open to anyone with the link. Draft: only you can see it.'),
         'password' => __a('Parola', 'Password'), 'passwordHelp' => __a('Boş bırakılırsa sayfa parolasız açılır.', 'Leave empty for no password.'),
+        'passwordSet' => __a('Parola ayarlı — değiştirmek için yenisini yazın', 'Password set — type a new one to change it'),
+        'passwordSetHelp' => __a('Parola güvenli biçimde (hash) saklanır, sonradan görüntülenemez.', 'The password is stored hashed and cannot be shown again.'),
+        'removePassword' => __a('Parolayı kaldır', 'Remove password'),
         'address' => __a('Adres', 'Address'), 'addressHelp' => __a('Adresi değiştirirseniz eski adres kendiliğinden yeni adrese yönlendirilir; paylaşılmış bağlantılar kırılmaz.', 'If you change the address, the old one redirects to the new one automatically, so shared links keep working.'),
         'listAddressHelp' => __a('Liste sayfalarının adresi URL Yönetimi’nden değiştirilir; menü bağlantıları da birlikte güncellenir.', 'List page addresses are changed in URL Management, which also updates the menu links.'),
         'urlManage' => __a('URL Yönetimi', 'URL Management'),
@@ -933,7 +940,9 @@ textarea.pg-in { min-height:74px; resize:vertical; }
             }).join('');
             html += '<p class="pg-flabel" style="margin-top:4px">' + esc(T.serp) + '</p><div class="pg-serp" aria-live="polite"><div class="pg-serp-url" id="pgSerpUrl"></div><div class="pg-serp-title" id="pgSerpTitle"></div><div class="pg-serp-desc" id="pgSerpDesc"></div></div>';
             html += '<div class="pg-field" style="margin-top:16px"><span class="pg-flabel">' + esc(T.visibility) + '</span>' + seg('status', f.status, [['published', T.published], ['unlisted', T.unlisted], ['draft', T.draft]]) + '<small>' + esc(T.visHelp) + '</small></div>';
-            html += '<div class="pg-field"><label for="pgPass">' + esc(T.password) + '</label><input class="pg-in" id="pgPass" name="access_password" autocomplete="off" value="' + esc(f.access_password) + '"><small>' + esc(T.passwordHelp) + '</small></div>';
+            html += '<div class="pg-field"><label for="pgPass">' + esc(T.password) + '</label><input class="pg-in" id="pgPass" type="password" name="access_password" autocomplete="new-password" value=""' + (n.locked ? ' placeholder="' + esc(T.passwordSet) + '"' : '') + '>'
+                + (n.locked ? '<label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;cursor:pointer"><input type="checkbox" name="remove_access_password" value="1"> ' + esc(T.removePassword) + '</label>' : '')
+                + '<small>' + esc(n.locked ? T.passwordSetHelp : T.passwordHelp) + '</small></div>';
             if (!n.standalone) html += '<p class="pg-flabel" style="margin-top:16px">' + esc(T.tplTitle) + '</p>' + TPL.map(function (d) {
                 return '<div class="pg-field"><label for="pgTpl_' + d.key + '">' + esc(d.label) + '</label><select class="pg-in" id="pgTpl_' + d.key + '" name="' + d.key + '">'
                     + '<option value="">' + esc(T.tplInherit) + '</option>'
@@ -1019,7 +1028,7 @@ textarea.pg-in { min-height:74px; resize:vertical; }
         e.preventDefault();
         var form = e.target, key = state.selected, n = NODES[key], msg = document.getElementById('pgMsg');
         var data = n.kind === 'link' ? { action: 'pages_link_save', menu_id: n.menuId } : { action: n.kind === 'item' ? 'pages_item_save' : 'pages_cat_save', id: n.id };
-        Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || (el.type === 'radio' && !el.checked)) return; data[el.name] = el.value; });
+        Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || ((el.type === 'radio' || el.type === 'checkbox') && !el.checked)) return; data[el.name] = el.value; });
         msg.className = 'pg-msg'; msg.textContent = T.saving;
         post(data).then(function (res) {
             if (!res.ok) {
@@ -1038,7 +1047,7 @@ textarea.pg-in { min-height:74px; resize:vertical; }
             Object.keys(data).forEach(function (k) { if (n.f && k in n.f) n.f[k] = data[k]; });
             var labelOf = function (prefix) { return n.f[prefix + LANG] || LANGS.map(function (l) { return n.f[prefix + l.code]; }).filter(Boolean)[0] || ''; };
             if (n.kind === 'item') {
-                n.status = n.f.status; n.locked = n.f.access_password !== '';
+                n.status = n.f.status; n.locked = !!res.locked; n.f.has_password = n.locked; n.f.access_password = '';
                 n.label = labelOf('title_');
                 n.preview = (res.urls && res.urls[LANG]) || n.preview;
                 if (res.slugs) Object.keys(res.slugs).forEach(function (c) { if (form.elements['slug_' + c]) { form.elements['slug_' + c].value = res.slugs[c]; n.f['slug_' + c] = res.slugs[c]; } });
@@ -1130,7 +1139,7 @@ textarea.pg-in { min-height:74px; resize:vertical; }
             var n = NODES[t.dataset.pgDelete];
             closeMenus();
             adminConfirm(T.deleteConfirm.replace('%s', n.label)).then(function (ok) {
-                if (ok) location.href = 'item-delete.php?id=' + n.id + '&csrf_token=' + encodeURIComponent(CSRF) + '&return=pages';
+                if (ok) window.adminPost('item-delete.php?id=' + n.id + '&return=pages');
             });
         }
     });

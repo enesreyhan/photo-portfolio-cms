@@ -17,8 +17,8 @@ $pdo = DB::getConnection();
 $base_dir = dirname(__DIR__);
 
 // Silme işlemi
-if (isset($_GET['delete']) && verify_csrf($_GET['csrf_token'] ?? '')) {
-    $del_id = (int)$_GET['delete'];
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['delete']) && verify_csrf($_POST['csrf_token'] ?? '')) {
+    $del_id = (int)$_POST['delete'];
     $stmt = $pdo->prepare("SELECT * FROM `media` WHERE `id` = ? LIMIT 1");
     $stmt->execute([$del_id]);
     $m = $stmt->fetch();
@@ -41,7 +41,7 @@ if (isset($_GET['delete']) && verify_csrf($_GET['csrf_token'] ?? '')) {
         $pdo->prepare("DELETE FROM `media` WHERE `id` = ?")->execute([$del_id]);
         set_flash('success', 'Görsel başarıyla silindi.');
     }
-    $redir_folder = urlencode($_GET['folder'] ?? '');
+    $redir_folder = urlencode($_POST['folder'] ?? '');
     header('Location: media.php' . ($redir_folder ? '?folder=' . $redir_folder : ''));
     exit;
 }
@@ -1097,7 +1097,7 @@ require __DIR__ . '/includes/header.php';
 
         <!-- Alt Silme & Kapatma Butonları -->
         <div style="margin-top:auto; padding-top:16px; border-top:1px solid var(--border-color); display:flex; gap:10px;">
-            <a id="drawerDeleteLink" href="#" data-confirm="<?= e(__a('Bu görsel kalıcı olarak silinecek. Kullanıldığı sayfalarda görünmez olur ve bu işlem geri alınamaz.', 'This image will be deleted permanently. It disappears from any page that uses it, and this cannot be undone.')) ?>" class="btn btn-danger btn-sm" style="flex:1; justify-content:center;">
+            <a id="drawerDeleteLink" href="#" data-post data-confirm="<?= e(__a('Bu görsel kalıcı olarak silinecek. Kullanıldığı sayfalarda görünmez olur ve bu işlem geri alınamaz.', 'This image will be deleted permanently. It disappears from any page that uses it, and this cannot be undone.')) ?>" class="btn btn-danger btn-sm" style="flex:1; justify-content:center;">
                 <?= __a('Görseli Sil', 'Delete Image') ?>
             </a>
             <button type="button" class="btn btn-secondary btn-sm" onclick="closeDrawer()" style="flex:1; justify-content:center;"><?= __a('Kapat', 'Close') ?></button>
@@ -1779,7 +1779,7 @@ function openDrawer(imgId) {
 
                 // Silme butonu
                 var delLink = document.getElementById('drawerDeleteLink');
-                delLink.href = 'media.php?delete=' + img.id + '&csrf_token=<?= csrf_token() ?>&folder=' + encodeURIComponent(activeFolder);
+                delLink.href = 'media.php?delete=' + img.id + '&folder=' + encodeURIComponent(activeFolder);
                 if (!delLink.dataset.baseConfirm) delLink.dataset.baseConfirm = delLink.getAttribute('data-confirm') || '';
                 var usedIn = data.used_in || [];
                 delLink.setAttribute('data-confirm', delLink.dataset.baseConfirm + (usedIn.length

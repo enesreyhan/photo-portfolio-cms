@@ -568,6 +568,18 @@ if (document.readyState === 'loading') {
     window.showAdminToast = function (msg) { window.adminToast(msg, 'success'); };
     window.alert = function (msg) { window.adminToast(msg); };
 
+    // Durum değiştiren işlemler: sorgu parametreleri + CSRF token POST gövdesiyle gider (URL'de token kalmaz)
+    window.adminPost = function (href) {
+        var u = new URL(href, location.href), f = document.createElement('form');
+        f.method = 'post'; f.action = u.pathname; f.style.display = 'none';
+        var meta = document.querySelector('meta[name="csrf-token"]');
+        u.searchParams.set('csrf_token', meta ? meta.getAttribute('content') : '');
+        u.searchParams.forEach(function (v, k) {
+            var i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = v; f.appendChild(i);
+        });
+        document.body.appendChild(f); f.submit();
+    };
+
     // ── data-confirm: formlar ve bağlantılar ──
     document.addEventListener('submit', function (e) {
         var f = e.target;
@@ -589,7 +601,8 @@ if (document.readyState === 'loading') {
         e.stopImmediatePropagation();
         window.adminConfirm(a.getAttribute('data-confirm'), { ok: a.getAttribute('data-confirm-ok') || undefined }).then(function (ok) {
             if (!ok) return;
-            if (a.target === '_blank') window.open(a.href, '_blank', 'noopener'); else location.href = a.href;
+            if (a.hasAttribute('data-post')) window.adminPost(a.href);
+            else if (a.target === '_blank') window.open(a.href, '_blank', 'noopener'); else location.href = a.href;
         });
     }, true);
 

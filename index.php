@@ -516,7 +516,7 @@ if ($slug !== '') {
                 // Admin girişiyle aynı IP kilidi: 15 dk'da 5 hatalı deneme
                 if (($lock_min = login_lock_remaining_minutes()) > 0) {
                     $password_error = site_t("Çok fazla hatalı deneme. {$lock_min} dakika sonra tekrar deneyin.", "Too many failed attempts. Try again in {$lock_min} minutes.");
-                } elseif ($submitted_pass !== '' && hash_equals($item['access_password'], $submitted_pass)) {
+                } elseif (item_password_verify((string)$item['access_password'], $submitted_pass)) {
                     $_SESSION[$session_key] = true;
                     header('Location: ' . item_url($item, $lang));
                     exit;

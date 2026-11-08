@@ -94,7 +94,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $weight          = (int)($_POST['weight'] ?? 0);
     $date            = trim($_POST['date'] ?? date('Y-m-d'));
     $status          = in_array($_POST['status'] ?? '', ['published', 'unlisted', 'draft'], true) ? $_POST['status'] : 'published';
-    $access_password = trim($_POST['access_password'] ?? '');
+    $access_password = item_password_for_save(
+        mb_substr(trim($_POST['access_password'] ?? ''), 0, 100),
+        (string)($item['access_password'] ?? ''),
+        !empty($_POST['remove_access_password'])
+    );
     $cover_focal     = trim($_POST['cover_focal'] ?? '50% 50%');
     if (!preg_match('/^\d{1,3}%\s+\d{1,3}%$/', $cover_focal)) {
         $cover_focal = '50% 50%';
@@ -1389,8 +1393,14 @@ lang_bar([
                             <span style="font-size:12px; background:rgba(16,185,129,0.12); color:var(--success-text); padding:1px 6px; border-radius:6px; font-weight:700;"><?= __a('Aktif', 'Active') ?></span>
                         <?php endif; ?>
                     </label>
-                    <input type="text" name="access_password" id="input_access_password" class="form-control" value="<?= e($item['access_password'] ?? '') ?>" placeholder="<?= __a('Boş bırakılırsa şifresiz açılır', 'Leave blank for public access') ?>" autocomplete="off" style="font-family:var(--font-mono); font-size:13px;">
-                    <div class="form-help"><?= __a('Müşteriye özel veya gizli sunumlar için parola belirleyebilirsiniz. Ziyaretçi sayfayı açarken bu parolayı girmelidir.', 'Set a password for private client previews. Visitors must enter this password to view.') ?></div>
+                    <?php $has_pw = !empty($item['access_password']); ?>
+                    <input type="password" name="access_password" id="input_access_password" class="form-control" value="" placeholder="<?= e($has_pw ? __a('Parola ayarlı — değiştirmek için yenisini yazın', 'Password set — type a new one to change it') : __a('Boş bırakılırsa şifresiz açılır', 'Leave blank for public access')) ?>" autocomplete="new-password" style="font-family:var(--font-mono); font-size:13px;">
+                    <?php if ($has_pw): ?>
+                    <label style="display:flex; align-items:center; gap:6px; font-size:12px; margin-top:6px; cursor:pointer;">
+                        <input type="checkbox" name="remove_access_password" value="1"> <?= __a('Parolayı kaldır', 'Remove password') ?>
+                    </label>
+                    <?php endif; ?>
+                    <div class="form-help"><?= __a('Müşteriye özel veya gizli sunumlar için parola belirleyebilirsiniz. Ziyaretçi sayfayı açarken bu parolayı girmelidir.', 'Set a password for private client previews. Visitors must enter this password to view.') ?> <?= __a('Parola güvenli biçimde (hash) saklanır, sonradan görüntülenemez.', 'The password is stored hashed and cannot be shown again.') ?></div>
                 </div>
 
                 <div class="form-group">

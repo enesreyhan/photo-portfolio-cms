@@ -171,3 +171,20 @@ function login_clear_failures(): void {
     } catch (\Throwable $e) {}
 }
 
+/* ══════════════════════════════════════════════════════════════
+ * Proje erişim parolaları: veritabanında yalnızca hash saklanır.
+ * ══════════════════════════════════════════════════════════════ */
+
+/** Kaydedilecek değer: kaldırılıyorsa '', yeni parola yazıldıysa hash'i, boşsa mevcut değer (düz metinse hash'lenir). */
+function item_password_for_save(string $new, string $current, bool $remove): string {
+    if ($remove) return '';
+    if ($new !== '') return password_hash($new, PASSWORD_DEFAULT);
+    if ($current !== '' && !password_get_info($current)['algo']) return password_hash($current, PASSWORD_DEFAULT);
+    return $current;
+}
+
+/** Ziyaretçinin girdiği parolayı doğrular. */
+function item_password_verify(string $stored, string $submitted): bool {
+    if ($stored === '' || $submitted === '') return false;
+    return password_get_info($stored)['algo'] ? password_verify($submitted, $stored) : hash_equals($stored, $submitted);
+}

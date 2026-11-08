@@ -186,7 +186,7 @@ require __DIR__ . '/includes/header.php';
                             <summary class="btn btn-secondary btn-sm" aria-label="<?= e(__a('actions')) ?>">⋯</summary>
                             <div class="row-menu-list">
                                 <a href="<?= e(item_url($it, $admin_lang)) ?>" target="_blank"><?= e(__a('topbar_view_site')) ?> (<?= strtoupper($admin_lang) ?>)</a>
-                                <a href="item-delete.php?id=<?= $it['id'] ?>&csrf_token=<?= csrf_token() ?>" data-confirm="<?= e(sprintf(__a('“%s” silinsin mi? Sayfası ve metinleri silinir; fotoğraf dosyaları medya kütüphanesinde kalır.', 'Delete “%s”? Its page and texts are deleted; the photo files stay in the media library.'), item_field($it, 'title', $admin_lang))) ?>" class="is-danger"><?= e(__a('delete')) ?></a>
+                                <a href="item-delete.php?id=<?= (int)$it['id'] ?>" data-post data-confirm="<?= e(sprintf(__a('“%s” silinsin mi? Sayfası ve metinleri silinir; fotoğraf dosyaları medya kütüphanesinde kalır.', 'Delete “%s”? Its page and texts are deleted; the photo files stay in the media library.'), item_field($it, 'title', $admin_lang))) ?>" class="is-danger"><?= e(__a('delete')) ?></a>
                             </div>
                         </details>
                     </td>

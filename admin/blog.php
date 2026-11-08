@@ -16,10 +16,10 @@ require_login();
 $pdo = DB::getConnection();
 $site_languages = get_active_languages();
 
-// Silme işlemi (GET delete=ID)
-if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-    if (verify_csrf($_GET['csrf_token'] ?? '')) {
-        $del_id = (int)$_GET['delete'];
+// Silme işlemi (POST delete=ID)
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['delete']) && is_numeric($_POST['delete'])) {
+    if (verify_csrf($_POST['csrf_token'] ?? '')) {
+        $del_id = (int)$_POST['delete'];
         $st = $pdo->prepare("DELETE FROM `items` WHERE `id` = ? AND `type` = 'blog'");
         $st->execute([$del_id]);
         set_flash('success', __a('Yazı silindi.', 'Article deleted.'));
@@ -152,7 +152,7 @@ require __DIR__ . '/includes/header.php';
                                     <summary class="btn btn-secondary btn-sm" aria-label="<?= e(__a('İşlemler', 'Actions')) ?>">⋯</summary>
                                     <div class="row-menu-list">
                                         <a href="<?= e(item_url($post, $admin_lang)) ?>" target="_blank"><?= __a('Sitede gör', 'View on site') ?> ↗</a>
-                                        <a href="blog.php?delete=<?= (int)$post['id'] ?>&csrf_token=<?= urlencode(csrf_token()) ?>" data-confirm="<?= e(sprintf(__a('“%s” kalıcı olarak silinecek. Bu işlem geri alınamaz.', '“%s” will be deleted permanently. This cannot be undone.'), item_field($post, 'title', $admin_lang))) ?>" class="is-danger"><?= __a('Sil', 'Delete') ?></a>
+                                        <a href="blog.php?delete=<?= (int)$post['id'] ?>" data-post data-confirm="<?= e(sprintf(__a('“%s” kalıcı olarak silinecek. Bu işlem geri alınamaz.', '“%s” will be deleted permanently. This cannot be undone.'), item_field($post, 'title', $admin_lang))) ?>" class="is-danger"><?= __a('Sil', 'Delete') ?></a>
                                     </div>
                                 </details>
                             </div>

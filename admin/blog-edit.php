@@ -885,7 +885,7 @@ require __DIR__ . '/includes/image_modal.php';
                 <!-- Silme Butonu Kartı -->
                 <div class="card" style="border-color:rgba(239, 68, 68, 0.25);">
                     <div class="card-body" style="padding:16px;">
-                        <a href="<?= $is_page ? 'item-delete.php?id=' . (int)$post['id'] . '&amp;return=pages&amp;csrf_token=' . urlencode(csrf_token()) : 'blog.php?delete=' . (int)$post['id'] . '&amp;csrf_token=' . urlencode(csrf_token()) ?>"
+                        <a href="<?= $is_page ? 'item-delete.php?id=' . (int)$post['id'] . '&amp;return=pages' : 'blog.php?delete=' . (int)$post['id'] ?>" data-post
                            data-confirm="<?= e($is_page ? __a('Bu sayfa kalıcı olarak silinecek. Bu işlem geri alınamaz.', 'This page will be deleted permanently. This cannot be undone.') : __a('Bu yazı kalıcı olarak silinecek. Bu işlem geri alınamaz.', 'This article will be deleted permanently. This cannot be undone.')) ?>"
                            class="btn btn-danger btn-sm"
                            style="width:100%; justify-content:center; color:var(--danger-text); background:transparent; border-color:rgba(239, 68, 68, 0.4);">

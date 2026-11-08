@@ -140,6 +140,13 @@ class DB {
                 if (!in_array('cover_focal', $cols, true)) {
                     $pdo->exec("ALTER TABLE `items` ADD COLUMN `cover_focal` VARCHAR(32) NULL DEFAULT '50% 50%';");
                 }
+                // Eski sürümlerden kalan düz metin proje parolalarını hash'e çevir
+                $pw_up = $pdo->prepare("UPDATE `items` SET `access_password` = ? WHERE `id` = ?");
+                foreach ($pdo->query("SELECT `id`, `access_password` FROM `items` WHERE `access_password` IS NOT NULL AND `access_password` <> ''") as $pw_row) {
+                    if (!password_get_info($pw_row['access_password'])['algo']) {
+                        $pw_up->execute([password_hash($pw_row['access_password'], PASSWORD_DEFAULT), $pw_row['id']]);
+                    }
+                }
             } catch (\Throwable $e) {}
 
             $pdo->exec("
