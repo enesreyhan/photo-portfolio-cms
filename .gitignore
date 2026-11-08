@@ -1,0 +1,32 @@
+# ── Site verisi ve sırlar (asla depoya girmez) ──
+site.db
+site.db-*
+site.db.bak*
+*.sqlite
+*.sqlite3
+database.sql
+.env*
+
+# ── Medya ve üretilen görseller ──
+content/
+processed_images/
+uploads/
+homepage/
+
+# ── Siteye özel modüller ve marka dosyaları ──
+includes/private/
+images/
+logo-*.svg
+icons/favicon.png
+KURULUM.md
+deploy.sh
+pull_db.sh
+scripts/fast_deploy.py
+scripts/migrate_from_content.php
+scripts/migrate_to_normal_format.php
+
+# ── Geliştirme ──
+scratch/
+.claude/
+.DS_Store
+*.log
