@@ -710,3 +710,8 @@ html.hp-page:has(#om-site-header.om-pos-bottom) .hp-mono-container .hp-paginatio
 html.hp-page:has(#om-site-header.om-pos-bottom) .hp-mono-container .hp-progress-bar-track { bottom: auto !important; top: 0 !important; }
 /* Yönetici önizleme çubuğu, menü alttayken üste çıksın */
 html:has(#om-site-header.om-pos-bottom) #er-style-preview-bar { bottom: auto !important; top: 18px; }
+
+/* ── Alttaki duyuru bandı / çerez barı açıkken sağ alttaki sabit öğeler üstüne kayar
+   (--er-bottom-offset: layout_footer.php içindeki betik ölçer) ── */
+html #scroll-to-top { bottom: calc(2rem + var(--er-bottom-offset, 0px)); }
+html .editorial-copyright-toast { bottom: calc(30px + var(--er-bottom-offset, 0px)); }

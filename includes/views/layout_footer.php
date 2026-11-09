@@ -387,6 +387,26 @@ a.footer-custom-nav-link:hover {
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
 </button>
 <?php endif; ?>
+<script>
+// Alttaki duyuru bandı / çerez barı sağ alt köşeyi kaplıyorsa yüksekliğini --er-bottom-offset'e yaz
+(function () {
+    var root = document.documentElement, queued = false;
+    function measure() {
+        queued = false;
+        var off = 0;
+        document.querySelectorAll('.xt-announce, .er-cc').forEach(function (el) {
+            if (el.hidden) return;
+            var r = el.getBoundingClientRect();
+            if (r.height && r.right > window.innerWidth - 100) off = Math.max(off, window.innerHeight - r.top);
+        });
+        root.style.setProperty('--er-bottom-offset', Math.round(off) + 'px');
+    }
+    function schedule() { if (!queued) { queued = true; setTimeout(measure, 50); } }
+    new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true, attributeFilter: ['hidden'] });
+    window.addEventListener('resize', schedule);
+    schedule();
+})();
+</script>
 
 <?php
 $enable_lightbox     = get_setting('inner_enable_lightbox', '1') === '1';

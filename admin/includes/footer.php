@@ -346,8 +346,9 @@ window.addEventListener('keydown', function(e) {
             searchInput.focus();
             searchInput.select();
         }
-    } else if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && !e.defaultPrevented) {
         var form = document.querySelector('form.save-form');
+        var unsavedBar = document.getElementById('unsavedBar');
         if (form) {
             e.preventDefault();
             if (typeof prepareAboutSubmit === 'function') prepareAboutSubmit();
@@ -356,6 +357,10 @@ window.addEventListener('keydown', function(e) {
             } else {
                 form.submit();
             }
+        } else if (unsavedBar && !unsavedBar.hidden) {
+            // save-form'u olmayan sayfalar: değişiklik çubuğunun "Kaydet"i kirli formu kaydeder
+            e.preventDefault();
+            document.getElementById('unsavedBarSave').click();
         }
     } else if ((e.ctrlKey || e.metaKey) && e.key === '[') {
         e.preventDefault();
