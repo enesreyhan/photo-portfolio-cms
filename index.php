@@ -82,101 +82,30 @@ if ($maintenance_active) {
         if ($m_text === '') {
             $m_text = site_t('Web sitemiz şu anda güncellenmektedir. Çok yakında yeni çalışmalar ve projelerle tekrar yayında olacağız.', 'Our website is currently undergoing scheduled updates. We will be back shortly with new works and stories.', $detected_lang);
         }
-        $theme = get_setting('theme_default', 'dark');
-        $bg = ($theme === 'light') ? '#f8fafc' : '#0a0a0c';
-        $card_bg = ($theme === 'light') ? '#ffffff' : '#141418';
-        $text_color = ($theme === 'light') ? '#0f172a' : '#f8fafc';
-        $sub_color = ($theme === 'light') ? '#64748b' : '#94a3b8';
-        $border_color = ($theme === 'light') ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.1)';
+        $sc = standalone_screen_style();
         ?>
         <!DOCTYPE html>
-        <html lang="<?= e($detected_lang) ?>" data-theme="<?= e($theme) ?>">
+        <html lang="<?= e($detected_lang) ?>" style="color-scheme: <?= $sc['light'] ? 'light' : 'dark' ?>">
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <title><?= e($m_title) ?> — <?= e($site_name) ?></title>
             <meta name="robots" content="noindex, nofollow">
+            <link href="<?= e(asset_url('fonts.css')) ?>" rel="stylesheet">
             <style>
-                * { box-sizing: border-box; margin:0; padding:0; }
-                body {
-                    min-height: 100vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: <?= $bg ?>;
-                    color: <?= $text_color ?>;
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-                    padding: 24px;
-                    line-height: 1.6;
-                }
-                .m-card {
-                    max-width: 500px;
-                    width: 100%;
-                    text-align: center;
-                    padding: 48px 36px;
-                    background: <?= $card_bg ?>;
-                    border: 1px solid <?= $border_color ?>;
-                    border-radius: 16px;
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-                }
-                .m-badge {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 6px;
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 0.12em;
-                    text-transform: uppercase;
-                    padding: 6px 14px;
-                    border-radius: 999px;
-                    background: rgba(234, 179, 8, 0.14);
-                    color: #eab308;
-                    border: 1px solid rgba(234, 179, 8, 0.3);
-                    margin-bottom: 24px;
-                }
-                .m-title {
-                    font-size: 26px;
-                    font-weight: 700;
-                    letter-spacing: -0.02em;
-                    margin-bottom: 14px;
-                }
-                .m-text {
-                    font-size: 15px;
-                    color: <?= $sub_color ?>;
-                    line-height: 1.7;
-                    margin-bottom: 28px;
-                }
-                .m-brand {
-                    font-size: 12px;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    color: <?= $sub_color ?>;
-                    opacity: 0.7;
-                    border-top: 1px solid <?= $border_color ?>;
-                    padding-top: 24px;
-                }
-                .m-login {
-                    display: inline-block;
-                    margin-top: 16px;
-                    font-size: 12px;
-                    color: <?= $sub_color ?>;
-                    text-decoration: underline;
-                    opacity: 0.5;
-                }
-                .m-login:hover { opacity: 1; }
+                <?= $sc['css'] ?>
+                .m-wrap { max-width: 560px; width: 100%; }
+                .m-brand { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: <?= $sc['sub'] ?>; border-top: 1px solid <?= $sc['border'] ?>; padding-top: 20px; margin-bottom: 14px; }
             </style>
         </head>
         <body>
-            <div class="m-card">
-                <div class="m-badge">
-                    <span style="width:7px; height:7px; border-radius:50%; background:#eab308; display:inline-block;"></span>
-                    <?= site_t('Bakım & Hazırlık', 'Scheduled Maintenance', $detected_lang) ?>
-                </div>
-                <h1 class="m-title"><?= e($m_title) ?></h1>
-                <p class="m-text"><?= nl2br(e($m_text)) ?></p>
+            <main class="m-wrap">
+                <div class="sc-kicker"><?= site_t('Bakım & Hazırlık', 'Scheduled Maintenance', $detected_lang) ?></div>
+                <h1 class="sc-title"><?= e($m_title) ?></h1>
+                <p class="sc-text"><?= nl2br(e($m_text)) ?></p>
                 <div class="m-brand"><?= e($site_name) ?></div>
-                <a href="<?= url('admin/login.php') ?>" class="m-login"><?= site_t('Yönetici Girişi', 'Admin Login', $detected_lang) ?></a>
-            </div>
+                <a href="<?= url('admin/login.php') ?>" class="sc-link"><?= site_t('Yönetici Girişi', 'Admin Login', $detected_lang) ?></a>
+            </main>
         </body>
         </html>
         <?php
@@ -531,170 +460,50 @@ if ($slug !== '') {
                 $page_title = item_field($item, 'title', $lang);
                 $site_name = get_setting('site_name', site_owner_name());
                 $cover_bg_url = !empty($item['cover_image']) ? get_cover_image_url($item['cover_image']) : '';
-                $theme = get_setting('theme_default', 'dark');
-                $bg = ($theme === 'light') ? '#f8fafc' : '#0a0a0c';
-                $text_color = ($theme === 'light') ? '#0f172a' : '#f8fafc';
-                $sub_color = ($theme === 'light') ? '#64748b' : '#94a3b8';
-                $card_bg = ($theme === 'light') ? 'rgba(255,255,255,0.94)' : 'rgba(18,20,24,0.94)';
-                $border_color = ($theme === 'light') ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.12)';
+                $sc = standalone_screen_style();
                 ?>
                 <!DOCTYPE html>
-                <html lang="<?= e($lang) ?>" data-theme="<?= e($theme) ?>">
+                <html lang="<?= e($lang) ?>" style="color-scheme: <?= $sc['light'] ? 'light' : 'dark' ?>">
                 <head>
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1">
                     <title><?= e($page_title) ?> — <?= site_t('Korumalı Proje', 'Protected Work') ?></title>
                     <meta name="robots" content="noindex, nofollow">
+                    <link href="<?= e(asset_url('fonts.css')) ?>" rel="stylesheet">
                     <style>
-                        * { box-sizing: border-box; margin:0; padding:0; }
-                        body {
-                            min-height: 100vh;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            background: <?= $bg ?>;
-                            color: <?= $text_color ?>;
-                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-                            padding: 24px;
-                            position: relative;
-                            overflow: hidden;
-                        }
+                        <?= $sc['css'] ?>
+                        body { position: relative; overflow: hidden; }
                         <?php if ($cover_bg_url !== ''): ?>
-                        .bg-backdrop {
-                            position: absolute;
-                            top:-20px; left:-20px; right:-20px; bottom:-20px;
-                            background-image: url('<?= e($cover_bg_url) ?>');
-                            background-size: cover;
-                            background-position: center;
-                            filter: blur(28px) brightness(0.35);
-                            opacity: 0.65;
-                            z-index: 0;
-                            transform: scale(1.05);
-                        }
+                        /* Kapak fotoğrafı: bulanık değil, karartılmış tam kadraj — fotoğraf okunur kalır */
+                        .bg-backdrop { position: absolute; inset: 0; background: url('<?= e($cover_bg_url) ?>') center / cover no-repeat; opacity: <?= $sc['light'] ? '0.14' : '0.22' ?>; filter: grayscale(1); z-index: 0; }
                         <?php endif; ?>
-                        .gate-card {
-                            position: relative;
-                            z-index: 1;
-                            max-width: 440px;
-                            width: 100%;
-                            padding: 44px 36px;
-                            background: <?= $card_bg ?>;
-                            backdrop-filter: blur(20px);
-                            -webkit-backdrop-filter: blur(20px);
-                            border: 1px solid <?= $border_color ?>;
-                            border-radius: 18px;
-                            text-align: center;
-                            box-shadow: 0 24px 60px rgba(0,0,0,0.45);
-                        }
-                        .gate-icon {
-                            width: 48px;
-                            height: 48px;
-                            border-radius: 50%;
-                            background: rgba(124, 58, 237, 0.12);
-                            color: #a78bfa;
-                            border: 1px solid rgba(124, 58, 237, 0.28);
-                            display: inline-flex;
-                            align-items: center;
-                            justify-content: center;
-                            margin: 0 auto 20px;
-                        }
-                        .gate-badge {
-                            font-size: 11px;
-                            font-weight: 700;
-                            letter-spacing: 0.12em;
-                            text-transform: uppercase;
-                            color: #a78bfa;
-                            margin-bottom: 8px;
-                        }
-                        .gate-title {
-                            font-size: 22px;
-                            font-weight: 700;
-                            letter-spacing: -0.01em;
-                            margin-bottom: 10px;
-                        }
-                        .gate-sub {
-                            font-size: 13.5px;
-                            color: <?= $sub_color ?>;
-                            line-height: 1.6;
-                            margin-bottom: 26px;
-                        }
-                        .gate-input-group {
-                            position: relative;
-                            margin-bottom: 16px;
-                        }
-                        .gate-input {
-                            width: 100%;
-                            padding: 13px 16px;
-                            border-radius: 10px;
-                            border: 1px solid <?= $border_color ?>;
-                            background: rgba(0,0,0,0.15);
-                            color: inherit;
-                            font-size: 14px;
-                            outline: none;
-                            text-align: center;
-                            letter-spacing: 0.08em;
-                            transition: all 0.15s ease;
-                        }
-                        .gate-input:focus {
-                            border-color: #7c3aed;
-                            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
-                        }
-                        .gate-btn {
-                            width: 100%;
-                            padding: 13px;
-                            border-radius: 10px;
-                            border: none;
-                            background: #7c3aed;
-                            color: #ffffff;
-                            font-size: 13.5px;
-                            font-weight: 600;
-                            letter-spacing: 0.03em;
-                            cursor: pointer;
-                            transition: all 0.15s ease;
-                        }
-                        .gate-btn:hover {
-                            background: #6d28d9;
-                            transform: translateY(-1px);
-                        }
-                        .gate-error {
-                            font-size: 12.5px;
-                            color: #ef4444;
-                            background: rgba(239, 68, 68, 0.1);
-                            border: 1px solid rgba(239, 68, 68, 0.25);
-                            padding: 8px 12px;
-                            border-radius: 8px;
-                            margin-bottom: 16px;
-                        }
-                        .gate-back {
-                            display: inline-block;
-                            margin-top: 20px;
-                            font-size: 12px;
-                            color: <?= $sub_color ?>;
-                            text-decoration: none;
-                        }
-                        .gate-back:hover { color: inherit; }
+                        .gate-card { position: relative; z-index: 1; max-width: 460px; width: 100%; padding: 44px 36px; background: <?= $sc['bg'] ?>; border: 1px solid <?= $sc['border'] ?>; }
+                        .gate-input { width: 100%; padding: 14px 0; margin-bottom: 18px; border: 0; border-bottom: 1px solid <?= $sc['border'] ?>; background: transparent; color: inherit; font: inherit; font-size: 15px; letter-spacing: .08em; outline: none; }
+                        .gate-input:focus { border-bottom-color: <?= $sc['accent'] ?>; }
+                        .gate-input:focus-visible { outline: none; }
+                        .gate-btn { width: 100%; padding: 14px; border: 1px solid <?= $sc['accent'] ?>; background: <?= $sc['accent'] ?>; color: <?= $sc['on_accent'] ?>; font: inherit; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: opacity .15s ease; }
+                        .gate-btn:hover { opacity: .88; }
+                        .gate-error { font-size: 13px; color: #e5484d; border-left: 2px solid #e5484d; padding: 6px 12px; margin-bottom: 18px; }
+                        .gate-back { display: inline-block; margin-top: 24px; }
+                        @media (max-width: 480px) { .gate-card { padding: 32px 22px; } }
                     </style>
                 </head>
                 <body>
-                    <?php if ($cover_bg_url !== ''): ?><div class="bg-backdrop"></div><?php endif; ?>
-                    <div class="gate-card">
-                        <div class="gate-icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="gate-badge"><?= site_t('Özel & Gizli Proje', 'Private & Protected Work') ?></div>
-                        <h1 class="gate-title"><?= e($page_title) ?></h1>
-                        <p class="gate-sub"><?= site_t('Bu sergi ve içeriğe erişebilmek için lütfen tarafınıza iletilen parolayı giriniz.', 'Please enter the access password provided to you to view this curated story.') ?></p>
+                    <?php if ($cover_bg_url !== ''): ?><div class="bg-backdrop" aria-hidden="true"></div><?php endif; ?>
+                    <main class="gate-card">
+                        <div class="sc-kicker"><?= site_t('Özel & Gizli Proje', 'Private & Protected Work') ?></div>
+                        <h1 class="sc-title"><?= e($page_title) ?></h1>
+                        <p class="sc-text"><?= site_t('Bu sergi ve içeriğe erişebilmek için lütfen tarafınıza iletilen parolayı giriniz.', 'Please enter the access password provided to you to view this curated story.') ?></p>
                         <?php if ($password_error): ?>
-                            <div class="gate-error"><?= e($password_error) ?></div>
+                            <div class="gate-error" role="alert"><?= e($password_error) ?></div>
                         <?php endif; ?>
                         <form method="POST" action="">
-                            <div class="gate-input-group">
-                                <input type="password" name="item_password" class="gate-input" placeholder="<?= site_t('Proje Parolası', 'Project Password') ?>" autofocus required>
-                            </div>
+                            <label for="gate-pw" class="sc-link" style="display:block;margin-bottom:2px"><?= site_t('Proje Parolası', 'Project Password') ?></label>
+                            <input type="password" id="gate-pw" name="item_password" class="gate-input" autocomplete="current-password" autofocus required>
                             <button type="submit" class="gate-btn"><?= site_t('Sergiyi Aç', 'Unlock Project') ?></button>
                         </form>
-                        <a href="<?= url($lang . '/') ?>" class="gate-back">&larr; <?= site_t('Ana Sayfaya Dön', 'Back to Home') ?></a>
-                    </div>
+                        <a href="<?= url($lang . '/') ?>" class="sc-link gate-back">&larr; <?= site_t('Ana Sayfaya Dön', 'Back to Home') ?></a>
+                    </main>
                 </body>
                 </html>
                 <?php

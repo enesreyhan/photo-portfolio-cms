@@ -2355,6 +2355,8 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
                 b.setAttribute('aria-expanded', 'true');
             }
             document.body.classList.add('hidokmeh-menu-open');
+            var c = document.getElementById('hidokmeh-close-btn');
+            if (c) c.focus({ preventScroll: true });
         };
 
         window.closeHidokmehMenu = function(e) {
@@ -2362,6 +2364,7 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
             var d = document.getElementById('hidokmeh-menu-drawer');
             var o = document.getElementById('hidokmeh-overlay');
             var b = document.getElementById('om-menu-toggle');
+            var hadFocus = !!d && d.contains(document.activeElement);
             if (d) {
                 d.classList.remove('is-open');
                 d.setAttribute('aria-hidden', 'true');
@@ -2372,6 +2375,10 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
                 b.setAttribute('aria-expanded', 'false');
             }
             document.body.classList.remove('hidokmeh-menu-open');
+            if (hadFocus) {
+                if (b && b.offsetParent !== null) b.focus({ preventScroll: true });
+                else document.activeElement.blur();
+            }
         };
 
         window.toggleHidokmehMenu = function(e) {
@@ -2386,7 +2393,7 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
         };
 
         if (drawer) {
-            drawer.querySelectorAll('.hidokmeh-link, .hidokmeh-lang-pill').forEach(function(link) {
+            drawer.querySelectorAll('.hidokmeh-menu-item, .hidokmeh-lang-link').forEach(function(link) {
                 link.addEventListener('click', function() {
                     window.closeHidokmehMenu();
                 });
@@ -2396,6 +2403,16 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 window.closeHidokmehMenu();
+            }
+            // Açık çekmecede Tab arka plana kaçmasın (aria-modal)
+            var dr = document.getElementById('hidokmeh-menu-drawer');
+            if (e.key === 'Tab' && dr && dr.classList.contains('is-open')) {
+                var f = Array.prototype.filter.call(dr.querySelectorAll('a[href], button:not([disabled]), input, select, [tabindex]:not([tabindex="-1"])'), function(el) { return el.offsetParent !== null; });
+                if (!f.length) return;
+                var first = f[0], last = f[f.length - 1];
+                if (!dr.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+                else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
             }
         });
 
@@ -2525,7 +2542,7 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
                     hpContainer.classList.contains('hp-fit-framed');
 
                 if (isSurfaceUnderLogo) {
-                    var isLightSurface = root.classList.contains('hp-surface-paper') || root.classList.contains('gallery-paper') || root.getAttribute('data-surface-theme') === 'paper';
+                    var isLightSurface = root.classList.contains('light') || root.classList.contains('hp-surface-white') || root.classList.contains('hp-surface-paper') || root.classList.contains('gallery-paper') || ['white', 'paper'].indexOf(root.getAttribute('data-surface-theme')) !== -1;
                     bar.classList.toggle('is-on-light-bg', isLightSurface);
                     return;
                 }

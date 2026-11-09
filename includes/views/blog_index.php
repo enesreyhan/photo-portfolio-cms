@@ -46,9 +46,8 @@ if (!function_exists('estimate_blog_reading_time')) {
 
 require __DIR__ . '/layout_header.php';
 ?>
-<body class="bg-stone-50 text-stone-800 dark:bg-stone-950 dark:text-stone-200 transition-colors duration-300 ease-in-out">
 
-<?php render_site_navigation($lang, 'blog', $url_tr ?? null, $url_en ?? null); ?>
+<?php render_site_navigation($lang, $en_path, $tr_path, $instagram_url); ?>
 
 <div class="left-content"></div>
 

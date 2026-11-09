@@ -274,7 +274,7 @@ $container_style = sprintf(
                 <div class="hp-minimal-index-row <?= $idx === $initial_active_idx ? 'active' : '' ?>"
                      data-idx="<?= $idx ?>"
                      onmouseenter="if(window.hpGoToSlide) window.hpGoToSlide(<?= $idx ?>);"
-                     onclick="if(window.hpGoToSlide) window.hpGoToSlide(<?= $idx ?>);">
+                     onclick="<?= $s['target_url'] ? 'window.location.href=' . e(json_encode($s['target_url'])) : 'if(window.hpGoToSlide) window.hpGoToSlide(' . $idx . ')' ?>;">
                     <div class="hp-minimal-index-left">
                         <span class="hp-minimal-index-num"><?= sprintf('%02d', $idx + 1) ?></span>
                         <?php if ($s['target_url']): ?>

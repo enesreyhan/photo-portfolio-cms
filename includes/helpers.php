@@ -2382,3 +2382,35 @@ if (!function_exists('parse_about_content')) {
 function not_found_default_html(string $lang): string {
     return '<p>' . site_t('Bu sayfa kadrajın dışına çıktı.<br>Belki hiç var olmadı, belki taşındı — tıpkı ışık gibi.', 'This page wandered out of the frame.<br>Maybe it never existed, or maybe it moved — like light.', $lang) . '</p>';
 }
+
+/**
+ * Bakım ve parolalı proje ekranları layout_header'ı yüklemez; site zemini, vurgu rengi
+ * ve Zed fontlarıyla aynı görünsünler diye ortak palet + temel CSS.
+ */
+function standalone_screen_style(): array {
+    require_once __DIR__ . '/design_editor.php';
+    $surface = get_setting('inner_default_surface', 'dark');
+    $bg = ['white' => '#ffffff', 'paper' => '#f4f2ed'][$surface] ?? '#0a0a0a';
+    $light = $bg !== '#0a0a0a';
+    $accent = preg_match('/^#[0-9a-f]{6}$/i', (string)get_setting('site_accent_color', '')) ? strtolower(get_setting('site_accent_color')) : '#fdd000';
+    $p = [
+        'light'  => $light,
+        'bg'     => $bg,
+        'text'   => $light ? '#111111' : '#f2f2f2',
+        'sub'    => $light ? '#5c5c5c' : '#9a9a9a',
+        'border' => $light ? 'rgba(0,0,0,0.14)' : 'rgba(255,255,255,0.16)',
+        'accent' => $accent,
+        'on_accent' => design_on_color($accent),
+    ];
+    $p['css'] = '*{box-sizing:border-box;margin:0;padding:0;border-radius:0}'
+        . 'body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;'
+        . 'background:' . $p['bg'] . ';color:' . $p['text'] . ';font-family:"ZedTextFtl",-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6}'
+        . '.sc-kicker{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:' . $p['sub'] . ';margin-bottom:18px;display:flex;align-items:center;gap:10px}'
+        . '.sc-kicker::before{content:"";width:28px;height:2px;background:' . $p['accent'] . '}'
+        . '.sc-title{font-family:"ZedDisplayFtl","ZedTextFtl",sans-serif;font-weight:400;font-size:clamp(28px,6vw,40px);line-height:1.1;letter-spacing:-.01em;margin-bottom:16px}'
+        . '.sc-text{font-size:15px;color:' . $p['sub'] . ';margin-bottom:28px}'
+        . '.sc-link{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:' . $p['sub'] . ';text-decoration:none;border-bottom:1px solid transparent}'
+        . '.sc-link:hover,.sc-link:focus-visible{color:' . $p['text'] . ';border-bottom-color:' . $p['accent'] . '}'
+        . ':focus-visible{outline:2px solid ' . $p['accent'] . ';outline-offset:2px}';
+    return $p;
+}

@@ -577,13 +577,13 @@ $lb_show_exif        = get_setting('lightbox_show_exif', '1') === '1';
 
                     var rightHtml = '<div class="gcustom-right">';
                     if (lbCfg.slideshow) {
-                        rightHtml += '<button type="button" class="gcustom-btn" id="gcustomSlideshowBtn" title="<?= site_t('Otomatik Slayt Gösterisi', 'Autoplay Slideshow') ?>"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>';
+                        rightHtml += '<button type="button" class="gcustom-btn" id="gcustomSlideshowBtn" title="<?= site_t('Otomatik Slayt Gösterisi', 'Autoplay Slideshow') ?>" aria-label="<?= site_t('Otomatik Slayt Gösterisi', 'Autoplay Slideshow') ?>"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>';
                     }
                     if (lbCfg.zoom) {
-                        rightHtml += '<button type="button" class="gcustom-btn" id="gcustomZoomBtn" title="<?= site_t('Yakınlaştır / Uzaklaştır', 'Zoom In / Out') ?>"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></button>';
+                        rightHtml += '<button type="button" class="gcustom-btn" id="gcustomZoomBtn" title="<?= site_t('Yakınlaştır / Uzaklaştır', 'Zoom In / Out') ?>" aria-label="<?= site_t('Yakınlaştır / Uzaklaştır', 'Zoom In / Out') ?>"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></button>';
                     }
                     if (lbCfg.fullscreen) {
-                        rightHtml += '<button type="button" class="gcustom-btn" id="gcustomFullscreenBtn" title="<?= site_t('Tam Ekran', 'Fullscreen') ?>"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>';
+                        rightHtml += '<button type="button" class="gcustom-btn" id="gcustomFullscreenBtn" title="<?= site_t('Tam Ekran', 'Fullscreen') ?>" aria-label="<?= site_t('Tam Ekran', 'Fullscreen') ?>"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>';
                     }
                     rightHtml += '</div>';
 
