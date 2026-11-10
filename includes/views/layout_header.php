@@ -727,6 +727,8 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
     ], true);
     $header_classes = [
         'om-header-bar',
+        // Horizontal bars collapse into the hamburger on narrow screens
+        ($is_horiz_mode && !in_array($h_style, ['vertical_left', 'vertical_right'], true)) ? 'om-collapses' : '',
         'om-style-' . $h_style,
         'om-bg-' . $h_bg_style,
         'om-hb-' . $h_hb_style,
@@ -1991,6 +1993,10 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
             }
             #om-site-header .om-bar-surface-btn {
                 display: inline-flex !important;
+            }
+            /* Once the hamburger takes over, the theme switch lives in the menu only */
+            #om-site-header.om-collapses .om-bar-surface-btn {
+                display: none !important;
             }
         }
 
