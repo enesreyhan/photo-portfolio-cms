@@ -264,8 +264,13 @@ a.kpi-card.is-alert { border-color: var(--accent-blue); box-shadow: 0 0 0 1px va
                 ?>
                 <a href="item-edit.php?id=<?= (int)$it['id'] ?>" class="dash-work">
                     <div class="dash-work-img">
-                        <?php if (!empty($it['cover_image'])): ?>
-                            <img src="<?= e(url(ltrim($it['cover_image'], '/'))) ?>" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+                        <?php if (!empty($it['cover_image'])):
+                            // Cached 480px copy; the original only if it cannot be resized
+                            $it_cover = ltrim((string)$it['cover_image'], '/');
+                            $it_full  = resolve_image_file_path($it_cover);
+                            $it_small = $it_full ? resize_and_convert_image($it_full, 480, 'webp', 80) : null;
+                        ?>
+                            <img src="<?= e(url($it_small ?: $it_cover)) ?>" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
                         <?php endif; ?>
                         <?php if ($it['status'] !== 'published'): ?>
                             <span class="dash-work-badge"><?= e(__a('Taslak', 'Draft')) ?></span>
