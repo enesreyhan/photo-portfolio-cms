@@ -70,7 +70,12 @@ if ($pf_default_surface === 'white' || $pf_default_surface === 'paper' || get_se
 }
 $html_class = implode(' ', $html_classes);
 
+// Tab title and heading name the category instead of repeating the site title
+if (empty($page_title) && !empty($section_title)) $page_title = $section_title;
 require __DIR__ . '/layout_header.php';
+if (!empty($section_title)): ?>
+<h1 class="er-sr-only"><?= e($section_title) ?></h1>
+<?php endif;
 
 // Her çalışma için duyarlı görsel verilerini hazırla
 $prepared_slides = [];
@@ -188,7 +193,7 @@ $container_style = sprintf(
 <!-- ŞABLON 7: KÜRATÖRYEL PORTFOLYO IZGARASI (curatorial_grid) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php if ($pf_template === 'curatorial_grid'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-curatorial-grid-wrap">
         <?php foreach ($prepared_slides as $idx => $s): ?>
             <article class="hp-grid-card">
@@ -237,7 +242,7 @@ $container_style = sprintf(
 <!-- ŞABLON 8: MİNİMALİST TİPOGRAFİK İNDEKS (minimal_index) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($pf_template === 'minimal_index'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-minimal-index-layout">
         <div class="hp-minimal-index-list" role="tablist">
             <div class="hp-minimal-index-kicker">
@@ -297,7 +302,7 @@ $container_style = sprintf(
 <!-- ŞABLON 9: YATAY PANORAMA & SONSUZ AKIŞ (horizontal_panorama) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($pf_template === 'horizontal_panorama'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-horizontal-panorama-stage" id="hpPanoramaStage" tabindex="0" role="region" aria-label="<?= site_t('Yatay Portfolyo Panoraması', 'Horizontal Portfolio Panorama') ?>">
         <div class="hp-horizontal-panorama-track" id="hpPanoramaTrack">
             <?php foreach ($prepared_slides as $idx => $s): ?>
@@ -373,7 +378,7 @@ $container_style = sprintf(
 <!-- ŞABLON 10: ÇERÇEVELİ KUTU DUVARI (framed_masonry) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($pf_template === 'framed_masonry'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-framed-box-wrapper">
         <div class="hp-framed-box-header">
             <div class="hp-framed-box-kicker">
@@ -432,7 +437,7 @@ $container_style = sprintf(
 <!-- ŞABLON 12: EDİTORYAL HİKAYE AKIŞI (story_stream) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($pf_template === 'story_stream'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-story-stream-wrap">
         <?php foreach ($prepared_slides as $idx => $s): ?>
             <article class="hp-story-stream-item">
@@ -509,7 +514,7 @@ $container_style = sprintf(
 <!-- ŞABLON 1, 2, 3, 4, 5, 6, 11: SLAYT & SAHNE ŞABLONLARI (white_cube_gallery dahil) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php else: ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <?php foreach ($prepared_slides as $idx => $s):
         $c_num = $idx + 1;
         $is_initial = ($idx === $initial_active_idx);
@@ -886,7 +891,7 @@ $container_style = sprintf(
 
     function startAutoPlay() {
         stopAutoPlay();
-        if (AUTOPLAY_ENABLED && total > 1 && !document.hidden && !isHoveredPaused) {
+        if (AUTOPLAY_ENABLED && total > 1 && !document.hidden && !isHoveredPaused && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
             syncIndicators(currentIdx);
             autoTimer = setInterval(function() {
                 advanceSlide(1);

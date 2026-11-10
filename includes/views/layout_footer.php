@@ -541,6 +541,20 @@ $lb_show_exif        = get_setting('lightbox_show_exif', '1') === '1';
             });
             window.erLightbox = myLightbox;
 
+            // Localized button names, and keyboard focus moves into the dialog
+            myLightbox.on('open', function() {
+                var c = document.querySelector('.glightbox-container');
+                if (!c) return;
+                c.setAttribute('aria-modal', 'true');
+                var names = { '.gclose': <?= json_encode(site_t('Kapat', 'Close')) ?>, '.gprev': <?= json_encode(site_t('Önceki fotoğraf', 'Previous photo')) ?>, '.gnext': <?= json_encode(site_t('Sonraki fotoğraf', 'Next photo')) ?> };
+                Object.keys(names).forEach(function(sel) {
+                    var b = c.querySelector(sel);
+                    if (b) b.setAttribute('aria-label', names[sel]);
+                });
+                var x = c.querySelector('.gclose');
+                if (x) x.focus({ preventScroll: true });
+            });
+
             var lbCfg = {
                 counter: <?= json_encode($lb_show_counter) ?>,
                 slideshow: <?= json_encode($lb_show_slideshow) ?>,

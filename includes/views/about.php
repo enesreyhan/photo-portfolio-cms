@@ -342,7 +342,7 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
                         </p>
                     </div>
 
-                    <div id="contactFormAlert" class="contact-form-alert" style="display: <?= !empty($_GET['msg_success']) || !empty($_GET['msg_error']) ? 'block' : 'none' ?>;">
+                    <div id="contactFormAlert" class="contact-form-alert" role="status" style="display: <?= !empty($_GET['msg_success']) || !empty($_GET['msg_error']) ? 'block' : 'none' ?>;">
                         <?php if (!empty($_GET['msg_success'])): ?>
                             <div class="alert-box alert-success">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -373,14 +373,14 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
                                 <label class="form-field-label" for="contact_name">
                                     <?= site_t('Adınız Soyadınız', 'Your Name') ?> <span class="required-star">*</span>
                                 </label>
-                                <input type="text" id="contact_name" name="name" class="contact-input" required placeholder="<?= site_t('Adınız ve soyadınız', 'Your full name') ?>">
+                                <input type="text" id="contact_name" name="name" class="contact-input" autocomplete="name" required placeholder="<?= site_t('Adınız ve soyadınız', 'Your full name') ?>">
                             </div>
 
                             <div class="form-col">
                                 <label class="form-field-label" for="contact_email">
                                     <?= site_t('E-posta Adresiniz', 'Your Email') ?> <span class="required-star">*</span>
                                 </label>
-                                <input type="email" id="contact_email" name="email" class="contact-input" required placeholder="<?= site_t('ornek@alanadi.com', 'you@example.com') ?>">
+                                <input type="email" id="contact_email" name="email" class="contact-input" autocomplete="email" required placeholder="<?= site_t('ornek@alanadi.com', 'you@example.com') ?>">
                             </div>
                         </div>
 
@@ -404,6 +404,10 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
                                 <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                             </button>
                         </div>
+                        <p class="contact-form-legal">
+                            <?= site_t('Gönderdiğiniz bilgiler yalnızca size yanıt vermek için kullanılır:', 'The details you send are used only to reply to you:') ?>
+                            <a href="<?= url($lang === 'tr' ? 'tr/aydinlatma-metni/' : 'en/privacy-notice/') ?>"><?= site_t('Aydınlatma Metni', 'Privacy Notice') ?></a>
+                        </p>
                     </form>
                 </div>
             </div>
@@ -525,9 +529,11 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
 
     <script>
     // ── İletişim Popup / Modal ve AJAX Form Yönetimi ──
+    var contactModalOpener = null;
     function openContactModal() {
         var modal = document.getElementById('contactModalBackdrop');
         if (!modal) return;
+        contactModalOpener = document.activeElement;
         modal.classList.add('is-open');
         document.body.style.overflow = 'hidden';
         setTimeout(function() {
@@ -539,8 +545,10 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
     function closeContactModal() {
         var modal = document.getElementById('contactModalBackdrop');
         if (!modal) return;
+        if (!modal.classList.contains('is-open')) return;
         modal.classList.remove('is-open');
         document.body.style.overflow = '';
+        if (contactModalOpener && contactModalOpener.focus) contactModalOpener.focus();
     }
 
     window.openContactModal = openContactModal;

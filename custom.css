@@ -1879,7 +1879,7 @@ a.footer-legal-link,
 main a.footer-legal-link,
 article a.footer-legal-link {
     color: inherit;
-    opacity: 0.65;
+    opacity: 0.8;
     text-decoration: none !important;
     border-bottom: 1px solid rgba(128, 128, 128, 0.3) !important;
     padding-bottom: 1px;
@@ -1952,7 +1952,7 @@ html.editorial-page .footer-nav-link:hover,
 
 .footer-copy {
     font-size: 0.85rem;
-    opacity: 0.5;
+    opacity: 0.72;
 }
 
 .dark .footer-social-icon {
@@ -7522,7 +7522,7 @@ html.mono-page .logo-symbol-wrap img.logo-light {
 html.hp-page .om-header-bar.is-on-light-bg:not(.om-bg-solid_dark):not(.om-bg-custom-dark):not(.om-bg-gradient):not(.om-bg-glass) .logo-symbol-wrap img.logo-light,
 html.mono-page .om-header-bar.is-on-light-bg:not(.om-bg-solid_dark):not(.om-bg-custom-dark):not(.om-bg-gradient):not(.om-bg-glass) .logo-symbol-wrap img.logo-light,
 html.hp-page.hp-surface-paper:has(#hp-container:is(.hp-tpl-monograph_split, .hp-tpl-museum_passepartout, .hp-tpl-curatorial_grid, .hp-tpl-minimal_index, .hp-tpl-framed_masonry, .hp-tpl-white_cube_gallery, .hp-tpl-story_stream, .hp-fit-contain, .hp-fit-framed)) .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-light,
-html.hp-page.hp-surface-white .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-light,
+html.hp-page.hp-surface-white:not(:has(#hp-container.hp-fit-cover .mono-chapter)) .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-light,
 html.hp-page:not(.dark):not(.hp-surface-dark):not([data-surface-theme="dark"]):has(#hp-container.hp-tpl-white_cube_gallery) .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-light {
     display: block !important;
     filter: none !important;
@@ -7530,7 +7530,7 @@ html.hp-page:not(.dark):not(.hp-surface-dark):not([data-surface-theme="dark"]):h
 html.hp-page .om-header-bar.is-on-light-bg:not(.om-bg-solid_dark):not(.om-bg-custom-dark):not(.om-bg-gradient):not(.om-bg-glass) .logo-symbol-wrap img.logo-dark,
 html.mono-page .om-header-bar.is-on-light-bg:not(.om-bg-solid_dark):not(.om-bg-custom-dark):not(.om-bg-gradient):not(.om-bg-glass) .logo-symbol-wrap img.logo-dark,
 html.hp-page.hp-surface-paper:has(#hp-container:is(.hp-tpl-monograph_split, .hp-tpl-museum_passepartout, .hp-tpl-curatorial_grid, .hp-tpl-minimal_index, .hp-tpl-framed_masonry, .hp-tpl-white_cube_gallery, .hp-tpl-story_stream, .hp-fit-contain, .hp-fit-framed)) .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-dark,
-html.hp-page.hp-surface-white .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-dark,
+html.hp-page.hp-surface-white:not(:has(#hp-container.hp-fit-cover .mono-chapter)) .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-dark,
 html.hp-page:not(.dark):not(.hp-surface-dark):not([data-surface-theme="dark"]):has(#hp-container.hp-tpl-white_cube_gallery) .om-header-bar:not(.om-bg-solid_dark):not(.om-bg-custom-dark) .logo-symbol-wrap img.logo-dark {
     display: none !important;
 }
@@ -8919,16 +8919,16 @@ html[data-surface-theme="white"]:not(.field-map-page) body {
 /* Galeri / Kitap Kağıdı ve Saf Beyaz modunda sol üst amblem logo siyah (logo-light) görünür */
 html.gallery-paper:not(.hp-page):not(.mono-page):not(.field-map-page) .logo-symbol-wrap img.logo-light,
 html.gallery-white:not(.hp-page):not(.mono-page):not(.field-map-page) .logo-symbol-wrap img.logo-light,
-html.hp-surface-white .logo-symbol-wrap img.logo-light,
-html[data-surface-theme="white"] .logo-symbol-wrap img.logo-light {
+html.hp-surface-white:not(:has(#hp-container.hp-fit-cover .mono-chapter)) .logo-symbol-wrap img.logo-light,
+html[data-surface-theme="white"]:not(:has(#hp-container.hp-fit-cover .mono-chapter)) .logo-symbol-wrap img.logo-light {
     display: block !important;
     filter: none !important;
 }
 
 html.gallery-paper:not(.hp-page):not(.mono-page):not(.field-map-page) .logo-symbol-wrap img.logo-dark,
 html.gallery-white:not(.hp-page):not(.mono-page):not(.field-map-page) .logo-symbol-wrap img.logo-dark,
-html.hp-surface-white .logo-symbol-wrap img.logo-dark,
-html[data-surface-theme="white"] .logo-symbol-wrap img.logo-dark {
+html.hp-surface-white:not(:has(#hp-container.hp-fit-cover .mono-chapter)) .logo-symbol-wrap img.logo-dark,
+html[data-surface-theme="white"]:not(:has(#hp-container.hp-fit-cover .mono-chapter)) .logo-symbol-wrap img.logo-dark {
     display: none !important;
 }
 
@@ -9165,17 +9165,17 @@ html.hp-page.hp-surface-white .hp-surface-switch-pill {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
 }
 
-html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery) .mono-chapter-title,
-html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery) .mono-chapter-title a {
+html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery):not(.hp-fit-cover:has(.mono-chapter)) .mono-chapter-title,
+html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery):not(.hp-fit-cover:has(.mono-chapter)) .mono-chapter-title a {
     color: #111111 !important;
 }
 
-html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery) .mono-chapter-desc {
+html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery):not(.hp-fit-cover:has(.mono-chapter)) .mono-chapter-desc {
     color: #444444 !important;
 }
 
-html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery) .mono-chapter-location,
-html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery) .mono-chapter-meta {
+html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery):not(.hp-fit-cover:has(.mono-chapter)) .mono-chapter-location,
+html.hp-page.hp-surface-white #hp-container:not(.hp-tpl-white_cube_gallery):not(.hp-fit-cover:has(.mono-chapter)) .mono-chapter-meta {
     color: #777777 !important;
 }
 
@@ -9331,7 +9331,7 @@ html.gallery-paper .project-gallery-content h4 em {
     color: #383632 !important;
 }
 
-html.gallery-paper .mono-frame-badge {
+html:is(.gallery-paper, .gallery-white) .mono-frame-badge {
     color: rgba(20, 20, 18, 0.48) !important;
 }
 
@@ -9359,37 +9359,37 @@ html.gallery-paper .mono-inner-wrapper.is-contact-sheet .project-gallery-content
     background: #ebe8e0 !important;
 }
 
-html.gallery-paper .mono-inner-wrapper.is-contact-sheet .mono-frame-badge {
+html:is(.gallery-paper, .gallery-white) .mono-inner-wrapper.is-contact-sheet .mono-frame-badge {
     color: #141413 !important;
     font-weight: 700 !important;
 }
 
 /* 6. Sağ Sabit Kadraj Takipçisi (aside.mono-frame-tracker) */
-html.gallery-paper .mono-frame-current {
+html:is(.gallery-paper, .gallery-white) .mono-frame-current {
     color: #141413 !important;
 }
 
-html.gallery-paper .mono-frame-total {
+html:is(.gallery-paper, .gallery-white) .mono-frame-total {
     color: rgba(20, 20, 18, 0.48) !important;
 }
 
-html.gallery-paper .mono-frame-progress-track {
+html:is(.gallery-paper, .gallery-white) .mono-frame-progress-track {
     background: rgba(20, 20, 18, 0.15) !important;
 }
 
-html.gallery-paper .mono-frame-progress-bar {
+html:is(.gallery-paper, .gallery-white) .mono-frame-progress-bar {
     background: #141413 !important;
 }
 
-html.gallery-paper .mono-frame-grid-btn {
+html:is(.gallery-paper, .gallery-white) .mono-frame-grid-btn {
     background: rgba(250, 249, 245, 0.92) !important;
     border-color: rgba(20, 20, 18, 0.18) !important;
     color: #141413 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
 }
 
-html.gallery-paper .mono-frame-grid-btn:hover,
-html.gallery-paper .mono-frame-grid-btn.active {
+html:is(.gallery-paper, .gallery-white) .mono-frame-grid-btn:hover,
+html:is(.gallery-paper, .gallery-white) .mono-frame-grid-btn.active {
     background: var(--er-accent, #fdd000) !important;
     border-color: #141413 !important;
     color: #111111 !important;
@@ -9401,7 +9401,7 @@ html.gallery-paper .project-story-nav {
     border-top-color: rgba(20, 20, 18, 0.12) !important;
 }
 
-html.gallery-paper .colophon-share-label {
+html:is(.gallery-paper, .gallery-white) .colophon-share-label {
     color: rgba(20, 20, 18, 0.58) !important;
 }
 
@@ -9422,7 +9422,7 @@ html.gallery-paper .project-split-dark .project-colophon-bar .curator-keyboard-h
     border: 1px solid rgba(20, 20, 18, 0.12) !important;
 }
 
-html.gallery-paper .project-split-dark .project-colophon-bar .curator-hint-content {
+html:is(.gallery-paper, .gallery-white) .project-split-dark .project-colophon-bar .curator-hint-content {
     color: #4a4843 !important;
 }
 
@@ -9432,15 +9432,15 @@ html.gallery-paper .project-split-dark .project-colophon-bar .curator-hint-conte
     color: #141413 !important;
 }
 
-html.gallery-paper .project-split-dark .project-colophon-bar .curator-hint-sep {
+html:is(.gallery-paper, .gallery-white) .project-split-dark .project-colophon-bar .curator-hint-sep {
     color: rgba(20, 20, 18, 0.28) !important;
 }
 
-html.gallery-paper .project-split-dark .project-colophon-bar .curator-hint-action-btn:hover {
+html:is(.gallery-paper, .gallery-white) .project-split-dark .project-colophon-bar .curator-hint-action-btn:hover {
     color: #000000 !important;
 }
 
-html.gallery-paper .project-split-dark .project-colophon-bar .curator-hint-action-btn:hover kbd {
+html:is(.gallery-paper, .gallery-white) .project-split-dark .project-colophon-bar .curator-hint-action-btn:hover kbd {
     border-color: #141413 !important;
     background: var(--er-accent, #fdd000) !important;
     color: #000000 !important;
@@ -9462,15 +9462,15 @@ html.gallery-paper .project-split-dark a.story-nav-card:hover {
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1) !important;
 }
 
-html.gallery-paper .story-nav-eyebrow {
+html:is(.gallery-paper, .gallery-white) .story-nav-eyebrow {
     color: #7a6000 !important;
 }
 
-html.gallery-paper .story-nav-title {
+html:is(.gallery-paper, .gallery-white) .story-nav-title {
     color: #141413 !important;
 }
 
-html.gallery-paper .story-nav-meta {
+html:is(.gallery-paper, .gallery-white) .story-nav-meta {
     color: #5c5952 !important;
 }
 
@@ -12956,3 +12956,79 @@ figure a,
 @media (min-width: 769px) {
     .mono-inner-wrapper.inner-stream-essay_rhythm .project-gallery-content figure.photo-figure.is-essay-wide img { display: block; width: auto !important; max-width: 100% !important; max-height: 85vh !important; margin: 0 auto !important; }
 }
+
+/* Accent as text on light surfaces: the fill yellow (#fdd000) is too pale to read there */
+html.gallery-white:not(.hp-page) .mono-chapter-location,
+html.gallery-white:not(.hp-page) .story-nav-eyebrow,
+html.gallery-white:not(.hp-page) .story-nav-arrow {
+    color: #dcb500 !important;
+}
+
+/* Phones: opening photo sits right under the title, before the intro text */
+@media (max-width: 768px) {
+    .mono-inner-wrapper:is(.inner-opening-spread_right, .inner-opening-spread_left):not(.is-contact-sheet) .mono-exhibition-spread:not(.is-compact-header) .mono-spread-editorial {
+        display: contents !important;
+    }
+    .mono-inner-wrapper:is(.inner-opening-spread_right, .inner-opening-spread_left):not(.is-contact-sheet) .mono-exhibition-spread:not(.is-compact-header) .mono-spread-head-block { order: 1; }
+    .mono-inner-wrapper:is(.inner-opening-spread_right, .inner-opening-spread_left):not(.is-contact-sheet) .mono-exhibition-spread:not(.is-compact-header) .mono-spread-visual { order: 2 !important; margin: 0 !important; }
+    .mono-inner-wrapper:is(.inner-opening-spread_right, .inner-opening-spread_left):not(.is-contact-sheet) .mono-exhibition-spread:not(.is-compact-header) .mono-view-bar { order: 3; }
+    .mono-inner-wrapper:is(.inner-opening-spread_right, .inner-opening-spread_left):not(.is-contact-sheet) .mono-exhibition-spread:not(.is-compact-header) .project-lead-narrative { order: 4; }
+}
+
+/* Slideshow pause/play button, sits inside the frame counter pill */
+.hp-autoplay-toggle {
+    pointer-events: auto;
+    appearance: none;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    padding: 7px;
+    margin: -7px 3px -7px -9px;
+    vertical-align: middle;
+    line-height: 0;
+}
+.hp-autoplay-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; border-radius: 50%; }
+.hp-autoplay-toggle .hp-ic-play,
+.hp-autoplay-toggle[aria-pressed="true"] .hp-ic-pause { display: none; }
+.hp-autoplay-toggle[aria-pressed="true"] .hp-ic-play { display: inline; }
+
+/* Heading present for screen readers and search engines, not drawn */
+.er-sr-only {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Full-bleed photo pages: a soft dark band behind the light menu so it reads on bright photos */
+html.hp-page:has(#hp-container.hp-fit-cover .mono-chapter) #om-site-header.om-bg-transparent:not(.is-on-light-bg)::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 -48px 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Keyboard focus stays visible on gallery photos, share buttons and lightbox controls */
+html.mono-inner-page .project-gallery-content .photo-grid figure.photo-figure a:focus-visible,
+html.mono-inner-page .project-gallery-content figure.photo-figure a:focus-visible,
+html.mono-inner-page .mono-spread-visual figure.photo-figure a:focus-visible,
+html .project-share-wrap .share-btn:focus-visible {
+    outline: 2px solid var(--er-accent, #fdd000) !important;
+    outline-offset: 3px;
+}
+.glightbox-container .gbtn:focus-visible,
+.glightbox-container .gcustom-btn:focus-visible {
+    outline: 2px solid #ffffff !important;
+    outline-offset: 2px;
+}
+
+/* Contact form: 16px keeps iOS from zooming on focus; button uses the site font */
+.contact-input, .contact-textarea { font-size: 16px; }
+.contact-submit-btn { font-family: inherit; }
+.contact-form-legal { margin: 0.9rem 0 0; font-size: 0.8rem; opacity: 0.75; }
+.contact-form-legal a { text-decoration: underline; }

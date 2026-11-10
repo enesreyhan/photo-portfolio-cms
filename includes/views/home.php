@@ -73,13 +73,25 @@ $html_class = implode(' ', $html_classes);
 
 $GLOBALS['is_homepage'] = true;
 require __DIR__ . '/layout_header.php';
+?>
+<h1 class="er-sr-only"><?= e(get_setting('site_title_' . $lang, 'Portfolio')) ?></h1>
+<?php
 
 // Her slayt için duyarlı görsel verilerini hazırla
 $prepared_slides = [];
+// Slides store one untranslated location; a linked project knows it per language
+$slide_items = [];
+$slide_item_ids = array_values(array_unique(array_filter(array_map(fn($s) => (int)($s['item_id'] ?? 0), $slides))));
+if ($slide_item_ids && isset($pdo)) {
+    $stmt_si = $pdo->query('SELECT * FROM `items` WHERE `id` IN (' . implode(',', $slide_item_ids) . ')');
+    foreach ($stmt_si->fetchAll(PDO::FETCH_ASSOC) as $si) $slide_items[(int)$si['id']] = $si;
+}
 foreach ($slides as $idx => $s) {
     $title = item_field($s, 'title', $lang);
     $desc  = item_field($s, 'description', $lang);
     $loc   = !empty($s['location_' . $lang]) ? $s['location_' . $lang] : ($s['location'] ?? '');
+    $linked_item = $slide_items[(int)($s['item_id'] ?? 0)] ?? null;
+    if ($linked_item && item_field($linked_item, 'location', $lang) !== '') $loc = item_field($linked_item, 'location', $lang);
     $year  = $s['year'] ?? '';
 
     $raw_link = trim($s['link_url'] ?? '');
@@ -207,7 +219,7 @@ $container_style = sprintf(
 <!-- ŞABLON 7: KÜRATÖRYEL PORTFOLYO IZGARASI (curatorial_grid) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php if ($hp_template === 'curatorial_grid'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-curatorial-grid-wrap">
         <?php foreach ($prepared_slides as $idx => $s): ?>
             <article class="hp-grid-card">
@@ -264,7 +276,7 @@ $container_style = sprintf(
 <!-- ŞABLON 8: MİNİMALİST TİPOGRAFİK İNDEKS (minimal_index) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($hp_template === 'minimal_index'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-minimal-index-layout">
         <div class="hp-minimal-index-list" role="tablist">
             <div class="hp-minimal-index-kicker">
@@ -336,7 +348,7 @@ $container_style = sprintf(
 <!-- ŞABLON 9: YATAY PANORAMA & SONSUZ AKIŞ (horizontal_panorama) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($hp_template === 'horizontal_panorama'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-horizontal-panorama-stage" id="hpPanoramaStage" tabindex="0" role="region" aria-label="<?= site_t('Yatay Fotoğraf Panoraması', 'Horizontal Photography Panorama') ?>">
         <div class="hp-horizontal-panorama-track" id="hpPanoramaTrack">
             <?php foreach ($prepared_slides as $idx => $s): ?>
@@ -422,7 +434,7 @@ $container_style = sprintf(
 <!-- ŞABLON 10: ÇERÇEVELİ KUTU DUVARI (framed_masonry) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($hp_template === 'framed_masonry'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-framed-box-wrapper">
         <div class="hp-framed-box-header">
             <div class="hp-framed-box-kicker">
@@ -489,7 +501,7 @@ $container_style = sprintf(
 <!-- ŞABLON 12: EDİTORYAL HİKAYE AKIŞI (story_stream) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php elseif ($hp_template === 'story_stream'): ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <div class="hp-story-stream-wrap">
         <?php foreach ($prepared_slides as $idx => $s): ?>
             <article class="hp-story-stream-item">
@@ -580,7 +592,7 @@ $container_style = sprintf(
 <!-- ŞABLON 1, 2, 3, 4, 5, 6, 11: SLAYT & SAHNE ŞABLONLARI (white_cube_gallery dahil) -->
 <!-- ══════════════════════════════════════════════════════════════ -->
 <?php else: ?>
-<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" style="<?= e($container_style) ?>">
+<div class="<?= e(implode(' ', $container_classes)) ?>" id="hp-container" role="main" style="<?= e($container_style) ?>">
     <?php foreach ($prepared_slides as $idx => $s):
         $is_initial = ($idx === $initial_active_idx);
         $next_slide_idx = ($total_slides_count > 0) ? (($idx + 1) % $total_slides_count) : 0;
@@ -682,8 +694,18 @@ $container_style = sprintf(
     <?php endforeach; ?>
 
     <!-- ── KADRAJ SAYACI (01 / 12) ── -->
-    <?php if ($hp_show_counter && $hp_template !== 'filmstrip_stage' && $total_slides_count > 0): ?>
+    <?php $hp_can_pause = ($hp_autoplay && $hp_template !== 'vertical_chapters' && $total_slides_count > 1); ?>
+    <?php if (($hp_show_counter || $hp_can_pause) && $hp_template !== 'filmstrip_stage' && $total_slides_count > 0): ?>
     <div class="hp-frame-counter" id="hpFrameCounter" aria-live="polite">
+        <?php if ($hp_can_pause): ?>
+        <button type="button" class="hp-autoplay-toggle" id="hpAutoplayToggle" aria-pressed="false"
+                data-label-pause="<?= site_t('Slayt gösterisini duraklat', 'Pause slideshow') ?>"
+                data-label-play="<?= site_t('Slayt gösterisini oynat', 'Play slideshow') ?>"
+                aria-label="<?= site_t('Slayt gösterisini duraklat', 'Pause slideshow') ?>">
+            <svg class="hp-ic-pause" width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><rect x="1" width="3" height="10"/><rect x="6" width="3" height="10"/></svg>
+            <svg class="hp-ic-play" width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M1 0l9 5-9 5z"/></svg>
+        </button>
+        <?php endif; ?>
         <span id="hpCurrentFrameNum"><?= sprintf('%02d', $initial_active_idx + 1) ?></span>
         <span class="hp-counter-sep">/</span>
         <span><?= sprintf('%02d', $total_slides_count) ?></span>
@@ -871,6 +893,8 @@ $container_style = sprintf(
     var PAUSE_ON_HOVER = <?= json_encode($hp_pause_on_hover) ?>;
     var autoTimer = null;
     var isHoveredPaused = false;
+    // Paused by the visitor; starts paused when the OS asks for reduced motion
+    var userPaused = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
     var foundActive = slides.findIndex(function(s) { return s.classList.contains('active'); });
     if (foundActive !== -1) {
@@ -906,7 +930,7 @@ $container_style = sprintf(
             pBar.style.transition = 'none';
             pBar.style.width = '0%';
             void pBar.offsetWidth;
-            if (AUTOPLAY_ENABLED && !isHoveredPaused) {
+            if (AUTOPLAY_ENABLED && !isHoveredPaused && !userPaused) {
                 pBar.style.transition = 'width ' + SLIDE_INTERVAL_MS + 'ms linear';
                 pBar.style.width = '100%';
             }
@@ -959,7 +983,7 @@ $container_style = sprintf(
 
     function startAutoPlay() {
         stopAutoPlay();
-        if (AUTOPLAY_ENABLED && total > 1 && !document.hidden && !isHoveredPaused) {
+        if (AUTOPLAY_ENABLED && total > 1 && !document.hidden && !isHoveredPaused && !userPaused) {
             syncIndicators(currentIdx);
             autoTimer = setInterval(function() {
                 advanceSlide(1);
@@ -986,6 +1010,22 @@ $container_style = sprintf(
     window.hpUserStep = function(step) {
         userInteract(step);
     };
+
+    var pauseBtn = document.getElementById('hpAutoplayToggle');
+    function syncPauseBtn() {
+        if (!pauseBtn) return;
+        pauseBtn.setAttribute('aria-pressed', userPaused ? 'true' : 'false');
+        pauseBtn.setAttribute('aria-label', pauseBtn.getAttribute(userPaused ? 'data-label-play' : 'data-label-pause'));
+    }
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userPaused = !userPaused;
+            syncPauseBtn();
+            startAutoPlay();
+        });
+    }
+    syncPauseBtn();
 
     startAutoPlay();
 

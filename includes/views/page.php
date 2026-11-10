@@ -195,7 +195,7 @@ $wrapper_style_vars = sprintf(
 </aside>
 <?php endif; ?>
 
-<div class="<?= e(implode(' ', $wrapper_classes)) ?>" id="mono-inner-wrapper" style="<?= e($wrapper_style_vars) ?>">
+<div class="<?= e(implode(' ', $wrapper_classes)) ?>" id="mono-inner-wrapper" role="main" style="<?= e($wrapper_style_vars) ?>">
     <section class="project-split-dark" id="story-start">
         <div class="project-dark-inner">
 

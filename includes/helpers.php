@@ -1711,6 +1711,8 @@ function get_photo_exif_summary(?string $full_path): string {
 function get_responsive_image_html(string $img_path, string $alt = '', string $caption = '', bool $link = true, string $focal_point = ''): string {
     $full_path = resolve_image_file_path($img_path);
     $filename = pathinfo($img_path, PATHINFO_FILENAME);
+    // A bare file name is not a description; better no alt than "IMG_0123.jpg"
+    if (preg_match('/\.(jpe?g|png|webp|avif|gif|tiff?)$/i', trim($alt))) $alt = $caption;
 
     $orig_w = 1600;
     $orig_h = 1067;
@@ -1807,13 +1809,13 @@ function get_responsive_image_html(string $img_path, string $alt = '', string $c
 
     $html .= "<picture style=\"display:contents;\">";
     if (!empty($avif_srcset)) {
-        $html .= "<source type=\"image/avif\" srcset=\"" . e(implode(', ', $avif_srcset)) . "\" sizes=\"(max-width: 600px) 100vw, 100%\">";
+        $html .= "<source type=\"image/avif\" srcset=\"" . e(implode(', ', $avif_srcset)) . "\" sizes=\"100vw\">";
     }
     if (!empty($webp_srcset)) {
-        $html .= "<source type=\"image/webp\" srcset=\"" . e(implode(', ', $webp_srcset)) . "\" sizes=\"(max-width: 600px) 100vw, 100%\">";
+        $html .= "<source type=\"image/webp\" srcset=\"" . e(implode(', ', $webp_srcset)) . "\" sizes=\"100vw\">";
     }
     $img_focal_style = ($focal_clean !== '50% 50%') ? "object-position:{$focal_clean};" : "";
-    $html .= "<img src=\"" . e($medium_url) . "\" alt=\"" . e($alt) . "\" style=\"width:100%;height:auto;display:block;{$img_focal_style}\" loading=\"lazy\" decoding=\"async\" class=\"photo-figure-img\" />";
+    $html .= "<img src=\"" . e($medium_url) . "\" alt=\"" . e($alt) . "\" width=\"{$orig_w}\" height=\"{$orig_h}\" style=\"width:100%;height:auto;display:block;{$img_focal_style}\" loading=\"lazy\" decoding=\"async\" class=\"photo-figure-img\" />";
     $html .= "</picture>";
 
     if ($link) {
@@ -2032,8 +2034,8 @@ function sanitize_html(string $html): string {
                 if ($ok && $an === 'style') $ok = !preg_match('/expression\s*\(|javascript\s*:|@import|behavior\s*:|-moz-binding/i', $attr->value);
                 if (!$ok) $child->removeAttribute($attr->name);
             }
-            if ($name === 'a' && strtolower($child->getAttribute('target')) === '_blank' && !preg_match('/\bnoopener\b/i', $child->getAttribute('rel'))) {
-                $child->setAttribute('rel', trim($child->getAttribute('rel') . ' noopener noreferrer'));
+            if ($name === 'a' && strtolower((string)$child->getAttribute('target')) === '_blank' && !preg_match('/\bnoopener\b/i', (string)$child->getAttribute('rel'))) {
+                $child->setAttribute('rel', trim((string)$child->getAttribute('rel') . ' noopener noreferrer'));
             }
             $walk($child);
         }

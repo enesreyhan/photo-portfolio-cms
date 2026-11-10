@@ -223,14 +223,14 @@ require __DIR__ . '/layout_header.php';
                                 <label class="form-field-label" for="contact_name">
                                     <?= site_t('Adınız Soyadınız', 'Your Name') ?> <span class="required-star">*</span>
                                 </label>
-                                <input type="text" id="contact_name" name="name" class="contact-input" required placeholder="<?= site_t('Adınız ve soyadınız', 'Your full name') ?>">
+                                <input type="text" id="contact_name" name="name" class="contact-input" autocomplete="name" required placeholder="<?= site_t('Adınız ve soyadınız', 'Your full name') ?>">
                             </div>
 
                             <div class="form-col">
                                 <label class="form-field-label" for="contact_email">
                                     <?= site_t('E-posta Adresiniz', 'Your Email') ?> <span class="required-star">*</span>
                                 </label>
-                                <input type="email" id="contact_email" name="email" class="contact-input" required placeholder="<?= site_t('ornek@alanadi.com', 'you@example.com') ?>">
+                                <input type="email" id="contact_email" name="email" class="contact-input" autocomplete="email" required placeholder="<?= site_t('ornek@alanadi.com', 'you@example.com') ?>">
                             </div>
                         </div>
 
