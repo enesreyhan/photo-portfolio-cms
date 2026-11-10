@@ -17,10 +17,14 @@ $content_dir = $base_dir . '/content';
 $proc_dir = $base_dir . '/processed_images';
 
 // AJAX batch işleme isteği
-if (isset($_GET['action']) && $_GET['action'] === 'batch_convert') {
+if (($_POST['action'] ?? '') === 'batch_convert') {
     header('Content-Type: application/json; charset=utf-8');
-    
-    $offset = (int)($_GET['offset'] ?? 0);
+    if (!verify_csrf($_POST['csrf_token'] ?? '')) {
+        echo json_encode(['success' => false, 'error' => 'CSRF güvenlik hatası.']);
+        exit;
+    }
+
+    $offset = (int)($_POST['offset'] ?? 0);
     $limit = 10;
 
     $iterator = is_dir($content_dir) ? new RecursiveIteratorIterator(new RecursiveDirectoryIterator($content_dir)) : [];
@@ -154,7 +158,10 @@ function startBatchConversion() {
 }
 
 function processBatch(offset) {
-    fetch('convert-images.php?action=batch_convert&offset=' + offset)
+    fetch('convert-images.php', {
+        method: 'POST',
+        body: new URLSearchParams({ action: 'batch_convert', offset: offset, csrf_token: <?= json_encode(csrf_token()) ?> })
+    })
         .then(function(res) { return res.json(); })
         .then(function(data) {
             if (data.success) {

@@ -15,6 +15,8 @@ DirectoryIndex index.php index.html
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
     # HSTS yalnızca HTTPS yanıtlarında (lokal HTTP geliştirmeyi etkilemez)
     Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+    # Temel CSP: eklenti, <base> ve site dışına form gönderimi kapalı (satır içi script kullanıldığı için script-src kısıtlanmıyor)
+    Header always set Content-Security-Policy "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
     # Yüklenen SVG'ler doğrudan açılırsa içlerindeki script çalışmasın
     <FilesMatch "\.svg$">
         Header set Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; sandbox"
@@ -32,7 +34,8 @@ DirectoryIndex index.php index.html
     </IfModule>
 </FilesMatch>
 
-<FilesMatch "^(config\.php|deploy\.sh|start\.sh)$">
+# router.php yalnızca yerel "php -S" içindir
+<FilesMatch "^(config\.php|router\.php|deploy\.sh|start\.sh)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>

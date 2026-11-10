@@ -351,7 +351,8 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
                         <?php elseif (!empty($_GET['msg_error'])): ?>
                             <div class="alert-box alert-error">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                <span><?= e($_GET['msg_error']) ?></span>
+                                <?php /* Adresteki metin basılmaz: bağlantıyla siteye keyfi yazı koydurulamasın */ ?>
+                                <span><?= site_t('Mesajınız gönderilemedi. Lütfen alanları kontrol edip tekrar deneyin.', 'Your message could not be sent. Please check the fields and try again.') ?></span>
                             </div>
                         <?php endif; ?>
                     </div>

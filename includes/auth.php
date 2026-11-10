@@ -30,15 +30,23 @@ function is_logged_in(): bool {
     static $verified = null;
     if ($verified === null) {
         try {
-            $st = DB::getConnection()->prepare("SELECT 1 FROM `users` WHERE `id` = ? LIMIT 1");
+            $st = DB::getConnection()->prepare("SELECT `password_hash` FROM `users` WHERE `id` = ? LIMIT 1");
             $st->execute([(int)$_SESSION['admin_user_id']]);
-            $verified = (bool)$st->fetchColumn();
+            $hash = $st->fetchColumn();
+            // Parola değiştiyse eski parolayla açılmış oturumlar düşer; imzasız eski oturumlar ilk istekte imzalanır
+            $_SESSION['admin_pw_sig'] ??= $hash ? admin_pw_sig($hash) : '';
+            $verified = $hash && hash_equals(admin_pw_sig($hash), $_SESSION['admin_pw_sig']);
         } catch (\Throwable $e) {
             $verified = false;
         }
-        if (!$verified) unset($_SESSION['admin_user_id'], $_SESSION['admin_username'], $_SESSION['admin_email']);
+        if (!$verified) unset($_SESSION['admin_user_id'], $_SESSION['admin_username'], $_SESSION['admin_email'], $_SESSION['admin_pw_sig']);
     }
     return $verified;
+}
+
+/** Oturumu o anki parolaya bağlayan imza (hash'in kendisi oturumda tutulmaz). */
+function admin_pw_sig(string $password_hash): string {
+    return hash('sha256', $password_hash);
 }
 
 function require_login(): void {
@@ -71,6 +79,7 @@ function attempt_login(string $username, string $password): bool {
         $_SESSION['admin_user_id'] = $user['id'];
         $_SESSION['admin_username'] = $user['username'];
         $_SESSION['admin_email'] = $user['email'] ?? '';
+        $_SESSION['admin_pw_sig'] = admin_pw_sig($user['password_hash']);
         return true;
     }
     return false;

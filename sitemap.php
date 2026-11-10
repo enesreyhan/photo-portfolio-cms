@@ -13,8 +13,8 @@ require_once __DIR__ . '/includes/helpers.php';
 $pdo = DB::getConnection();
 $active_langs = get_supported_languages();
 
-// Yalnızca yayındaki ve gizli olmayan öğeler (unlisted hariç)
-$stmt = $pdo->query("SELECT * FROM `items` WHERE `status` = 'published' AND NOT (`type` = 'page' AND `slug` IN ('aboutme', '404')) ORDER BY `weight` ASC, `date` DESC");
+// Yalnızca yayındaki ve gizli olmayan öğeler (unlisted ve parola korumalılar hariç)
+$stmt = $pdo->query("SELECT * FROM `items` WHERE `status` = 'published' AND COALESCE(`access_password`, '') = '' AND NOT (`type` = 'page' AND `slug` IN ('aboutme', '404')) ORDER BY `weight` ASC, `date` DESC");
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";

@@ -31,36 +31,14 @@ function handle_settings_brand_upload(string $fileInput, string $prefix): ?strin
     if (empty($_FILES[$fileInput]) || ($_FILES[$fileInput]['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
         return null;
     }
-    $tmp = $_FILES[$fileInput]['tmp_name'];
-    $origName = $_FILES[$fileInput]['name'] ?? '';
-    $size = (int)($_FILES[$fileInput]['size'] ?? 0);
-    if ($size <= 0 || $size > 5 * 1024 * 1024) {
-        set_flash('error', __a('Yüklenen marka dosyası en fazla 5 MB olabilir.', 'Uploaded brand file can be at most 5 MB.'));
+    // Tek doğrulama yolu: tasarım düzenleyicisinin sıkı SVG / görsel denetimi
+    require_once __DIR__ . '/../includes/design_editor.php';
+    $res = design_upload_brand_file($_FILES[$fileInput], $prefix);
+    if (is_array($res)) {
+        set_flash('error', $res['error']);
         return null;
     }
-    $ext = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
-    $allowed = ['svg', 'png', 'webp', 'jpg', 'jpeg', 'ico', 'gif'];
-    if (!in_array($ext, $allowed, true)) {
-        set_flash('error', __a('Desteklenmeyen dosya formatı. Lütfen SVG, PNG, WEBP, ICO veya JPG yükleyin.', 'Unsupported file format. Please upload SVG, PNG, WEBP, ICO, or JPG.'));
-        return null;
-    }
-    if ($ext === 'svg') {
-        $svgContent = @file_get_contents($tmp);
-        if ($svgContent === false || stripos($svgContent, '<script') !== false || stripos($svgContent, 'onload=') !== false) {
-            set_flash('error', __a('Güvenlik nedeniyle geçersiz SVG dosyası reddedildi.', 'Invalid SVG file rejected for security reasons.'));
-            return null;
-        }
-    }
-    $targetDir = __DIR__ . '/../uploads/branding';
-    if (!is_dir($targetDir)) {
-        @mkdir($targetDir, 0755, true);
-    }
-    $filename = $prefix . '-' . date('Ymd-His') . '-' . substr(bin2hex(random_bytes(3)), 0, 6) . '.' . $ext;
-    $destPath = $targetDir . '/' . $filename;
-    if (@move_uploaded_file($tmp, $destPath)) {
-        return 'uploads/branding/' . $filename;
-    }
-    return null;
+    return $res;
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
@@ -381,14 +359,17 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
         if (!$u || !password_verify($current_pass, $u['password_hash'])) {
             set_flash('error', 'Mevcut parolanız hatalı.');
-        } elseif (strlen($new_pass) < 6) {
-            set_flash('error', 'Yeni parola en az 6 karakter olmalıdır.');
+        } elseif (mb_strlen($new_pass) < 10) {
+            set_flash('error', 'Yeni parola en az 10 karakter olmalıdır.');
         } elseif ($new_pass !== $confirm_pass) {
             set_flash('error', 'Yeni parolalar birbiriyle eşleşmiyor.');
         } else {
             $new_hash = password_hash($new_pass, PASSWORD_DEFAULT);
             $up = $pdo->prepare("UPDATE `users` SET `password_hash` = ? WHERE `id` = ?");
             $up->execute([$new_hash, $user_id]);
+            // Bu oturum yeni parolaya bağlanır; eski parolayla açılmış diğer oturumlar is_logged_in() içinde düşer
+            session_regenerate_id(true);
+            $_SESSION['admin_pw_sig'] = admin_pw_sig($new_hash);
             set_flash('success', 'Parolanız başarıyla güncellendi.');
         }
     }
@@ -1331,11 +1312,11 @@ $cc_labels   = [
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
                         <div class="form-group">
                             <label class="form-label"><?= e(__a('settings_new_pass', 'Yeni Parola')) ?></label>
-                            <input type="password" name="new_password" class="form-control" required minlength="6">
+                            <input type="password" name="new_password" class="form-control" required minlength="10">
                         </div>
                         <div class="form-group">
                             <label class="form-label"><?= e(__a('settings_new_pass_confirm', 'Yeni Parola (Tekrar)')) ?></label>
-                            <input type="password" name="confirm_password" class="form-control" required minlength="6">
+                            <input type="password" name="confirm_password" class="form-control" required minlength="10">
                         </div>
                     </div>
 

@@ -80,8 +80,8 @@ if (!empty($_POST['contact_company_hp']) || !empty($_POST['website_hp']) || !emp
 // ────────────────────────────────────────────────────────
 $load_time = isset($_POST['_ft']) ? (int)$_POST['_ft'] : 0;
 $time_diff = time() - $load_time;
-if ($load_time > 0 && ($time_diff < 2 || $time_diff > 86400)) {
-    // 2 saniyeden hızlı veya 24 saatten eski form gönderimleri bot kabul edilir
+if ($load_time <= 0 || $time_diff < 2 || $time_diff > 86400) {
+    // Zaman damgası olmayan, 2 saniyeden hızlı veya 24 saatten eski form gönderimleri bot kabul edilir
     respond(true, $fake_success_msg);
 }
 

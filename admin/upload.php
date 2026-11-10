@@ -69,7 +69,8 @@ if ($target_folder === '') {
 }
 
 // Güvenlik: dizin aşma temizliği (directory traversal prevention)
-$target_folder = str_replace(['..', "\0"], '', $target_folder);
+// Önce NUL silinir: tersi sırada ".\0." girdisi ".." olarak geri oluşuyordu
+$target_folder = str_replace(["\0", '..'], '', $target_folder);
 $target_folder = trim($target_folder, '/\\');
 if ($target_folder === '') {
     $target_folder = 'uploads';

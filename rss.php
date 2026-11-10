@@ -11,7 +11,7 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/helpers.php';
 
 $pdo = DB::getConnection();
-$stmt = $pdo->query("SELECT * FROM `items` WHERE `status` = 'published' AND `type` != 'page' ORDER BY `date` DESC LIMIT 25");
+$stmt = $pdo->query("SELECT * FROM `items` WHERE `status` = 'published' AND `type` != 'page' AND COALESCE(`access_password`, '') = '' ORDER BY `date` DESC LIMIT 25");
 $items = $stmt->fetchAll();
 
 $site_title = get_setting('site_title_en', site_owner_name());
