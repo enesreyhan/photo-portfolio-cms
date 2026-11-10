@@ -414,7 +414,7 @@ return [
     'ui_trans_opt' => '관리자 패널 및 인터페이스 사용자 정의 번역 (선택 사항)',
     'default_trans_hint' => '기본 번역이 사용됩니다',
     'lang_can_be_admin' => '이 언어를 관리자 패널 인터페이스 언어로 사용할 수 있습니다',
-    'selected' => '큐레이션 선별',
+    'selected' => '선별',
     'blog_post' => '블로그 글',
     'templates_hub_title' => '템플릿 및 디자인 허브',
     'contact_email' => '기본 연락처 이메일',
@@ -445,4 +445,8 @@ return [
     'btn_view_live' => '사이트에서 보기',
     'header_subtext_tr_label' => '서브 직함 / 슬로건 (튀르키예어)',
     'header_subtext_en_label' => '서브 직함 / 슬로건 (영어)',
+    'inner_pages' => '내부 페이지',
+    'other' => '기타',
+    'image_path' => '이미지 경로',
+    'select' => '선택',
 ];

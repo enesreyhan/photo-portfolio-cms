@@ -499,4 +499,5 @@ $admin_ui_dictionary_tr_to_en = [
     'KVKK Aydınlatma Metni' => 'Privacy Notice (KVKK)',
     'Saha Rotaları (Harita)' => 'Field Routes (Map)',
     'Mülk Erişimi Yönetimi' => 'Property Access Management',
+    'Henüz kayıtlı kategori bulunmuyor.' => 'No categories yet.',
 ];

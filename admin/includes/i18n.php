@@ -459,6 +459,11 @@ $admin_translations = [
         'stats_kpi_active_users'    => 'Aktif Kullanıcı',
         'stats_new_visitors'        => 'yeni ziyaretçi',
         'stats_kpi_avg_duration'    => 'Ort. Etkileşim Süresi',
+        'inner_pages'               => 'İç Sayfalar',
+        'other'                     => 'Diğer',
+        'blog_post'                 => 'Blog Yazısı',
+        'image_path'                => 'Görsel Yolu',
+        'select'                    => 'Seç',
     ],
 
     'en' => [
@@ -898,6 +903,19 @@ $admin_translations = [
         'stats_kpi_active_users'    => 'Active Users',
         'stats_new_visitors'        => 'new visitors',
         'stats_kpi_avg_duration'    => 'Avg. Engagement Time',
+        'edit_lang_modal_title'     => 'Edit Language Settings & URL Structure',
+        'lang_name_native_label'    => 'Native Name',
+        'lang_name_display_label'   => 'Language Name in the Interface',
+        'flag_icon_label'           => 'Flag / Icon',
+        'static_page_slugs'         => 'Static Page URL Slugs',
+        'ui_trans_opt'              => 'Admin Panel & Site Interface Translation Overrides (Optional)',
+        'default_trans_hint'        => 'Default translation is used',
+        'lang_can_be_admin'         => 'This language can be used as the admin panel interface language',
+        'inner_pages'               => 'Inner Pages',
+        'other'                     => 'Other',
+        'blog_post'                 => 'Blog Post',
+        'image_path'                => 'Image Path',
+        'select'                    => 'Select',
     ],
 
 ];
@@ -1469,7 +1487,17 @@ function admin_translate_ui_buffer(string $buffer): string {
             }
             if (function_exists('ui_catalog')) {
                 $cat = ui_catalog($curr);
+                $cat_en = ui_catalog('en');
+                $tr_values = array_flip(array_filter($admin_translations['tr'] ?? [], 'is_string'));
                 foreach ($cat as $en_key => $tgt_val) {
+                    $en_key = (string)$en_key;
+                    $ek = trim($en_key);
+                    // Tek kelimelik anahtar yalnızca Türkçe kaynak metinse eklenir: İngilizce tek kelimeler
+                    // __a() ile zaten çevrilir; burada kalırlarsa içerik başlıklarındaki aynı kelimeyi de değiştirirler.
+                    if ($ek !== '' && !preg_match('/\s/u', $ek) && !preg_match('/^[\p{P}\+—]/u', $ek)
+                        && !isset($cat_en[$en_key]) && !isset($tr_values[$ek]) && !preg_match('/[çğıöşüÇĞİÖŞÜ]/u', $ek)) {
+                        continue;
+                    }
                     if ($en_key !== '' && $tgt_val !== '' && !isset($raw[$en_key])) {
                         $raw[$en_key] = $tgt_val;
                     }
