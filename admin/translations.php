@@ -600,11 +600,11 @@ require_once __DIR__ . '/includes/header.php';
                         <td data-label="<?= e($label_str) ?>" data-lang="<?= e($lc) ?>">
                             <div class="matrix-field-group">
                                 <div>
-                                    <span class="matrix-field-label">Slayt Başlığı</span>
+                                    <span class="matrix-field-label"><?= e(__a('Slayt Başlığı', 'Slide Title')) ?></span>
                                     <input type="text" class="matrix-input" data-field="title" data-lang="<?= e($lc) ?>" name="rows[<?= $rid ?>][title_<?= e($lc) ?>]" value="<?= e($row['title_' . $lc] ?? '') ?>">
                                 </div>
                                 <div>
-                                    <span class="matrix-field-label">Slayt Açıklaması</span>
+                                    <span class="matrix-field-label"><?= e(__a('Slayt Açıklaması', 'Slide Description')) ?></span>
                                     <textarea class="matrix-input" rows="2" data-field="description" data-lang="<?= e($lc) ?>" name="rows[<?= $rid ?>][description_<?= e($lc) ?>]"><?= e($row['description_' . $lc] ?? '') ?></textarea>
                                 </div>
                             </div>
@@ -772,7 +772,7 @@ function translateColumnEmpty(targetLang, btnEl) {
     });
 
     if (!tasks.length) {
-        alert(targetLang.toUpperCase() + ' sütununda çevrilecek boş alan bulunamadı.');
+        alert(targetLang.toUpperCase() + ' ' + <?= json_encode(__a('sütununda çevrilecek boş alan bulunamadı.', 'column has no empty fields to translate.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '');
         return;
     }
 
@@ -810,7 +810,7 @@ function translateColumnEmpty(targetLang, btnEl) {
             saveMatrixAjax().then(function(saved) {
                 if (btnEl) {
                     btnEl.disabled = false;
-                    btnEl.innerHTML = saved ? '✓ Çevrildi & Kaydedildi' : origText;
+                    btnEl.innerHTML = saved ? <?= json_encode(__a('✓ Çevrildi & Kaydedildi', '✓ Translated & Saved'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> : origText;
                     setTimeout(function() { btnEl.innerHTML = origText; }, 2500);
                 }
             });

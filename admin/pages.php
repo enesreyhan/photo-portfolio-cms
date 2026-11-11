@@ -983,7 +983,7 @@ textarea.pg-in { min-height:74px; resize:vertical; }
     }
     function closeSettings(force) {
         if (!force && state.dirty) {
-            adminConfirm(T.unsaved, { ok: LANG === 'en' ? 'Discard changes' : 'Değişiklikleri at' }).then(function (ok) { if (ok) closeSettings(true); });
+            adminConfirm(T.unsaved, { ok: LANG === 'en' ? 'Discard changes' : <?= json_encode(__a('Değişiklikleri at', 'Discard changes'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> }).then(function (ok) { if (ok) closeSettings(true); });
             return;
         }
         settings.hidden = true;

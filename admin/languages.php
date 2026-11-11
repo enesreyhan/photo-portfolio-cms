@@ -584,7 +584,7 @@ dialog.lang-edit-dialog::backdrop {
                     $comp = $lang_completeness[$lcode] ?? ['translated' => 0, 'total' => $total_items, 'percent' => 0];
                 ?>
                 <tr data-id="<?= $lid ?>">
-                    <td class="drag-handle-cell" title="Sıralamak için sürükleyin">
+                    <td class="drag-handle-cell" title="<?= e(__a('Sıralamak için sürükleyin', 'Drag to reorder')) ?>">
                         <svg class="drag-grip-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
                     </td>
                     <td>
@@ -834,7 +834,7 @@ dialog.lang-edit-dialog::backdrop {
 <!-- ══════════════════════════════════════════════════════════════ -->
 <dialog id="editLangDialog" class="lang-edit-dialog" closedby="any" aria-labelledby="editLangDialogTitle">
     <div class="card-header" style="border-bottom:1px solid var(--border-subtle);">
-        <h3 class="card-title" id="editLangDialogTitle">Dil Ayarlarını & URL Yapısını Düzenle</h3>
+        <h3 class="card-title" id="editLangDialogTitle"><?= e(__a('Dil Ayarlarını & URL Yapısını Düzenle', 'Edit Language Settings & URL Structure')) ?></h3>
         <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('editLangDialog').close()">✕ Kapat</button>
     </div>
     <form method="POST">
@@ -959,18 +959,18 @@ function toggleSiteLanguage(id, checkboxEl) {
     .then(function(r) { return r.json(); })
     .then(function(data) {
         if (!data || !data.success) {
-            alert((data && data.message) ? data.message : 'İşlem başarısız oldu.');
+            alert((data && data.message) ? data.message : <?= json_encode(__a('İşlem başarısız oldu.', 'The operation failed.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
             checkboxEl.checked = !isChecked;
             return;
         }
         if (badge) {
             badge.className = 'badge ' + (isChecked ? 'badge-success' : 'badge-neutral');
-            badge.textContent = isChecked ? 'Yayında (Aktif)' : 'Sitede Gizli';
+            badge.textContent = isChecked ? <?= json_encode(__a('Yayında (Aktif)', 'Live (Active)'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> : 'Sitede Gizli';
         }
         if (window.adminToast) window.adminToast();
     })
     .catch(function() {
-        alert('Bağlantı hatası oluştu.');
+        alert(<?= json_encode(__a('Bağlantı hatası oluştu.', 'A connection error occurred.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
         checkboxEl.checked = !isChecked;
     });
 }
@@ -978,7 +978,7 @@ function toggleSiteLanguage(id, checkboxEl) {
 // 2. Düzenleme Modalını Aç
 function openEditLangDialog(lang) {
     document.getElementById('edit_lang_id').value = lang.id;
-    document.getElementById('editLangDialogTitle').textContent = (lang.flag || '🌐') + ' ' + lang.name_native + ' (' + lang.code.toUpperCase() + ') Dilini Düzenle';
+    document.getElementById('editLangDialogTitle').textContent = (lang.flag || '🌐') + ' ' + lang.name_native + ' (' + lang.code.toUpperCase() + <?= json_encode(__a(') Dilini Düzenle', ') Edit Language'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     document.getElementById('edit_name_native').value = lang.name_native || '';
 
     // Çeviri Doluluğu Verilerini Doldur

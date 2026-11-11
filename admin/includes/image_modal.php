@@ -118,7 +118,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                 <span><?= e(__a('media_modal_title')) ?></span>
             </h3>
-            <button type="button" onclick="closeMediaModal()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:24px; line-height:1; padding:4px 8px; border-radius:6px;" title="Kapat (ESC)">&times;</button>
+            <button type="button" onclick="closeMediaModal()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:24px; line-height:1; padding:4px 8px; border-radius:6px;" title="<?= e(__a('Kapat (ESC)', 'Close (ESC)')) ?>">&times;</button>
         </div>
 
         <!-- Filtreleme & Arama Çubuğu -->
@@ -261,7 +261,7 @@ function modalSortChanged() {
 function loadModalMedia() {
     var isEn = (window.ADMIN_LANG === 'en');
     var grid = document.getElementById('modalGalleryGrid');
-    grid.innerHTML = '<div style="color:var(--text-muted); grid-column:1/-1; text-align:center; padding:50px; font-size:13px;">' + (isEn ? 'Loading photos...' : 'Görseller yükleniyor...') + '</div>';
+    grid.innerHTML = '<div style="color:var(--text-muted); grid-column:1/-1; text-align:center; padding:50px; font-size:13px;">' + (<?= json_encode(__a('Görseller yükleniyor...', 'Loading photos...'), JSON_UNESCAPED_UNICODE) ?>) + '</div>';
 
     var sortVal = modalSortOrder || 'shot_date_desc';
     var url = '<?= url("admin/api-media.php") ?>?folder=' + encodeURIComponent(modalActiveFolder) + '&sort=' + encodeURIComponent(sortVal);
@@ -275,21 +275,21 @@ function loadModalMedia() {
 
                 if (images.length === 0 && modalActiveFolder !== 'all') {
                     grid.innerHTML = '<div style="color:var(--text-muted); grid-column:1/-1; text-align:center; padding:50px;">' +
-                        '<p style="font-size:14px; font-weight:600; color:var(--text-main); margin-bottom:12px;">' + (isEn ? 'No photos found in this folder yet.' : 'Bu klasörde henüz görsel bulunamadı.') + '</p>' +
-                        '<button type="button" class="btn btn-secondary btn-sm" onclick="switchToAllFolders()" style="padding:6px 16px;">' + (isEn ? 'Show All Photos' : 'Tüm Fotoğrafları Göster') + '</button>' +
+                        '<p style="font-size:14px; font-weight:600; color:var(--text-main); margin-bottom:12px;">' + (<?= json_encode(__a('Bu klasörde henüz görsel bulunamadı.', 'No photos found in this folder yet.'), JSON_UNESCAPED_UNICODE) ?>) + '</p>' +
+                        '<button type="button" class="btn btn-secondary btn-sm" onclick="switchToAllFolders()" style="padding:6px 16px;">' + (<?= json_encode(__a('Tüm Fotoğrafları Göster', 'Show All Photos'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
                         '</div>';
-                    document.getElementById('modalCountText').innerText = isEn ? '0 photos' : '0 görsel';
+                    document.getElementById('modalCountText').innerText = <?= json_encode(__a('0 görsel', '0 photos'), JSON_UNESCAPED_UNICODE) ?>;
                     return;
                 }
 
                 renderModalImages(images);
-                document.getElementById('modalCountText').innerText = images.length + (isEn ? ' photos listed' : ' görsel listelendi');
+                document.getElementById('modalCountText').innerText = images.length + (<?= json_encode(__a(' görsel listelendi', ' photos listed'), JSON_UNESCAPED_UNICODE) ?>);
             } else {
-                grid.innerHTML = '<div style="color:var(--danger-text); grid-column:1/-1; text-align:center; padding:40px;">' + (isEn ? 'Error: ' : 'Hata: ') + (data.error || (isEn ? 'Photos could not be loaded.' : 'Görseller alınamadı.')) + '</div>';
+                grid.innerHTML = '<div style="color:var(--danger-text); grid-column:1/-1; text-align:center; padding:40px;">' + (<?= json_encode(__a('Hata: ', 'Error: '), JSON_UNESCAPED_UNICODE) ?>) + (data.error || (<?= json_encode(__a('Görseller alınamadı.', 'Photos could not be loaded.'), JSON_UNESCAPED_UNICODE) ?>)) + '</div>';
             }
         })
         .catch(function(err) {
-            grid.innerHTML = '<div style="color:var(--danger-text); grid-column:1/-1; text-align:center; padding:40px;">' + (isEn ? 'Connection error: Photos could not be loaded from server.' : 'Bağlantı hatası: Görseller sunucudan yüklenemedi.') + '</div>';
+            grid.innerHTML = '<div style="color:var(--danger-text); grid-column:1/-1; text-align:center; padding:40px;">' + (<?= json_encode(__a('Bağlantı hatası: Görseller sunucudan yüklenemedi.', 'Connection error: Photos could not be loaded from server.'), JSON_UNESCAPED_UNICODE) ?>) + '</div>';
         });
 }
 
@@ -304,7 +304,7 @@ function populateModalFolders(cats) {
     if (!cats) return;
     var isEn = (window.ADMIN_LANG === 'en');
     var sel = document.getElementById('modalFolderSelect');
-    sel.innerHTML = '<option value="all">' + (isEn ? 'All Folders (Whole Library)' : 'Tüm Klasörler (Tüm Kütüphane)') + '</option>';
+    sel.innerHTML = '<option value="all">' + (<?= json_encode(__a('Tüm Klasörler (Tüm Kütüphane)', 'All Folders (Whole Library)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>';
 
     function addOptGroup(label, list) {
         if (!list || !list.length) return;
@@ -333,7 +333,7 @@ function renderModalImages(images) {
     currentModalImages = images;
     var grid = document.getElementById('modalGalleryGrid');
     if (!images.length) {
-        grid.innerHTML = '<div style="color:var(--text-muted); grid-column:1/-1; text-align:center; padding:40px;">' + (isEn ? 'No photos found.' : 'Görsel bulunamadı.') + '</div>';
+        grid.innerHTML = '<div style="color:var(--text-muted); grid-column:1/-1; text-align:center; padding:40px;">' + (<?= json_encode(__a('Görsel bulunamadı.', 'No photos found.'), JSON_UNESCAPED_UNICODE) ?>) + '</div>';
         return;
     }
 
@@ -342,7 +342,7 @@ function renderModalImages(images) {
         var safeName = rawName.replace(/"/g, '&quot;');
         var dims = (img.width && img.height) ? (img.width + '×' + img.height) : (img.width ? img.width + 'px' : '');
         var dateBadge = img.shot_date || (img.created_at ? img.created_at.split(' ')[0] : '');
-        var tooltip = safeName + (img.shot_date ? ' | ' + (isEn ? 'Date Taken: ' : 'Çekim Tarihi: ') + img.shot_date : '') + (img.camera ? ' | ' + img.camera : '');
+        var tooltip = safeName + (img.shot_date ? ' | ' + (<?= json_encode(__a('Çekim Tarihi: ', 'Date Taken: '), JSON_UNESCAPED_UNICODE) ?>) + img.shot_date : '') + (img.camera ? ' | ' + img.camera : '');
 
         return '<div class="modal-photo-card" data-idx="' + idx + '" data-filename="' + rawName.toLowerCase() + '" data-date="' + (img.shot_date || '') + '" onclick="selectMediaItemByIdx(' + idx + ')" title="' + tooltip + '">' +
             '<div class="modal-photo-thumb-wrap">' +
@@ -354,7 +354,7 @@ function renderModalImages(images) {
                     rawName +
                 '</div>' +
                 '<div class="modal-photo-meta">' +
-                    '<span title="' + (isEn ? 'Capture / Upload Date' : 'Çekim / Yükleme Tarihi') + '">' + (img.shot_date ? '📅 ' + img.shot_date : (dims || '')) + '</span>' +
+                    '<span title="' + (<?= json_encode(__a('Çekim / Yükleme Tarihi', 'Capture / Upload Date'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (img.shot_date ? '📅 ' + img.shot_date : (dims || '')) + '</span>' +
                     '<span>' + (img.file_size_fmt || '') + '</span>' +
                 '</div>' +
             '</div>' +
@@ -374,7 +374,7 @@ function filterModalImages() {
         card.style.display = match ? 'flex' : 'none';
         if (match) visibleCount++;
     });
-    document.getElementById('modalCountText').innerText = visibleCount + (isEn ? ' photos filtered' : ' görsel filtrelendi');
+    document.getElementById('modalCountText').innerText = visibleCount + (<?= json_encode(__a(' görsel filtrelendi', ' photos filtered'), JSON_UNESCAPED_UNICODE) ?>);
 }
 
 function selectMediaItemByIdx(idx) {
@@ -427,7 +427,7 @@ function uploadFromModal(input) {
     var isEn = (window.ADMIN_LANG === 'en');
     var grid = document.getElementById('modalGalleryGrid');
     var origHtml = grid.innerHTML;
-    grid.innerHTML = '<div style="color:var(--accent-blue); grid-column:1/-1; text-align:center; padding:40px; font-weight:600;">' + (isEn ? 'Uploading photo and preparing AVIF/WebP variants...' : 'Görsel yükleniyor ve AVIF/WebP varyantları hazırlanıyor...') + '</div>';
+    grid.innerHTML = '<div style="color:var(--accent-blue); grid-column:1/-1; text-align:center; padding:40px; font-weight:600;">' + (<?= json_encode(__a('Görsel yükleniyor ve AVIF/WebP varyantları hazırlanıyor...', 'Uploading photo and preparing AVIF/WebP variants...'), JSON_UNESCAPED_UNICODE) ?>) + '</div>';
 
     fetch('<?= url("admin/upload.php") ?>', {
         method: 'POST',
@@ -438,12 +438,12 @@ function uploadFromModal(input) {
         if (data.success) {
             loadModalMedia();
         } else {
-            alert((isEn ? 'Error: ' : 'Hata: ') + (data.error || (isEn ? 'Upload failed.' : 'Yükleme başarısız.')));
+            alert((<?= json_encode(__a('Hata: ', 'Error: '), JSON_UNESCAPED_UNICODE) ?>) + (data.error || (<?= json_encode(__a('Yükleme başarısız.', 'Upload failed.'), JSON_UNESCAPED_UNICODE) ?>)));
             grid.innerHTML = origHtml;
         }
     })
     .catch(function() {
-        alert(isEn ? 'A server error occurred.' : 'Sunucu hatası oluştu.');
+        alert(<?= json_encode(__a('Sunucu hatası oluştu.', 'A server error occurred.'), JSON_UNESCAPED_UNICODE) ?>);
         grid.innerHTML = origHtml;
     });
 }

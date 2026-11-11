@@ -855,7 +855,7 @@ require __DIR__ . '/includes/image_modal.php';
                                 <div style="font-size:12px; opacity:0.8;"><?= __a('Medya Kütüphanesinden', 'From Media Library') ?></div>
                             </div>
                         <?php else: ?>
-                            <img src="" alt="Kapak" id="coverPreviewImg" class="cover-preview-img" style="display:none;">
+                            <img src="" alt="<?= e(__a('Kapak', 'Cover')) ?>" id="coverPreviewImg" class="cover-preview-img" style="display:none;">
                             <div id="cover_focal_pin" class="focal-crosshair-pin" style="position:absolute; left:50%; top:50%; width:20px; height:20px; border-radius:50%; border:2px solid #fff; background:rgba(37,99,235,0.85); box-shadow:0 0 0 2px rgba(0,0,0,0.45); transform:translate(-50%, -50%); pointer-events:none; z-index:4; display:none;"></div>
                             <div class="cover-placeholder" id="coverPlaceholder">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin-bottom:6px;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
@@ -986,7 +986,7 @@ function insertBlogImage(lang) {
         var isEn = (window.ADMIN_LANG === 'en');
         var cleanPath = filePath.replace(/^\/+/, '');
         var fullUrl = '<?= e($base_path) ?>/' + cleanPath;
-        var alt = altText || (isEn ? 'Photo' : 'Fotoğraf');
+        var alt = altText || (<?= json_encode(__a('Fotoğraf', 'Photo'), JSON_UNESCAPED_UNICODE) ?>);
 
         // Şık, duyarlı ve monografi uyumlu editoryal görsel figürü
         var figHtml = '<figure class="blog-figure" style="margin:2.5rem 0; text-align:center;">' +
@@ -1005,7 +1005,7 @@ function insertYoutubeVideo(lang) {
     if (!el) return;
     var isEn = (window.ADMIN_LANG === 'en');
     var sel = window.getSelection(), range = sel && sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
-    adminPrompt(isEn ? 'YouTube link or video ID' : 'YouTube bağlantısı ya da video kimliği', '').then(function (raw) {
+    adminPrompt(<?= json_encode(__a('YouTube bağlantısı ya da video kimliği', 'YouTube link or video ID'), JSON_UNESCAPED_UNICODE) ?>, '').then(function (raw) {
         if (!raw) return;
         el.focus();
         if (range) { sel.removeAllRanges(); sel.addRange(range); }
@@ -1040,7 +1040,7 @@ function toggleHtmlSource(lang) {
         editor.style.display = 'none';
         rawArea.style.display = 'block';
         rawArea.focus();
-        btnLabel.textContent = isEn ? 'Visual Editor' : 'Görsel Editör';
+        btnLabel.textContent = <?= json_encode(__a('Görsel Editör', 'Visual Editor'), JSON_UNESCAPED_UNICODE) ?>;
         btn.classList.add('active');
         htmlMode[lang] = true;
     } else {
@@ -1049,7 +1049,7 @@ function toggleHtmlSource(lang) {
         rawArea.style.display = 'none';
         editor.style.display = 'block';
         editor.focus();
-        btnLabel.textContent = isEn ? 'HTML Source' : 'Kaynak Kodu';
+        btnLabel.textContent = <?= json_encode(__a('Kaynak Kodu', 'HTML Source'), JSON_UNESCAPED_UNICODE) ?>;
         btn.classList.remove('active');
         htmlMode[lang] = false;
         updateWordStats(lang);

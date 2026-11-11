@@ -874,7 +874,7 @@ $b_og_image        = get_setting('default_og_image', '');
                             <div style="background:#f4f2ed; color:#111; border:1px solid var(--border-light); border-radius:6px; padding:10px 12px; display:flex; align-items:center; gap:12px;">
                                 <div style="width:48px; height:48px; border-radius:6px; background:#ffffff; border:1px solid rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                     <?php if ($b_symbol_enabled === '1' && !empty($b_symbol_light)): ?>
-                                        <img src="<?= e(url($b_symbol_light)) ?>" alt="Amblem (Açık)" style="max-width:34px; max-height:34px; object-fit:contain;">
+                                        <img src="<?= e(url($b_symbol_light)) ?>" alt="<?= e(__a('Amblem (Açık)', 'Symbol (Light)')) ?>" style="max-width:34px; max-height:34px; object-fit:contain;">
                                     <?php else: ?>
                                         <span style="font-size:12px; opacity:0.5;"><?= e(__a('Yok', 'None')) ?></span>
                                     <?php endif; ?>
@@ -932,7 +932,7 @@ $b_og_image        = get_setting('default_og_image', '');
                             <div style="background:#f4f2ed; color:#111; border:1px solid var(--border-light); border-radius:6px; padding:10px 12px; display:flex; align-items:center; gap:12px;">
                                 <div style="width:68px; height:48px; border-radius:6px; background:#ffffff; border:1px solid rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:4px;">
                                     <?php if ($b_logo_enabled === '1' && !empty($b_logo_light)): ?>
-                                        <img src="<?= e(url($b_logo_light)) ?>" alt="Logo (Açık)" style="max-width:58px; max-height:36px; object-fit:contain;">
+                                        <img src="<?= e(url($b_logo_light)) ?>" alt="<?= e(__a('Logo (Açık)', 'Logo (Light)')) ?>" style="max-width:58px; max-height:36px; object-fit:contain;">
                                     <?php else: ?>
                                         <span style="font-size:12px; opacity:0.5;"><?= e(__a('Yok', 'None')) ?></span>
                                     <?php endif; ?>
@@ -1394,13 +1394,13 @@ function toggleSiteModule(moduleKey, isChecked, badgeId, cardBadgeId) {
 
     if (badge) {
         badge.className = 'legal-badge-pill ' + (isChecked ? 'badge-state-on' : 'badge-state-off');
-        var onTxt  = badge.getAttribute('data-on')  || (isEn ? 'On' : 'Açık');
-        var offTxt = badge.getAttribute('data-off') || (isEn ? 'Off' : 'Kapalı');
+        var onTxt  = badge.getAttribute('data-on')  || (<?= json_encode(__a('Açık', 'On'), JSON_UNESCAPED_UNICODE) ?>);
+        var offTxt = badge.getAttribute('data-off') || (<?= json_encode(__a('Kapalı', 'Off'), JSON_UNESCAPED_UNICODE) ?>);
         badge.innerText = isChecked ? onTxt : offTxt;
     }
     if (cardBadge) {
         cardBadge.className = 'badge ' + (isChecked ? 'badge-published' : 'badge-draft');
-        cardBadge.innerText = isChecked ? (isEn ? 'Active' : 'Açık') : (isEn ? 'Hidden' : 'Kapalı');
+        cardBadge.innerText = isChecked ? (<?= json_encode(__a('Açık', 'Active'), JSON_UNESCAPED_UNICODE) ?>) : (<?= json_encode(__a('Kapalı', 'Hidden'), JSON_UNESCAPED_UNICODE) ?>);
     }
 
     var formData = new FormData();
@@ -1418,13 +1418,13 @@ function toggleSiteModule(moduleKey, isChecked, badgeId, cardBadgeId) {
     .then(function(res) { return res.json(); })
     .then(function(data) {
         if (!data || !data.success) {
-            alert(isEn ? 'Failed to save setting.' : 'Ayar kaydedilirken bir hata oluştu.');
+            alert(<?= json_encode(__a('Ayar kaydedilirken bir hata oluştu.', 'Failed to save setting.'), JSON_UNESCAPED_UNICODE) ?>);
             return;
         }
         if (window.adminToast) window.adminToast();
     })
     .catch(function() {
-        alert(isEn ? 'Connection error.' : 'Bağlantı hatası oluştu.');
+        alert(<?= json_encode(__a('Bağlantı hatası oluştu.', 'Connection error.'), JSON_UNESCAPED_UNICODE) ?>);
     });
 }
 
@@ -1505,9 +1505,9 @@ function syncCookieToggles(on) {
                     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
                     .then(function (html) {
                         var doc = new DOMParser().parseFromString(html, 'text/html'), err = doc.querySelector('.flash-alert.flash-error');
-                        if (err) { last = ''; adminToast(err.textContent.trim(), 'error'); } else adminToast(EN ? 'Saved' : 'Kaydedildi');
+                        if (err) { last = ''; adminToast(err.textContent.trim(), 'error'); } else adminToast(<?= json_encode(__a('Kaydedildi', 'Saved'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
                     })
-                    .catch(function () { last = ''; adminToast(EN ? 'Could not save. Check your connection.' : 'Kaydedilemedi. Bağlantınızı kontrol edin.', 'error'); });
+                    .catch(function () { last = ''; adminToast(EN ? 'Could not save. Check your connection.' : <?= json_encode(__a('Kaydedilemedi. Bağlantınızı kontrol edin.', 'Could not save. Check your connection.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, 'error'); });
             });
         }
         f.addEventListener('input', function (e) {

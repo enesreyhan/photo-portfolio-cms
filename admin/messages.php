@@ -363,7 +363,7 @@ require __DIR__ . '/includes/header.php';
         <!-- Sayfalama (Pagination) -->
         <?php if ($total_pages > 1): ?>
             <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-top:1px solid var(--border-subtle); font-size:13px;">
-                <span style="color:var(--text-muted);">Toplam <?= $total_rows ?> mesaj, Sayfa <?= $page ?> / <?= $total_pages ?></span>
+                <span style="color:var(--text-muted);"><?= e(__a('Toplam', 'Total')) ?> <?= $total_rows ?> mesaj, Sayfa <?= $page ?> / <?= $total_pages ?></span>
                 <div style="display:flex; gap:6px;">
                     <?php if ($page > 1): ?>
                         <a href="?page=<?= $page - 1 ?>&filter=<?= e($filter) ?>&q=<?= urlencode($search) ?>" class="btn btn-secondary btn-sm">&larr; Önceki</a>
@@ -552,7 +552,7 @@ function toggleReadStatus(id, currentStatus) {
 }
 
 function deleteMessage(id) {
-    adminConfirm(window.ADMIN_LANG === 'en' ? 'This message will be deleted permanently. This cannot be undone.' : 'Bu mesaj kalıcı olarak silinecek. Bu işlem geri alınamaz.').then(function (ok) { if (ok) deleteMessageNow(id); });
+    adminConfirm(window.ADMIN_LANG === 'en' ? 'This message will be deleted permanently. This cannot be undone.' : <?= json_encode(__a('Bu mesaj kalıcı olarak silinecek. Bu işlem geri alınamaz.', 'This message will be deleted permanently. This cannot be undone.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>).then(function (ok) { if (ok) deleteMessageNow(id); });
 }
 function deleteMessageNow(id) {
     var form = document.createElement('form');

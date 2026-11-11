@@ -123,20 +123,20 @@ function updateSidebarToggleBtn() {
         if (isCollapsed) {
             btn.classList.add('btn-primary');
             btn.classList.remove('btn-secondary');
-            if (label) label.textContent = isEn ? 'Expand' : 'Genişlet';
-            btn.title = isEn ? 'Expand Sidebar (Ctrl+[)' : 'Sol Menüyü Genişlet (Ctrl+[)';
+            if (label) label.textContent = <?= json_encode(__a('Genişlet', 'Expand'), JSON_UNESCAPED_UNICODE) ?>;
+            btn.title = <?= json_encode(__a('Sol Menüyü Genişlet (Ctrl+[)', 'Expand Sidebar (Ctrl+[)'), JSON_UNESCAPED_UNICODE) ?>;
         } else {
             btn.classList.remove('btn-primary');
             btn.classList.add('btn-secondary');
-            if (label) label.textContent = isEn ? 'Collapse' : 'Daralt';
-            btn.title = isEn ? 'Collapse Sidebar (Ctrl+[)' : 'Sol Menüyü Daralt (Ctrl+[)';
+            if (label) label.textContent = <?= json_encode(__a('Daralt', 'Collapse'), JSON_UNESCAPED_UNICODE) ?>;
+            btn.title = <?= json_encode(__a('Sol Menüyü Daralt (Ctrl+[)', 'Collapse Sidebar (Ctrl+[)'), JSON_UNESCAPED_UNICODE) ?>;
         }
     }
     var collapseBtn = document.getElementById('sidebarCollapseBtn');
     if (collapseBtn) {
         collapseBtn.title = isCollapsed 
-            ? (isEn ? 'Expand Sidebar (Ctrl+[)' : 'Sol Menüyü Genişlet (Ctrl+[)')
-            : (isEn ? 'Collapse Sidebar (Ctrl+[)' : 'Sol Menüyü Daralt (Ctrl+[)');
+            ? (<?= json_encode(__a('Sol Menüyü Genişlet (Ctrl+[)', 'Expand Sidebar (Ctrl+[)'), JSON_UNESCAPED_UNICODE) ?>)
+            : (<?= json_encode(__a('Sol Menüyü Daralt (Ctrl+[)', 'Collapse Sidebar (Ctrl+[)'), JSON_UNESCAPED_UNICODE) ?>);
     }
 }
 document.addEventListener('DOMContentLoaded', updateSidebarToggleBtn);
@@ -238,9 +238,7 @@ function renderSearchResults(results, q) {
     if (!dropdown) return;
 
     if (results.length === 0) {
-        var emptyMsg = window.ADMIN_LANG === 'en'
-            ? '"<strong>' + escapeHtml(q) + '</strong>" - no results found.'
-            : '"<strong>' + escapeHtml(q) + '</strong>" ile eşleşen sonuç bulunamadı.';
+        var emptyMsg = <?= json_encode(__a('“%s” ile eşleşen sonuç bulunamadı.', 'No results found for “%s”.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>.replace('%s', '<strong>' + escapeHtml(q) + '</strong>');
         dropdown.innerHTML = '<div class="admin-search-empty">' + emptyMsg + '</div>';
         dropdown.style.display = 'block';
         adminSearchSelectedIndex = -1;
@@ -420,7 +418,7 @@ function initSortableTables() {
                         var msg = (window.ADMIN_LANG === 'en') ? <?= json_encode(__a('reorder_success', 'Order saved successfully.')) ?> : <?= json_encode(__a('reorder_success', 'Sıralama başarıyla kaydedildi.')) ?>;
                         showAdminToast(msg);
                     } else {
-                        var errTitle = (window.ADMIN_LANG === 'en') ? 'Could not save order: ' : 'Sıralama kaydedilemedi: ';
+                        var errTitle = (window.ADMIN_LANG === 'en') ? 'Could not save order: ' : '' + <?= json_encode(__a('Sıralama kaydedilemedi:', 'Order could not be saved:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ';
                         alert(errTitle + (data.error || 'Error'));
                     }
                 })
@@ -488,12 +486,12 @@ if (document.readyState === 'loading') {
                 if (!dlg || typeof dlg.showModal !== 'function') {
                     return resolve(o.prompt ? nativePrompt(o.message, o.value || '') : nativeConfirm(o.message));
                 }
-                titleEl.textContent = o.title || (o.prompt ? '' : (EN ? 'Are you sure?' : 'Emin misiniz?'));
+                titleEl.textContent = o.title || (o.prompt ? '' : <?= json_encode(__a('Emin misiniz?', 'Are you sure?'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
                 titleEl.hidden = !titleEl.textContent;
                 msgEl.textContent = o.message || '';
                 input.hidden = !o.prompt;
                 input.value = o.value || '';
-                okBtn.textContent = o.ok || (o.danger ? (EN ? 'Delete' : 'Sil') : (EN ? 'OK' : 'Tamam'));
+                okBtn.textContent = o.ok || (o.danger ? <?= json_encode(__a('Sil', 'Delete'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> : <?= json_encode(__a('Tamam', 'OK'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
                 okBtn.classList.toggle('btn-danger-solid', !!o.danger);
                 var onClose = function () {
                     dlg.removeEventListener('close', onClose);
@@ -519,7 +517,9 @@ if (document.readyState === 'loading') {
     window.adminConfirm = function (message, opts) {
         opts = opts || {};
         // Silme / kaldırma / sıfırlama sözcükleri geçiyorsa onay düğmesi kırmızı olur
-        var danger = 'danger' in opts ? opts.danger : /\bsil|kaldır|boşalt|sıfırla|delete|remove|clear|reset|discard/i.test(String(message) + ' ' + (opts.ok || ''));
+        var dangerText = (String(message) + ' ' + (opts.ok || '')).toLowerCase();
+        var danger = 'danger' in opts ? opts.danger : (/\bsil|kaldır|boşalt|sıfırla|delete|remove|clear|reset|discard/i.test(dangerText) // i18n-ignore
+            || [<?= implode(', ', array_map(fn($k) => json_encode(mb_strtolower(__a($k)), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT), ['delete', 'remove'])) ?>].some(function (w) { return w && dangerText.indexOf(w) !== -1; }));
         return open({ message: String(message || ''), title: opts.title, ok: opts.ok, danger: danger });
     };
     window.adminPrompt = function (message, value) { return open({ prompt: true, title: String(message || ''), value: value }); };
@@ -528,11 +528,11 @@ if (document.readyState === 'loading') {
         var sel = window.getSelection(), range = sel && sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
         var host = range && (range.commonAncestorContainer.nodeType === 1 ? range.commonAncestorContainer : range.commonAncestorContainer.parentNode);
         var editable = host && host.closest ? host.closest('[contenteditable="true"]') : null;
-        return window.adminPrompt(message || (EN ? 'Link address' : 'Bağlantı adresi'), 'https://').then(function (url) {
+        return window.adminPrompt(message || (EN ? 'Link address' : <?= json_encode(__a('Bağlantı adresi', 'Link address'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>), 'https://').then(function (url) {
             url = (url || '').trim();
             if (!url || url === 'https://') return null;
             if (!/^(https?:\/\/|mailto:|tel:|\/|#)/i.test(url)) {
-                window.adminToast(EN ? 'The address must start with https://, / or mailto:' : 'Adres https://, / ya da mailto: ile başlamalı.', 'error');
+                window.adminToast(<?= json_encode(__a('Adres https://, / ya da mailto: ile başlamalı.', 'The address must start with https://, / or mailto:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, 'error');
                 return null;
             }
             if (editable) editable.focus();
@@ -545,7 +545,7 @@ if (document.readyState === 'loading') {
     var stack = document.getElementById('adminToastStack');
     window.adminToast = function (message, type) {
         if (type === true) type = 'error';
-        var raw = String(message == null || message === '' ? (EN ? 'Saved' : 'Kaydedildi') : message);
+        var raw = String(message == null || message === '' ? <?= json_encode(__a('Kaydedildi', 'Saved'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> : message);
         if (!type) type = /hata|başarısız|kaydedilemedi|geçersiz|bulunamadı|error|failed|invalid|could not|⚠|❌/i.test(raw) ? 'error' : 'success';
         var text = raw.replace(/^[\s✓✅⚠️❌]+/u, '');
         if (!stack) return;
@@ -615,8 +615,8 @@ if (document.readyState === 'loading') {
     document.querySelectorAll('form').forEach(function (f) {
         if (f.hasAttribute('data-confirm') || !f.querySelector('input[name="action"][value="reset_defaults"]')) return;
         f.removeAttribute('onsubmit');
-        f.setAttribute('data-confirm', EN ? 'All design customisations in this template will return to their defaults.' : 'Bu şablondaki bütün tasarım ayarları varsayılana döner.');
-        f.setAttribute('data-confirm-ok', EN ? 'Reset to defaults' : 'Varsayılana sıfırla');
+        f.setAttribute('data-confirm', EN ? 'All design customisations in this template will return to their defaults.' : <?= json_encode(__a('Bu şablondaki bütün tasarım ayarları varsayılana döner.', 'All design settings of this template will return to their defaults.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
+        f.setAttribute('data-confirm-ok', <?= json_encode(__a('Varsayılana sıfırla', 'Reset to default'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
     });
 })();
 </script>
@@ -719,8 +719,12 @@ html.sidebar-collapsed .unsaved-bar { left: calc(68px + (100vw - 68px) / 2); }
 
     function saveButtonOf(form) {
         var els = Array.prototype.slice.call(form.elements || []);
+        // save labels in the panel language too, so non-TR/EN panels find the right submit button
+        /* i18n-ignore */ var words = ['kaydet', 'save', 'güncelle', 'update', <?= json_encode(mb_strtolower(__a('save', 'Save')), JSON_UNESCAPED_UNICODE) ?>, <?= json_encode(mb_strtolower(__a('Güncelle', 'Update')), JSON_UNESCAPED_UNICODE) ?>];
         return els.find(function (b) {
-            return b.type === 'submit' && /kaydet|save|güncelle/i.test(b.textContent || b.value || '');
+            if (b.type !== 'submit') return false;
+            var label = (b.textContent || b.value || '').toLowerCase();
+            return words.some(function (w) { return w && label.indexOf(w) !== -1; });
         }) || null;
     }
     document.getElementById('unsavedBarSave').addEventListener('click', function () {

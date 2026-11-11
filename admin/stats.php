@@ -571,7 +571,7 @@ require __DIR__ . '/includes/header.php';
 
     <?php if (!empty($data['api_error'])): ?>
         <div class="alert alert-danger" style="margin:0; font-size:12px;">
-            <strong>Google Analytics API Hatası:</strong> <?= e($data['api_error']) ?>
+            <strong><?= e(__a('Google Analytics API Hatası:', 'Google Analytics API Error:')) ?></strong> <?= e($data['api_error']) ?>
         </div>
     <?php endif; ?>
 
@@ -701,7 +701,7 @@ require __DIR__ . '/includes/header.php';
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                 <span><?= e(__a('Ziyaretçi Akışı & Günlük Etkileşim Trendi', 'Visitor Traffic & Daily Engagement Trend')) ?></span>
             </span>
-            <span style="font-size:12px; color:var(--text-sub);"><?= e($data['range_label']) ?></span>
+            <span style="font-size:12px; color:var(--text-sub);"><?= e(['7d' => __a('Son 7 Gün', 'Last 7 Days'), '90d' => __a('Son 90 Gün', 'Last 90 Days'), '365d' => __a('Son 1 Yıl', 'Last Year')][$range] ?? __a('Son 30 Gün', 'Last 30 Days')) ?></span>
         </div>
         <div class="stats-panel-body" style="height: 240px; position:relative;">
             <canvas id="trendChart"></canvas>
@@ -896,7 +896,7 @@ require __DIR__ . '/includes/header.php';
                     <label class="form-label" style="display:block; font-weight:600; margin-bottom:6px; font-size:13px;">
                         <?= e(__a('GA4 Property (Mülk) ID', 'GA4 Property ID')) ?> <span style="color:var(--danger); font-weight:700;">*</span>
                     </label>
-                    <input type="text" name="property_id" id="inputPropertyId" class="form-control" value="<?= e(get_ga_property_id()) ?>" placeholder="Örn: 123456789" required style="width:100%; font-family:var(--font-mono);">
+                    <input type="text" name="property_id" id="inputPropertyId" class="form-control" value="<?= e(get_ga_property_id()) ?>" placeholder="<?= e(__a('Örn: 123456789', 'e.g. 123456789')) ?>" required style="width:100%; font-family:var(--font-mono);">
                     <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">
                         <?= e(__a('Google Analytics panelinizdeki Mülk Kimliğidir (Örn: <code>123456789</code>).', 'The Property ID from your Google Analytics dashboard (e.g. <code>123456789</code>).')) ?>
                     </div>
@@ -1221,11 +1221,11 @@ function runConnectionTest() {
     var box = document.getElementById('testResultBox');
 
     if (!propId) {
-        alert('Lütfen GA4 Property ID giriniz.');
+        alert(<?= json_encode(__a('Lütfen GA4 Property ID giriniz.', 'Please enter the GA4 Property ID.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
         return;
     }
     if (!saJson) {
-        alert('Lütfen Service Account JSON metnini yapıştırınız.');
+        alert(<?= json_encode(__a('Lütfen Service Account JSON metnini yapıştırınız.', 'Please paste the Service Account JSON text.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
         return;
     }
 
@@ -1242,7 +1242,7 @@ function runConnectionTest() {
     fetch('stats.php', { method: 'POST', body: fd })
         .then(function(res) { return res.json(); })
         .then(function(res) {
-            btn.innerText = 'Bağlantıyı Test Et';
+            btn.innerText = <?= json_encode(__a('Bağlantıyı Test Et', 'Test Connection'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
             btn.disabled = false;
             box.style.display = 'block';
 
@@ -1250,7 +1250,7 @@ function runConnectionTest() {
                 box.style.background = 'rgba(16, 185, 129, 0.15)';
                 box.style.color = '#10b981';
                 box.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-                box.innerHTML = '<strong>Başarılı!</strong> Google Analytics 4 API bağlantısı doğrulandı. (' + res.message + ')';
+                box.innerHTML = '<strong>' + <?= json_encode(__a('Başarılı!', 'Success!'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</strong> ' + <?= json_encode(__a('Google Analytics 4 API bağlantısı doğrulandı.', 'Google Analytics 4 API connection verified.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' (' + res.message + ')';
             } else {
                 box.style.background = 'rgba(239, 68, 68, 0.15)';
                 box.style.color = '#ef4444';
@@ -1259,12 +1259,12 @@ function runConnectionTest() {
             }
         })
         .catch(function(err) {
-            btn.innerText = 'Bağlantıyı Test Et';
+            btn.innerText = <?= json_encode(__a('Bağlantıyı Test Et', 'Test Connection'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
             btn.disabled = false;
             box.style.display = 'block';
             box.style.background = 'rgba(239, 68, 68, 0.15)';
             box.style.color = '#ef4444';
-            box.innerHTML = 'Sunucuyla bağlantı hatası oluştu.';
+            box.innerHTML = <?= json_encode(__a('Sunucuyla bağlantı hatası oluştu.', 'A server connection error occurred.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
         });
 }
 

@@ -428,7 +428,7 @@ if (!in_array($admin_theme, ['dark', 'light'], true)) {
 </head>
 <body>
 
-<button type="button" class="login-theme-btn" onclick="toggleLoginTheme()" title="Karanlık / Aydınlık Tema (Ctrl+Shift+D)" aria-label="Tema">
+<button type="button" class="login-theme-btn" onclick="toggleLoginTheme()" title="<?= e(__a('Karanlık / Aydınlık Tema (Ctrl+Shift+D)', 'Dark / Light Theme (Ctrl+Shift+D)')) ?>" aria-label="<?= e(__a('Tema', 'Theme')) ?>">
     <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
     <svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
 </button>
@@ -442,7 +442,7 @@ if (!in_array($admin_theme, ['dark', 'light'], true)) {
         </div>
         <?php if ($needs_setup && $setup_lang === ''): ?>
         <h1 class="login-title"><?= e($T('choose')) ?></h1>
-        <p class="login-sub">Choose the setup language · Kurulum dilini seçin</p>
+        <p class="login-sub">Choose the setup language · Kurulum dilini seçin</p><!-- i18n-ignore: bilingual on purpose -->
         <div class="setup-lang-grid">
             <?php foreach ($setup_langs as $lc => $ld): ?>
             <a class="setup-lang-btn" href="?setup_lang=<?= e($lc) ?>" lang="<?= e($lc) ?>"><span><?= e($ld['flag'] ?? '') ?></span><span><?= e($ld['name_native']) ?></span></a>

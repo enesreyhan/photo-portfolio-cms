@@ -415,7 +415,7 @@ return [
     'lang_can_be_admin' => 'Diese Sprache kann als Admin-Benutzeroberflächensprache verwendet werden',
     'selected' => 'Ausgewählt',
     'blog_post' => 'Blogbeitrag',
-    'templates_hub_title' => 'Vorlagen & Design',
+    'templates_hub_title' => 'Vorlagen',
     'contact_email' => 'Primäre Kontakt-E-Mail',
     'size' => 'Größe',
     'menu_templates_hub' => 'Vorlagen',
@@ -448,4 +448,5 @@ return [
     'other' => 'Sonstiges',
     'image_path' => 'Bildpfad',
     'select' => 'Auswählen',
+    'karakter' => 'Zeichen',
 ];

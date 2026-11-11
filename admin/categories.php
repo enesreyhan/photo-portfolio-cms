@@ -420,7 +420,7 @@ require __DIR__ . '/includes/header.php';
             <div class="modal-body" style="padding: 20px;">
                 <div class="form-group" style="margin-bottom: 14px;">
                     <label class="form-label" style="font-weight: 600;"><?= e(__a('cat_modal_name_tr')) ?></label>
-                    <input type="text" name="name_tr" id="cat_name_tr" class="form-control" required placeholder="Örn: Kitaplar" oninput="autoFillSlugs(this.value)">
+                    <input type="text" name="name_tr" id="cat_name_tr" class="form-control" required placeholder="<?= e(__a('Örn: Kitaplar', 'e.g. Kitaplar')) ?>" oninput="autoFillSlugs(this.value)">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 14px;">
@@ -428,7 +428,7 @@ require __DIR__ . '/includes/header.php';
                         <label class="form-label" style="font-weight: 600; margin:0;"><?= e(__a('cat_modal_name_en')) ?></label>
                         <button type="button" class="btn btn-secondary btn-sm" onclick="autoTranslateCategoryModal()" style="font-size:12px; padding:3px 8px;"><?= e(__a('cat_modal_auto_translate')) ?></button>
                     </div>
-                    <input type="text" name="name_en" id="cat_name_en" class="form-control" placeholder="Örn: Books" oninput="autoFillEnSlugs(this.value)">
+                    <input type="text" name="name_en" id="cat_name_en" class="form-control" placeholder="<?= e(__a('Örn: Books', 'e.g. Books')) ?>" oninput="autoFillEnSlugs(this.value)">
                 </div>
 
                 <?php foreach ($site_languages as $sl):
@@ -536,7 +536,7 @@ var CAT_EXTRA_LANGS = <?= json_encode(array_values(array_diff(array_column($site
 function autoTranslateCategoryModal() {
     var srcEn = document.getElementById('cat_name_en') ? document.getElementById('cat_name_en').value.trim() : '';
     var srcTr = document.getElementById('cat_name_tr') ? document.getElementById('cat_name_tr').value.trim() : '';
-    if (!srcEn && !srcTr) { alert('Önce İngilizce veya Türkçe kategori adını girin.'); return; }
+    if (!srcEn && !srcTr) { alert(<?= json_encode(__a('Önce İngilizce veya Türkçe kategori adını girin.', 'First enter the category name in English or Turkish.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>); return; }
 
     function translateFromEn(enText) {
         CAT_EXTRA_LANGS.forEach(function(tl) {

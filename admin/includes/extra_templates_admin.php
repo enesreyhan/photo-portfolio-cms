@@ -62,7 +62,7 @@ window.extraTplPreview = function (template, c) {
             var on = (i === c.idx);
             return '<div onmouseenter="selectStageSlide(' + i + ')" style="cursor:pointer; display:flex; gap:8px; padding:6px 0; border-bottom:1px solid ' + c.border + '; font-size:12px; color:' + (on ? c.text : c.muted) + ';"><span style="' + mono + (on ? 'color:#fdd000;' : '') + '">0' + (i + 1) + '</span>' + esc(s.title) + '</div>';
         }).join('');
-        return wrap('<div style="display:grid; grid-template-columns:30% 1fr; gap:18px;"><div><div style="' + mono + ' margin-bottom:6px;">SEÇİLİ İŞLER</div>' + rows + '</div>' +
+        return wrap('<div style="display:grid; grid-template-columns:30% 1fr; gap:18px;"><div><div style="' + mono + ' margin-bottom:6px;">SEÇİLİ İŞLER</div>' + rows + '</div>' + // i18n-ignore: sample preview content
             '<div><img src="' + esc(cur.img) + '" style="width:100%; height:230px; object-fit:contain; object-position:left top; display:block;">' +
             (c.showTitle ? '<div style="font-size:12px; font-weight:700; margin-top:6px;">' + esc(cur.title) + (c.showLocYear ? ' <span style="' + mono + '">' + esc(cur.loc) + ' · ' + esc(cur.year) + '</span>' : '') + '</div>' : '') + '</div></div>');
     }
@@ -101,8 +101,8 @@ window.extraTplPreview = function (template, c) {
         var cards = S.slice(1, 4).map(function (s) { return '<div><img src="' + esc(s.img) + '" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block;"><div style="font-size:11px; font-weight:700; margin-top:4px;">' + esc(s.title) + '</div></div>'; }).join('');
         return '<div style="position:relative; background:' + c.bg + '; color:' + c.text + ';">' + c.header +
             '<div style="height:200px; background:url(' + esc(hero.img) + ') center/cover; position:relative;"><div style="position:absolute; left:18px; bottom:14px; color:#fff; font-size:18px; font-weight:700; text-shadow:0 2px 8px rgba(0,0,0,.6);">' + esc(hero.title) + '</div></div>' +
-            '<div style="padding:16px 18px;"><div style="' + mono + ' border-top:1px solid ' + c.border + '; padding-top:8px; margin-bottom:8px;">SEÇİLİ İŞLER</div><div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">' + cards + '</div>' +
-            '<div style="' + mono + ' border-top:1px solid ' + c.border + '; padding-top:8px; margin:14px 0 6px;">SON YAZILAR · HAKKIMDA · İLETİŞİM</div></div></div>';
+            '<div style="padding:16px 18px;"><div style="' + mono + ' border-top:1px solid ' + c.border + '; padding-top:8px; margin-bottom:8px;">SEÇİLİ İŞLER</div><div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">' + cards + '</div>' + // i18n-ignore: sample preview content
+            '<div style="' + mono + ' border-top:1px solid ' + c.border + '; padding-top:8px; margin:14px 0 6px;">SON YAZILAR · HAKKIMDA · İLETİŞİM</div></div></div>'; // i18n-ignore: sample preview content
     }
     if (template === 'thumb_grid') {
         var tiles = S.concat(S, S).slice(0, 12).map(function (s) { return '<img src="' + esc(s.img) + '" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">'; }).join('');

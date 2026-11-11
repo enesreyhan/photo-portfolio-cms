@@ -255,7 +255,7 @@ a.footer-custom-nav-link:hover {
         <?php if ($footer_show_email && $contact_email): ?>
             <a href="mailto:<?= e($contact_email) ?>" class="footer-social-link" aria-label="Email">
                 <svg class="footer-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="<?= $footer_social_size ?>" height="<?= $footer_social_size ?>" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                <?php if ($footer_social_style === 'with_label'): ?><span>E-Posta</span><?php endif; ?>
+                <?php if ($footer_social_style === 'with_label'): ?><span><?= e(site_t('E-Posta', 'Email')) ?></span><?php endif; ?>
             </a>
         <?php endif; ?>
         <?php if ($footer_show_rss): ?>
@@ -364,7 +364,7 @@ a.footer-custom-nav-link:hover {
         <?php endif; ?>
 
         <?php if (!empty($footer_nav_items)): ?>
-            <nav class="footer-custom-nav" aria-label="Footer Navigation">
+            <nav class="footer-custom-nav" aria-label="<?= e(site_t('Alt Bilgi Gezinmesi', 'Footer Navigation')) ?>">
                 <?php foreach ($footer_nav_items as $fni): ?>
                     <a href="<?= e($fni['url']) ?>" class="footer-custom-nav-link"><?= e($fni['name']) ?></a>
                 <?php endforeach; ?>
@@ -383,7 +383,7 @@ a.footer-custom-nav-link:hover {
 <?php endif; ?>
 
 <?php if ($footer_show_back_to_top): ?>
-<button id="scroll-to-top" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<button id="scroll-to-top" aria-label="<?= e(site_t('Yukarı kaydır', 'Scroll to top')) ?>" onclick="window.scrollTo({top:0,behavior:'smooth'})">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
 </button>
 <?php endif; ?>

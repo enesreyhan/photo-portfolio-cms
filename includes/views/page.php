@@ -305,7 +305,7 @@ $wrapper_style_vars = sprintf(
                 <?php endif; ?>
 
                 <?php if ($inner_show_keyboard_hints): ?>
-                <div class="curator-keyboard-hint" id="curator-keyboard-hint" aria-label="Curator Navigation Shortcuts">
+                <div class="curator-keyboard-hint" id="curator-keyboard-hint" aria-label="<?= e(site_t('Küratör Gezinme Kısayolları', 'Curator Navigation Shortcuts')) ?>">
                     <div class="curator-hint-content">
                         <span class="curator-hint-key"><kbd>←</kbd><kbd>→</kbd> <?= site_t('Gezin', 'Navigate') ?></span>
                         <span class="curator-hint-sep">•</span>
@@ -332,7 +332,7 @@ $wrapper_style_vars = sprintf(
 
             <!-- Sayfa Navigasyonu (Önceki / Sonraki Hikaye) -->
             <?php if ($inner_show_prev_next && (!empty($prev_item) || !empty($next_item))): ?>
-                <nav class="project-story-nav" aria-label="Navigation">
+                <nav class="project-story-nav" aria-label="<?= e(site_t('Gezinme', 'Navigation')) ?>">
                     <?php if (!empty($prev_item)): 
                         $p_title = item_field($prev_item, 'title', $lang);
                         $p_url = item_url($prev_item, $lang);

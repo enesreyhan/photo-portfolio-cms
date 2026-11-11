@@ -1063,7 +1063,7 @@ lang_bar([
 
                     <div class="form-group" style="margin-bottom:0;">
                         <label class="form-label" id="labelFieldYear" style="margin-bottom:6px; font-weight:700;"><?= __a('Yıl / Dönem', 'Year / Period') ?></label>
-                        <input type="text" name="year" id="input_year" class="form-control" value="<?= e($item['year'] ?? '') ?>" placeholder="Örn: 2025 veya 2018–2024">
+                        <input type="text" name="year" id="input_year" class="form-control" value="<?= e($item['year'] ?? '') ?>" placeholder="<?= e(__a('Örn: 2025 veya 2018–2024', 'e.g. 2025 or 2018–2024')) ?>">
                     </div>
                 </div>
 
@@ -1275,7 +1275,7 @@ lang_bar([
                         </label>
                     </div>
                     <div style="display:flex; gap:6px;">
-                        <input type="text" name="slug_en" id="input_slug_en" class="form-control font-mono" value="<?= e($item['slug_en'] ?? $item['slug'] ?? '') ?>" oninput="onSlugEnChange()" placeholder="Örn: through-the-fire" style="font-size:12px;">
+                        <input type="text" name="slug_en" id="input_slug_en" class="form-control font-mono" value="<?= e($item['slug_en'] ?? $item['slug'] ?? '') ?>" oninput="onSlugEnChange()" placeholder="<?= e(__a('Örn: through-the-fire', 'e.g. through-the-fire')) ?>" style="font-size:12px;">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="generateSlugEn()" title="<?= __a('İngilizce Başlıktan Üret', 'Generate from English Title') ?>" style="white-space:nowrap; padding:4px 8px; font-size:12px;"><?= __a('Üret', 'Generate') ?></button>
                     </div>
                     <div class="form-help" id="slugEnPreview" style="margin-top:4px; color:var(--text-muted); font-family:var(--font-mono); font-size:12px;">
@@ -1292,7 +1292,7 @@ lang_bar([
                         </label>
                     </div>
                     <div style="display:flex; gap:6px;">
-                        <input type="text" name="slug_tr" id="input_slug_tr" class="form-control font-mono" value="<?= e($item['slug_tr'] ?? '') ?>" oninput="onSlugTrChange()" placeholder="Örn: atesin-icinden" style="font-size:12px;">
+                        <input type="text" name="slug_tr" id="input_slug_tr" class="form-control font-mono" value="<?= e($item['slug_tr'] ?? '') ?>" oninput="onSlugTrChange()" placeholder="<?= e(__a('Örn: atesin-icinden', 'e.g. atesin-icinden')) ?>" style="font-size:12px;">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="generateSlugTr()" title="<?= __a('Türkçe Başlıktan Üret', 'Generate from Turkish Title') ?>" style="white-space:nowrap; padding:4px 8px; font-size:12px;"><?= __a('Üret', 'Generate') ?></button>
                     </div>
                     <div class="form-help" id="slugTrPreview" style="margin-top:4px; color:var(--text-muted); font-family:var(--font-mono); font-size:12px;">
@@ -1333,7 +1333,7 @@ lang_bar([
                         </button>
                     </div>
                     <div style="display:flex; gap:8px; margin-bottom:8px;">
-                        <input type="text" name="cover_image" id="input_cover_image" class="form-control" value="<?= e($item['cover_image'] ?? '') ?>" placeholder="Örn: content/projects/slug/cover.jpg" oninput="onCoverInputChange()">
+                        <input type="text" name="cover_image" id="input_cover_image" class="form-control" value="<?= e($item['cover_image'] ?? '') ?>" placeholder="<?= e(__a('Örn: content/projects/slug/cover.jpg', 'e.g. content/projects/slug/cover.jpg')) ?>" oninput="onCoverInputChange()">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="openMediaModalForInput('input_cover_image')"><?= __a('Seç', 'Select') ?></button>
                     </div>
                     <input type="hidden" name="cover_focal" id="input_cover_focal" value="<?= e($item['cover_focal'] ?? '50% 50%') ?>">
@@ -1405,7 +1405,7 @@ lang_bar([
 
                 <div class="form-group">
                     <label class="form-label"><?= __a('Eski adresler (buraya yönlendirilir)', 'Old addresses (redirect here)') ?></label>
-                    <input type="text" name="aliases" class="form-control" value="<?= e($item['aliases'] ?? '') ?>" placeholder="Örn: /single/turkiye-color/">
+                    <input type="text" name="aliases" class="form-control" value="<?= e($item['aliases'] ?? '') ?>" placeholder="<?= e(__a('Örn: /single/turkiye-color/', 'e.g. /single/turkiye-color/')) ?>">
                 </div>
 
             </div>
@@ -1432,7 +1432,7 @@ function getActiveProjectFolder() {
 function updateTargetFolderNotice() {
     var f = getActiveProjectFolder();
     var el = document.getElementById('targetFolderNotice');
-    if (el) el.innerText = 'Klasör: ' + f;
+    if (el) el.innerText = '' + <?= json_encode(__a('Klasör:', 'Folder:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + f;
     if (typeof updateSlugPreviews === 'function') {
         updateSlugPreviews();
     }
@@ -1852,64 +1852,64 @@ function parseToNormalStructure(raw) {
 function renderRichToolbarHtml() {
     var isEn = (window.ADMIN_LANG === 'en');
     return '<div class="rich-toolbar">' +
-        '<select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this)" title="' + (isEn ? 'Format' : 'Format') + '">' +
-            '<option value="p">' + (isEn ? 'Paragraph' : 'Paragraf') + '</option>' +
-            '<option value="h2">' + (isEn ? 'Heading 2 (H2)' : 'Başlık 2 (H2)') + '</option>' +
-            '<option value="h3">' + (isEn ? 'Chapter Title (H3)' : 'Bölüm Başlığı (H3)') + '</option>' +
-            '<option value="h4">' + (isEn ? 'Subheading (H4)' : 'Alt Başlık (H4)') + '</option>' +
-            '<option value="blockquote">' + (isEn ? 'Quote Block' : 'Alıntı Bloğu') + '</option>' +
+        '<select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this)" title="' + (<?= json_encode(__a('Format', 'Format'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+            '<option value="p">' + (<?= json_encode(__a('Paragraf', 'Paragraph'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="h2">' + (<?= json_encode(__a('Başlık 2 (H2)', 'Heading 2 (H2)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="h3">' + (<?= json_encode(__a('Bölüm Başlığı (H3)', 'Chapter Title (H3)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="h4">' + (<?= json_encode(__a('Alt Başlık (H4)', 'Subheading (H4)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="blockquote">' + (<?= json_encode(__a('Alıntı Bloğu', 'Quote Block'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
         '</select>' +
-        '<select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this)" title="' + (isEn ? 'Font Size' : 'Yazı Boyutu') + '">' +
-            '<option value="" disabled selected>' + (isEn ? 'Size' : 'Boyut') + '</option>' +
-            '<option value="12px">' + (isEn ? '12px (Small Note)' : '12px (Küçük Not)') + '</option>' +
-            '<option value="14px">' + (isEn ? '14px (Standard)' : '14px (Standart)') + '</option>' +
-            '<option value="16px">' + (isEn ? '16px (Reading Text)' : '16px (Okuma Metni)') + '</option>' +
-            '<option value="18px">' + (isEn ? '18px (Lead Emphasis)' : '18px (Vurgulu Lead)') + '</option>' +
-            '<option value="22px">' + (isEn ? '22px (Subheading)' : '22px (Alt Başlık)') + '</option>' +
-            '<option value="28px">' + (isEn ? '28px (Main Heading)' : '28px (Büyük Başlık)') + '</option>' +
-            '<option value="inherit">' + (isEn ? 'Reset (Default)' : 'Sıfırla (Varsayılan)') + '</option>' +
+        '<select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this)" title="' + (<?= json_encode(__a('Yazı Boyutu', 'Font Size'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+            '<option value="" disabled selected>' + (<?= json_encode(__a('Boyut', 'Size'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="12px">' + (<?= json_encode(__a('12px (Küçük Not)', '12px (Small Note)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="14px">' + (<?= json_encode(__a('14px (Standart)', '14px (Standard)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="16px">' + (<?= json_encode(__a('16px (Okuma Metni)', '16px (Reading Text)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="18px">' + (<?= json_encode(__a('18px (Vurgulu Lead)', '18px (Lead Emphasis)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="22px">' + (<?= json_encode(__a('22px (Alt Başlık)', '22px (Subheading)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="28px">' + (<?= json_encode(__a('28px (Büyük Başlık)', '28px (Main Heading)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
+            '<option value="inherit">' + (<?= json_encode(__a('Sıfırla (Varsayılan)', 'Reset (Default)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
         '</select>' +
         '<div class="rt-sep"></div>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'undo\')" title="' + (isEn ? 'Undo (Ctrl+Z)' : 'Geri Al (Ctrl+Z)') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'undo\')" title="' + (<?= json_encode(__a('Geri Al (Ctrl+Z)', 'Undo (Ctrl+Z)'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'redo\')" title="' + (isEn ? 'Redo (Ctrl+Y)' : 'İleri Al (Ctrl+Y)') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'redo\')" title="' + (<?= json_encode(__a('İleri Al (Ctrl+Y)', 'Redo (Ctrl+Y)'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>' +
         '</button>' +
         '<div class="rt-sep"></div>' +
-        '<button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'bold\')" title="' + (isEn ? 'Bold (Ctrl+B)' : 'Kalın (Ctrl+B)') + '"><strong>B</strong></button>' +
-        '<button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'italic\')" title="' + (isEn ? 'Italic (Ctrl+I)' : 'İtalik (Ctrl+I)') + '"><em>I</em></button>' +
-        '<button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'underline\')" title="' + (isEn ? 'Underline (Ctrl+U)' : 'Altı Çizili (Ctrl+U)') + '"><u>U</u></button>' +
-        '<button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'strikeThrough\')" title="' + (isEn ? 'Strikethrough' : 'Üstü Çizili') + '"><s>S</s></button>' +
+        '<button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'bold\')" title="' + (<?= json_encode(__a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)'), JSON_UNESCAPED_UNICODE) ?>) + '"><strong>B</strong></button>' +
+        '<button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'italic\')" title="' + (<?= json_encode(__a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)'), JSON_UNESCAPED_UNICODE) ?>) + '"><em>I</em></button>' +
+        '<button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'underline\')" title="' + (<?= json_encode(__a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)'), JSON_UNESCAPED_UNICODE) ?>) + '"><u>U</u></button>' +
+        '<button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'strikeThrough\')" title="' + (<?= json_encode(__a('Üstü Çizili', 'Strikethrough'), JSON_UNESCAPED_UNICODE) ?>) + '"><s>S</s></button>' +
         '<div class="rt-sep"></div>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyLeft\')" title="' + (isEn ? 'Align Left' : 'Sola Yasla') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyLeft\')" title="' + (<?= json_encode(__a('Sola Yasla', 'Align Left'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="17" y1="18" x2="3" y2="18"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyCenter\')" title="' + (isEn ? 'Center' : 'Ortala') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyCenter\')" title="' + (<?= json_encode(__a('Ortala', 'Center'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="17" y1="12" x2="7" y2="12"/><line x1="19" y1="18" x2="5" y2="18"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyRight\')" title="' + (isEn ? 'Align Right' : 'Sağa Yasla') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyRight\')" title="' + (<?= json_encode(__a('Sağa Yasla', 'Align Right'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="7" y2="18"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyFull\')" title="' + (isEn ? 'Justify' : 'İki Yana Yasla') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyFull\')" title="' + (<?= json_encode(__a('İki Yana Yasla', 'Justify'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="3" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg>' +
         '</button>' +
         '<div class="rt-sep"></div>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'insertUnorderedList\')" title="' + (isEn ? 'Bullet List' : 'Madde İmleri Listesi') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'insertUnorderedList\')" title="' + (<?= json_encode(__a('Madde İmleri Listesi', 'Bullet List'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.5" fill="currentColor"/><circle cx="3.5" cy="12" r="1.5" fill="currentColor"/><circle cx="3.5" cy="18" r="1.5" fill="currentColor"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'insertOrderedList\')" title="' + (isEn ? 'Numbered List' : 'Numaralı Liste') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'insertOrderedList\')" title="' + (<?= json_encode(__a('Numaralı Liste', 'Numbered List'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'insertHorizontalRule\')" title="' + (isEn ? 'Horizontal Rule' : 'Ayırıcı Yatay Çizgi') + '">―</button>' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'insertHorizontalRule\')" title="' + (<?= json_encode(__a('Ayırıcı Yatay Çizgi', 'Horizontal Rule'), JSON_UNESCAPED_UNICODE) ?>) + '">―</button>' +
         '<div class="rt-sep"></div>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichLink(this)" title="' + (isEn ? 'Add Link' : 'Bağlantı / Link Ekle') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichLink(this)" title="' + (<?= json_encode(__a('Bağlantı / Link Ekle', 'Add Link'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'unlink\')" title="' + (isEn ? 'Remove Link' : 'Bağlantıyı Kaldır') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'unlink\')" title="' + (<?= json_encode(__a('Bağlantıyı Kaldır', 'Remove Link'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18.84 12.25 1.72-1.71a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="m5.16 11.75-1.72 1.71a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'removeFormat\')" title="' + (isEn ? 'Clear Formatting' : 'Biçimlendirmeyi Temizle') + '">' +
+        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'removeFormat\')" title="' + (<?= json_encode(__a('Biçimlendirmeyi Temizle', 'Clear Formatting'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>' +
         '</button>' +
     '</div>';
@@ -2245,9 +2245,9 @@ function renderStoryCanvas() {
     var chapterCount = blocks.filter(function(b) { return b.type === 'chapter'; }).length;
     var textCount = blocks.filter(function(b) { return b.type === 'text'; }).length;
     
-    var badgeText = blocks.length + (isEn ? ' Blocks (' : ' Blok (') + photoCount + (isEn ? ' Photos' : ' Fotoğraf');
-    if (chapterCount > 0) badgeText += ', ' + chapterCount + (isEn ? ' Chapters' : ' Bölüm');
-    if (textCount > 0) badgeText += ', ' + textCount + (isEn ? ' Texts' : ' Metin');
+    var badgeText = blocks.length + (<?= json_encode(__a(' Blok (', ' Blocks ('), JSON_UNESCAPED_UNICODE) ?>) + photoCount + (<?= json_encode(__a(' Fotoğraf', ' Photos'), JSON_UNESCAPED_UNICODE) ?>);
+    if (chapterCount > 0) badgeText += ', ' + chapterCount + (<?= json_encode(__a(' Bölüm', ' Chapters'), JSON_UNESCAPED_UNICODE) ?>);
+    if (textCount > 0) badgeText += ', ' + textCount + (<?= json_encode(__a(' Metin', ' Texts'), JSON_UNESCAPED_UNICODE) ?>);
     badgeText += ')';
     var badgeEl = document.getElementById('blockCountBadge');
     if (badgeEl) badgeEl.innerText = badgeText;
@@ -2255,8 +2255,8 @@ function renderStoryCanvas() {
     if (!blocks.length) {
         canvas.innerHTML = '<div style="text-align:center; padding:36px; color:var(--text-muted); border:2px dashed var(--border-light); border-radius:10px; background:var(--bg-surface);">' +
             '<div style="display:flex; justify-content:center; margin-bottom:10px; color:var(--text-sub);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>' +
-            '<div style="font-weight:600; font-size:14px; color:var(--text-main); margin-bottom:4px;">' + (isEn ? 'No blocks in the story flow yet' : 'Hikaye akışında henüz blok bulunmuyor') + '</div>' +
-            '<div style="font-size:12px; color:var(--text-muted);">' + (isEn ? 'You can start creating your editorial narrative by adding subtext, chapter cards, or photos from the buttons above.' : 'Yukarıdaki butonlardan ara metin, bölüm kartı veya fotoğraf ekleyerek editoryal anlatınızı oluşturmaya başlayabilirsiniz.') + '</div>' +
+            '<div style="font-weight:600; font-size:14px; color:var(--text-main); margin-bottom:4px;">' + (<?= json_encode(__a('Hikaye akışında henüz blok bulunmuyor', 'No blocks in the story flow yet'), JSON_UNESCAPED_UNICODE) ?>) + '</div>' +
+            '<div style="font-size:12px; color:var(--text-muted);">' + (<?= json_encode(__a('Yukarıdaki butonlardan ara metin, bölüm kartı veya fotoğraf ekleyerek editoryal anlatınızı oluşturmaya başlayabilirsiniz.', 'You can start creating your editorial narrative by adding subtext, chapter cards, or photos from the buttons above.'), JSON_UNESCAPED_UNICODE) ?>) + '</div>' +
         '</div>';
         return;
     }
@@ -2271,10 +2271,10 @@ function renderStoryCanvas() {
             var chapterPanes = SITE_LANGUAGES.map(function(l) {
                 var lc = l.code;
                 var isL_en = (lc === 'en');
-                var lblTitle = isL_en ? 'Chapter Title' : 'Bölüm Başlığı';
-                var phTitle = isL_en ? 'Chapter title...' : 'Bölüm başlığı...';
-                var lblIntro = isL_en ? 'Chapter Intro / Lead Paragraph' : 'Bölüm Giriş / Lead Paragrafı';
-                var phIntro = isL_en ? 'Introductory narrative setting the chapter mood...' : 'Bölümün atmosferini anlatan giriş metni...';
+                var lblTitle = isL_en ? 'Chapter Title' : <?= json_encode(__a('Bölüm Başlığı', 'Section Title'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+                var phTitle = isL_en ? 'Chapter title...' : <?= json_encode(__a('Bölüm başlığı...', 'Section title...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+                var lblIntro = isL_en ? 'Chapter Intro / Lead Paragraph' : <?= json_encode(__a('Bölüm Giriş / Lead Paragrafı', 'Section Intro / Lead Paragraph'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+                var phIntro = isL_en ? 'Introductory narrative setting the chapter mood...' : <?= json_encode(__a('Bölümün atmosferini anlatan giriş metni...', 'Intro text describing the section\'s atmosphere...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
                 return '<div class="block-lang-pane block-lang-' + lc + '" style="' + (lc !== activeLang ? 'display:none;' : '') + '">' +
                     '<div style="margin-bottom:8px;">' +
                         '<label style="font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:3px;">' + lblTitle + '</label>' +
@@ -2291,14 +2291,14 @@ function renderStoryCanvas() {
             }).join('');
 
             cardHtml = '<div class="story-card type-chapter" data-idx="' + idx + '" data-card-lang="' + activeLang + '">' +
-                '<div class="drag-handle" title="' + (isEn ? 'Drag to reorder' : 'Sırasını değiştirmek için sürükleyin') + '">' + MIN_ICONS.drag + '</div>' +
+                '<div class="drag-handle" title="' + (<?= json_encode(__a('Sırasını değiştirmek için sürükleyin', 'Drag to reorder'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.drag + '</div>' +
                 '<div class="story-card-body">' +
                     '<div class="story-card-top">' +
                         '<div style="display:flex; align-items:center; gap:8px;">' +
-                            '<span class="story-badge badge-chapter">' + MIN_ICONS.chapter + ' ' + (isEn ? 'Chapter' : 'Bölüm') + '</span>' +
+                            '<span class="story-badge badge-chapter">' + MIN_ICONS.chapter + ' ' + (<?= json_encode(__a('Bölüm', 'Chapter'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' +
                         '</div>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
-                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (isEn ? 'Remove Chapter' : 'Bölümü Kaldır') + '">' + MIN_ICONS.close + '</button>' +
+                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Bölümü Kaldır', 'Remove Chapter'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                         '</div>' +
                     '</div>' +
                     chapterPanes +
@@ -2307,7 +2307,7 @@ function renderStoryCanvas() {
         } else if (b.type === 'text') {
             var textPanes = SITE_LANGUAGES.map(function(l) {
                 var lc = l.code;
-                var phText = (lc === 'en') ? 'Editorial story text appearing between photos...' : 'Fotoğraflar arasında görünecek editoryal hikaye metni...';
+                var phText = (lc === 'en') ? 'Editorial story text appearing between photos...' : <?= json_encode(__a('Fotoğraflar arasında görünecek editoryal hikaye metni...', 'Editorial story text shown between photos...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
                 return '<div class="block-lang-pane block-lang-' + lc + '" style="' + (lc !== activeLang ? 'display:none;' : '') + '">' +
                     '<div class="rich-editor-wrap">' +
                         renderRichToolbarHtml() +
@@ -2317,12 +2317,12 @@ function renderStoryCanvas() {
             }).join('');
 
             cardHtml = '<div class="story-card type-text" data-idx="' + idx + '" data-card-lang="' + activeLang + '">' +
-                '<div class="drag-handle" title="' + (isEn ? 'Drag to reorder' : 'Sırasını değiştirmek için sürükleyin') + '">' + MIN_ICONS.drag + '</div>' +
+                '<div class="drag-handle" title="' + (<?= json_encode(__a('Sırasını değiştirmek için sürükleyin', 'Drag to reorder'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.drag + '</div>' +
                 '<div class="story-card-body">' +
                     '<div class="story-card-top">' +
-                        '<span class="story-badge badge-text">' + MIN_ICONS.text + ' ' + (isEn ? 'Subtext' : 'Ara Metin') + '</span>' +
+                        '<span class="story-badge badge-text">' + MIN_ICONS.text + ' ' + (<?= json_encode(__a('Ara Metin', 'Subtext'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
-                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (isEn ? 'Remove Text' : 'Metni Kaldır') + '">' + MIN_ICONS.close + '</button>' +
+                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Metni Kaldır', 'Remove Text'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                         '</div>' +
                     '</div>' +
                     textPanes +
@@ -2331,7 +2331,7 @@ function renderStoryCanvas() {
         } else if (b.type === 'quote') {
             var quotePanes = SITE_LANGUAGES.map(function(l) {
                 var lc = l.code;
-                var phQuote = (lc === 'en') ? 'Editorial quote text...' : 'Editoryal alıntı metni...';
+                var phQuote = (lc === 'en') ? 'Editorial quote text...' : <?= json_encode(__a('Editoryal alıntı metni...', 'Editorial quote text...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
                 return '<div class="block-lang-pane block-lang-' + lc + '" style="' + (lc !== activeLang ? 'display:none;' : '') + '">' +
                     '<div class="rich-editor-wrap">' +
                         renderRichToolbarHtml() +
@@ -2341,21 +2341,21 @@ function renderStoryCanvas() {
             }).join('');
 
             cardHtml = '<div class="story-card type-quote" data-idx="' + idx + '" data-card-lang="' + activeLang + '">' +
-                '<div class="drag-handle" title="' + (isEn ? 'Drag to reorder' : 'Sırasını değiştirmek için sürükleyin') + '">' + MIN_ICONS.drag + '</div>' +
+                '<div class="drag-handle" title="' + (<?= json_encode(__a('Sırasını değiştirmek için sürükleyin', 'Drag to reorder'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.drag + '</div>' +
                 '<div class="story-card-body">' +
                     '<div class="story-card-top">' +
-                        '<span class="story-badge badge-quote">' + MIN_ICONS.quote + ' ' + (isEn ? 'Quote' : 'Alıntı') + '</span>' +
+                        '<span class="story-badge badge-quote">' + MIN_ICONS.quote + ' ' + (<?= json_encode(__a('Alıntı', 'Quote'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
-                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (isEn ? 'Remove Quote' : 'Alıntıyı Kaldır') + '">' + MIN_ICONS.close + '</button>' +
+                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Alıntıyı Kaldır', 'Remove Quote'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                         '</div>' +
                     '</div>' +
                     quotePanes +
                 '</div>' +
             '</div>';
                     '<div class="story-card-top">' +
-                        '<span class="story-badge badge-quote">' + MIN_ICONS.quote + ' ' + (isEn ? 'Quote' : 'Alıntı') + '</span>' +
+                        '<span class="story-badge badge-quote">' + MIN_ICONS.quote + ' ' + (<?= json_encode(__a('Alıntı', 'Quote'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
-                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (isEn ? 'Remove Quote' : 'Alıntıyı Kaldır') + '">' + MIN_ICONS.close + '</button>' +
+                            '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Alıntıyı Kaldır', 'Remove Quote'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                         '</div>' +
                     '</div>' +
                     quotePanes +
@@ -2365,18 +2365,18 @@ function renderStoryCanvas() {
             // YouTube Video
             var ytThumb = b.id ? ('https://img.youtube.com/vi/' + b.id + '/hqdefault.jpg') : '';
             cardHtml = '<div class="story-card type-youtube" data-idx="' + idx + '">' +
-                '<div class="drag-handle" title="' + (isEn ? 'Drag to reorder' : 'Sırasını değiştirmek için sürükleyin') + '">' + MIN_ICONS.drag + '</div>' +
+                '<div class="drag-handle" title="' + (<?= json_encode(__a('Sırasını değiştirmek için sürükleyin', 'Drag to reorder'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.drag + '</div>' +
                 '<div class="story-card-thumb" style="background:#0f172a;">' +
-                    (ytThumb ? '<img src="' + ytThumb + '" alt="YouTube" />' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-sub);font-size:12px;">' + (isEn ? 'No Video' : 'Video Yok') + '</div>') +
+                    (ytThumb ? '<img src="' + ytThumb + '" alt="YouTube" />' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-sub);font-size:12px;">' + (<?= json_encode(__a('Video Yok', 'No Video'), JSON_UNESCAPED_UNICODE) ?>) + '</div>') +
                 '</div>' +
                 '<div class="story-card-body">' +
                     '<div class="story-card-top">' +
                         '<span class="story-badge badge-youtube">' + MIN_ICONS.youtube + ' YouTube Video</span>' +
-                        '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (isEn ? 'Remove Video' : 'Videoyu Kaldır') + '">' + MIN_ICONS.close + '</button>' +
+                        '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Videoyu Kaldır', 'Remove Video'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                     '</div>' +
                     '<div style="display:flex; gap:8px; align-items:center;">' +
                         '<label style="font-size:12px; font-weight:600; color:var(--text-muted); margin:0; white-space:nowrap;">Video ID / Link:</label>' +
-                        '<input type="text" data-field="youtube_id" class="form-control" style="font-size:12px; padding:5px 8px;" value="' + escapeHtml(b.id || '') + '" placeholder="Örn: 0SHfeXoVkF4" oninput="updateYoutubeField(' + idx + ', this.value)">' +
+                        '<input type="text" data-field="youtube_id" class="form-control" style="font-size:12px; padding:5px 8px;" value="' + escapeHtml(b.id || '') + '" placeholder="' + escapeHtml(<?= json_encode(__a('Örn: 0SHfeXoVkF4', 'e.g. 0SHfeXoVkF4'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>) + '" oninput="updateYoutubeField(' + idx + ', this.value)">' +
                     '</div>' +
                 '</div>' +
             '</div>';
@@ -2396,7 +2396,7 @@ function renderStoryCanvas() {
 
             var photoAltInputs = SITE_LANGUAGES.map(function(l) {
                 var lc = l.code;
-                var phPhoto = (lc === 'en') ? 'Photo caption / description...' : 'Fotoğraf alt yazısı / açıklaması...';
+                var phPhoto = (lc === 'en') ? 'Photo caption / description...' : <?= json_encode(__a('Fotoğraf alt yazısı / açıklaması...', 'Photo caption / description...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
                 return '<input type="text" class="form-control block-lang-pane block-lang-' + lc + '" style="font-size:13px; padding:6px 10px; ' + (lc !== activeLang ? 'display:none;' : '') + '" value="' + escapeHtml(b['alt_' + lc] || '') + '" placeholder="' + phPhoto + '" oninput="updateCardAlt(' + idx + ', \'alt_' + lc + '\', this.value)">';
             }).join('');
 
@@ -2408,8 +2408,8 @@ function renderStoryCanvas() {
             var isDiptych = (b.layout === 'row');
 
             cardHtml = '<div class="story-card type-photo ' + (isCover ? 'is-cover-card' : '') + ' ' + (isDiptych ? 'is-diptych-pair' : '') + '" data-idx="' + idx + '" data-card-lang="' + activeLang + '">' +
-                '<div class="drag-handle" title="' + (isEn ? 'Drag to reorder' : 'Sırasını değiştirmek için sürükleyin') + '">' + MIN_ICONS.drag + '</div>' +
-                '<div class="story-card-thumb" ondblclick="pickStoryBlockFocal(event, ' + idx + ')" title="' + (isEn ? 'Double-click to set focal point (Current: ' + focalPoint + ')' : 'Odak noktasını belirlemek için görsele çift tıklayın (Şu an: ' + focalPoint + ')') + '" style="position:relative; cursor:crosshair;">' +
+                '<div class="drag-handle" title="' + (<?= json_encode(__a('Sırasını değiştirmek için sürükleyin', 'Drag to reorder'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.drag + '</div>' +
+                '<div class="story-card-thumb" ondblclick="pickStoryBlockFocal(event, ' + idx + ')" title="' + escapeHtml(<?= json_encode(__a('Odak noktasını belirlemek için görsele çift tıklayın (Şu an: %s)', 'Double-click to set focal point (Current: %s)'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>.replace('%s', focalPoint)) + '" style="position:relative; cursor:crosshair;">' +
                     '<img src="' + thumbUrl + '" alt="' + escapeHtml(b.alt_tr || b.alt_en || '') + '" loading="lazy" style="object-position:' + focalPoint + ';" />' +
                     '<span class="thumb-focal-dot" style="left:' + focalX + '; top:' + focalY + ';" title="' + focalPoint + '"></span>' +
                 '</div>' +
@@ -2417,27 +2417,27 @@ function renderStoryCanvas() {
                     '<div class="story-card-top">' +
                         '<div style="display:flex; align-items:center; gap:8px; min-width:0; flex-wrap:wrap;">' +
                             '<span class="story-badge badge-photo">' + MIN_ICONS.photo + ' #' + currPhotoIdx + '</span>' +
-                            (isDiptych ? '<span class="diptych-badge">' + (isEn ? 'Diptych' : 'Diptik') + '</span>' : '') +
-                            (isCover ? '<span class="story-badge" style="background:var(--warning-soft); color:var(--warning-text); border:1px solid var(--warning-border); font-weight:700;">★ ' + (isEn ? 'Cover' : 'Kapak') + '</span>' : '') +
-                            (isCustomFocal ? '<span style="font-size:12px; font-family:var(--font-mono); color:var(--text-muted); cursor:pointer; background:rgba(0,0,0,0.06); padding:1px 5px; border-radius:6px;" onclick="resetStoryBlockFocal(event, ' + idx + ')" title="' + (isEn ? 'Reset focal point' : 'Odak noktasını sıfırla') + '">' + focalPoint + ' ✕</span>' : '') +
+                            (isDiptych ? '<span class="diptych-badge">' + (<?= json_encode(__a('Diptik', 'Diptych'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' : '') +
+                            (isCover ? '<span class="story-badge" style="background:var(--warning-soft); color:var(--warning-text); border:1px solid var(--warning-border); font-weight:700;">★ ' + (<?= json_encode(__a('Kapak', 'Cover'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' : '') +
+                            (isCustomFocal ? '<span style="font-size:12px; font-family:var(--font-mono); color:var(--text-muted); cursor:pointer; background:rgba(0,0,0,0.06); padding:1px 5px; border-radius:6px;" onclick="resetStoryBlockFocal(event, ' + idx + ')" title="' + (<?= json_encode(__a('Odak noktasını sıfırla', 'Reset focal point'), JSON_UNESCAPED_UNICODE) ?>) + '">' + focalPoint + ' ✕</span>' : '') +
                             '<span class="story-card-path" title="' + b.path + '">' + filename + '</span>' +
                         '</div>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
                             '<div class="story-card-layout-pills card-tool">' +
-                                '<button type="button" class="layout-pill ' + (b.layout === 'single' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'single\')" title="' + (isEn ? 'Full Width' : 'Tam Genişlik') + '">' + (isEn ? 'Full' : 'Tam Boy') + '</button>' +
-                                '<button type="button" class="layout-pill ' + (b.layout === 'row' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'row\')" title="' + (isEn ? 'Diptych / Side-by-side Pair' : 'Diptik / Yan Yana İkili') + '">' + (isEn ? 'Diptych' : 'Diptik') + '</button>' +
-                                '<button type="button" class="layout-pill ' + (b.layout === 'left' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'left\')" title="' + (isEn ? 'Align Left' : 'Sola Yasla') + '">' + (isEn ? 'Left' : 'Sola') + '</button>' +
-                                '<button type="button" class="layout-pill ' + (b.layout === 'right' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'right\')" title="' + (isEn ? 'Align Right' : 'Sağa Yasla') + '">' + (isEn ? 'Right' : 'Sağa') + '</button>' +
+                                '<button type="button" class="layout-pill ' + (b.layout === 'single' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'single\')" title="' + (<?= json_encode(__a('Tam Genişlik', 'Full Width'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Tam Boy', 'Full'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                                '<button type="button" class="layout-pill ' + (b.layout === 'row' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'row\')" title="' + (<?= json_encode(__a('Diptik / Yan Yana İkili', 'Diptych / Side-by-side Pair'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Diptik', 'Diptych'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                                '<button type="button" class="layout-pill ' + (b.layout === 'left' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'left\')" title="' + (<?= json_encode(__a('Sola Yasla', 'Align Left'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Sola', 'Left'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                                '<button type="button" class="layout-pill ' + (b.layout === 'right' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'right\')" title="' + (<?= json_encode(__a('Sağa Yasla', 'Align Right'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Sağa', 'Right'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
                     '<div style="display:flex; gap:8px; align-items:center;">' +
                         '<div style="flex:1;">' + photoAltInputs + '</div>' +
                         (isCover
-                            ? '<button type="button" class="btn btn-primary btn-sm" style="font-size:12px; padding:5px 9px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; border-radius:6px; background:#1e293b; color:#ffffff; border-color:#0f172a; font-weight:700;" onclick="toggleCoverFromStory(\'' + escapeHtml(b.path) + '\')" title="' + (isEn ? 'Remove Cover' : 'Kapağı Kaldır') + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="#60a5fa" stroke="#60a5fa" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span>' + (isEn ? 'Cover (Remove)' : 'Kapak (Kaldır)') + '</span></button>'
-                            : '<button type="button" class="btn btn-secondary btn-sm card-tool" style="font-size:12px; padding:5px 9px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; border-radius:6px;" onclick="toggleCoverFromStory(\'' + escapeHtml(b.path) + '\')" title="' + (isEn ? 'Set as Cover Photo' : 'Kapak Görseli Yap') + '">' + MIN_ICONS.star + ' <span>' + (isEn ? 'Make Cover' : 'Kapak Yap') + '</span></button>'
+                            ? '<button type="button" class="btn btn-primary btn-sm" style="font-size:12px; padding:5px 9px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; border-radius:6px; background:#1e293b; color:#ffffff; border-color:#0f172a; font-weight:700;" onclick="toggleCoverFromStory(\'' + escapeHtml(b.path) + '\')" title="' + (<?= json_encode(__a('Kapağı Kaldır', 'Remove Cover'), JSON_UNESCAPED_UNICODE) ?>) + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="#60a5fa" stroke="#60a5fa" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span>' + (<?= json_encode(__a('Kapak (Kaldır)', 'Cover (Remove)'), JSON_UNESCAPED_UNICODE) ?>) + '</span></button>'
+                            : '<button type="button" class="btn btn-secondary btn-sm card-tool" style="font-size:12px; padding:5px 9px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; border-radius:6px;" onclick="toggleCoverFromStory(\'' + escapeHtml(b.path) + '\')" title="' + (<?= json_encode(__a('Kapak Görseli Yap', 'Set as Cover Photo'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.star + ' <span>' + (<?= json_encode(__a('Kapak Yap', 'Make Cover'), JSON_UNESCAPED_UNICODE) ?>) + '</span></button>'
                         ) +
-                        '<button type="button" class="btn-card-del card-tool" onclick="removeBlockFromStory(' + idx + ')" title="' + (isEn ? 'Remove from Stream' : 'Akıştan Kaldır') + '">' + MIN_ICONS.close + '</button>' +
+                        '<button type="button" class="btn-card-del card-tool" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Akıştan Kaldır', 'Remove from Stream'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                     '</div>' +
                 '</div>' +
             '</div>';
@@ -2473,14 +2473,14 @@ function setCardLang(btn, lang) {
 
 var CANVAS_I18N = {
     tr: {
-        studioTitle: 'Editoryal Stüdyo & Fotoğraf Tuvali',
-        studioSub: 'Fotoğraf sırası ve yerleşimleri tüm dillerde tek tuvalde ortaktır',
-        title: 'Başlık',
-        desc: 'Kısa Açıklama',
-        loc: 'Konum / Coğrafya',
-        year: 'Yıl / Dönem',
-        intro: 'Editoryal Giriş Hikayesi',
-        introDesc: 'Fotoğraflar ve bölümler başlamadan önce, sayfa başlığının hemen altında yer alan ana hikaye ve editoryal giriş metni.'
+        studioTitle: <?= json_encode(__a('Editoryal Stüdyo & Fotoğraf Tuvali', 'Editorial Studio & Photo Canvas'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
+        studioSub: <?= json_encode(__a('Fotoğraf sırası ve yerleşimleri tüm dillerde tek tuvalde ortaktır', 'Photo sequence and layouts are shared across all languages on a single canvas'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
+        title: <?= json_encode(__a('Başlık', 'Title'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
+        desc: <?= json_encode(__a('Kısa Açıklama', 'Short Description'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
+        loc: <?= json_encode(__a('Konum / Coğrafya', 'Location / Geography'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
+        year: <?= json_encode(__a('Yıl / Dönem', 'Year / Period'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
+        intro: <?= json_encode(__a('Editoryal Giriş Hikayesi', 'Editorial Intro Story'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
+        introDesc: <?= json_encode(__a('Fotoğraflar ve bölümler başlamadan önce, sayfa başlığının hemen altında yer alan ana hikaye ve editoryal giriş metni.', 'Main story and editorial intro text shown directly under the page title, before photos and sections.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>
     },
     en: {
         studioTitle: 'Editorial Studio & Photo Canvas',
@@ -2586,7 +2586,7 @@ function copyFromSourceLang() {
     var srcLang = detectSourceLang(targetLang);
 
     var fields = ['title', 'description', 'location'];
-    var fieldNames = { title: 'Başlık', description: 'Kısa açıklama', location: 'Konum' };
+    var fieldNames = { title: <?= json_encode(__a('Başlık', 'Title'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, description: <?= json_encode(__a('Kısa açıklama', 'Short description'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, location: 'Konum' };
     var filled = [];
     fields.forEach(function(f) {
         var srcEl = document.getElementById('input_' + f + '_' + srcLang);
@@ -2600,7 +2600,7 @@ function copyFromSourceLang() {
     });
     // Dolu alanlar tek seferde sorulur; boş alanlar ve bloklar beklemeden kopyalanır
     if (filled.length) {
-        adminConfirm(filled.map(function (x) { return x[0]; }).join(', ') + ' (' + targetLang.toUpperCase() + ') zaten dolu. Kaynak dildeki metin üzerine yazılsın mı?', { ok: 'Üzerine yaz', danger: false }).then(function (ok) {
+        adminConfirm(filled.map(function (x) { return x[0]; }).join(', ') + ' (' + targetLang.toUpperCase() + <?= json_encode(__a(') zaten dolu. Kaynak dildeki metin üzerine yazılsın mı?', ') is already filled. Overwrite it with the source-language text?'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, { ok: <?= json_encode(__a('Üzerine yaz', 'Overwrite'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, danger: false }).then(function (ok) {
             if (ok) filled.forEach(function (x) { x[2].value = x[1].value; x[2].dispatchEvent(new Event('input', { bubbles: true })); });
         });
     }
@@ -2713,9 +2713,9 @@ function purgeTranslationWarnings(showToast) {
 
     if (showToast) {
         if (count > 0) {
-            alert('✓ ' + count + ' adet hatalı MyMemory uyarı metni başarıyla temizlendi.');
+            alert('✓ ' + count + ' ' + <?= json_encode(__a('adet hatalı MyMemory uyarı metni başarıyla temizlendi.', 'faulty MyMemory warning texts were cleaned up successfully.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '');
         } else {
-            alert('Aktif dilde (' + lang.toUpperCase() + ') herhangi bir hatalı uyarı metni tespit edilmedi.');
+            alert('Aktif dilde (' + lang.toUpperCase() + <?= json_encode(__a(') herhangi bir hatalı uyarı metni tespit edilmedi.', ') no faulty warning text was found.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
         }
     }
 }
@@ -2724,7 +2724,7 @@ function purgeTranslationWarnings(showToast) {
 function clearAllFieldsCurrentLang() {
     var lang = currentCanvasLang || 'en';
     var langUpper = lang.toUpperCase();
-    adminConfirm(langUpper + ' dilindeki başlık, açıklama, giriş hikayesi, bölüm ve alt yazı metinleri boşaltılacak. Kaydetmeden çıkarsanız eski hali korunur.', { title: langUpper + ' dili boşaltılsın mı?', ok: 'Boşalt' }).then(function (ok) {
+    adminConfirm(langUpper + ' ' + <?= json_encode(__a('dilindeki başlık, açıklama, giriş hikayesi, bölüm ve alt yazı metinleri boşaltılacak. Kaydetmeden çıkarsanız eski hali korunur.', 'language will be cleared: title, description, intro story, chapters and captions. If you leave without saving, the previous version is kept.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '', { title: langUpper + ' ' + <?= json_encode(__a('dili boşaltılsın mı?', 'language be cleared?'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '', ok: <?= json_encode(__a('Boşalt', 'Clear'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> }).then(function (ok) {
         if (ok) clearAllFieldsCurrentLangNow(lang, langUpper);
     });
 }
@@ -2756,7 +2756,7 @@ function clearAllFieldsCurrentLangNow(lang, langUpper) {
 
     renderStoryCanvas();
     checkLanguageForWarnings(lang);
-    alert('✓ ' + langUpper + ' diline ait tüm alanlar temizlendi.');
+    alert('✓ ' + langUpper + ' ' + <?= json_encode(__a('diline ait tüm alanlar temizlendi.', 'language: all fields were cleared.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '');
 }
 
 // Dil Değişiminde veya Sayfa Açılışında Hatalı Uyarı Denetimi
@@ -2788,7 +2788,7 @@ function checkLanguageForWarnings(lang) {
         banner.style.display = 'flex';
         var desc = document.getElementById('bannerWarningDesc');
         if (desc) {
-            desc.textContent = lang.toUpperCase() + ' dilinde MyMemory çeviri limiti uyarısı içeren ' + count + ' alan tespit edildi. Tek tıkla temizleyebilirsiniz.';
+            desc.textContent = lang.toUpperCase() + ' ' + <?= json_encode(__a('dilinde MyMemory çeviri limiti uyarısı içeren', 'language containing a MyMemory translation limit warning'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + count + ' ' + <?= json_encode(__a('alan tespit edildi. Tek tıkla temizleyebilirsiniz.', 'fields detected. You can clean them up with one click.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '';
         }
     } else {
         banner.style.display = 'none';
@@ -2842,7 +2842,7 @@ function openTranslateModal(srcLang, targetLang, tasks) {
     var btnClose = document.getElementById('btnCloseTranslate');
     if (btnClose) btnClose.style.display = 'none';
 
-    updateModalProgress(0, tasks.length, 0, 0, 'Çeviri başlatılıyor...');
+    updateModalProgress(0, tasks.length, 0, 0, <?= json_encode(__a('Çeviri başlatılıyor...', 'Starting translation...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
     modal.style.display = 'flex';
 }
 
@@ -2856,15 +2856,15 @@ function updateTaskRowUI(idx, t) {
             row.style.background = '#f0f9ff';
             try { row.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch(e) {}
         }
-        statusEl.innerHTML = '<span style="background:#e0f2fe; color:#0284c7; font-size:12px; padding:2px 8px; border-radius:10px; font-weight:600; display:inline-flex; align-items:center; gap:4px;"><span style="width:9px; height:9px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; display:inline-block; animation:modalSpin 0.75s linear infinite;"></span> Çevriliyor...</span>';
+        statusEl.innerHTML = '<span style="background:#e0f2fe; color:#0284c7; font-size:12px; padding:2px 8px; border-radius:10px; font-weight:600; display:inline-flex; align-items:center; gap:4px;"><span style="width:9px; height:9px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; display:inline-block; animation:modalSpin 0.75s linear infinite;"></span> ' + <?= json_encode(__a('Çevriliyor...', 'Translating...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</span>';
     } else if (t.status === 'success') {
         if (row) row.style.background = '#f0fdf4';
         var preview = escapeHtml(t.resultText.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
         if (preview.length > 28) preview = preview.substring(0, 25) + '...';
-        statusEl.innerHTML = '<span style="background:var(--success-soft); color:var(--success-text); font-size:12px; padding:2px 8px; border-radius:10px; font-weight:600;" title="' + escapeHtml(t.resultText) + '">✅ ' + (preview || 'Tamamlandı') + '</span>';
+        statusEl.innerHTML = '<span style="background:var(--success-soft); color:var(--success-text); font-size:12px; padding:2px 8px; border-radius:10px; font-weight:600;" title="' + escapeHtml(t.resultText) + '">✅ ' + (preview || <?= json_encode(__a('Tamamlandı', 'Done'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>) + '</span>';
     } else if (t.status === 'failed') {
         if (row) row.style.background = '#fff1f2';
-        statusEl.innerHTML = '<span style="background:var(--danger-soft); color:var(--danger-text); font-size:12px; padding:2px 8px; border-radius:10px; font-weight:600;" title="' + escapeHtml(t.errorMsg || 'Limit aşıldı') + '">⚠️ Atlandı (Korundu)</span>';
+        statusEl.innerHTML = '<span style="background:var(--danger-soft); color:var(--danger-text); font-size:12px; padding:2px 8px; border-radius:10px; font-weight:600;" title="' + escapeHtml(t.errorMsg || <?= json_encode(__a('Limit aşıldı', 'Limit exceeded'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>) + '">⚠️ ' + <?= json_encode(__a('Atlandı (Korundu)', 'Skipped (Kept)'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</span>';
     }
 }
 
@@ -2877,13 +2877,13 @@ function updateModalProgress(completed, total, success, failed, customLabel) {
 
     var textEl = document.getElementById('modalProgressText');
     if (textEl) {
-        textEl.textContent = customLabel || (completed + ' / ' + total + ' alan tamamlandı');
+        textEl.textContent = customLabel || (completed + ' / ' + total + ' ' + <?= json_encode(__a('alan tamamlandı', 'fields completed'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '');
     }
 
     var sTot = document.getElementById('statTotal');
     if (sTot) sTot.textContent = 'Toplam: ' + total + ' alan';
     var sSuc = document.getElementById('statSuccess');
-    if (sSuc) sSuc.textContent = '✅ ' + success + ' Başarılı';
+    if (sSuc) sSuc.textContent = '✅ ' + success + ' ' + <?= json_encode(__a('Başarılı', 'Success'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '';
     var sFail = document.getElementById('statFailed');
     if (sFail) sFail.textContent = '⚠️ ' + failed + ' Atlanan / Korunan';
     var sRem = document.getElementById('statRemaining');
@@ -2900,7 +2900,7 @@ function finishAutoTranslate(success, failed, total, targetLang) {
     var btnClose = document.getElementById('btnCloseTranslate');
     if (btnClose) btnClose.style.display = 'inline-block';
 
-    updateModalProgress(total, total, success, failed, 'İşlem Tamamlandı');
+    updateModalProgress(total, total, success, failed, <?= json_encode(__a('İşlem Tamamlandı', 'Process Complete'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
 
     var alertEl = document.getElementById('modalStatusAlert');
     if (alertEl) {
@@ -2909,12 +2909,12 @@ function finishAutoTranslate(success, failed, total, targetLang) {
             alertEl.style.background = '#fff7ed';
             alertEl.style.border = '1px solid #ffedd5';
             alertEl.style.color = '#c2410c';
-            alertEl.innerHTML = '⚠️ <strong>' + success + ' alan başarıyla çevrildi.</strong><br>' + failed + ' alan ise çeviri servisi limiti nedeniyle atlandı ve hata mesajıyla kirlenmemesi için mevcut hali korundu.';
+            alertEl.innerHTML = '⚠️ <strong>' + <?= json_encode(__a('%s alan başarıyla çevrildi.', '%s fields translated successfully.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>.replace('%s', success) + '</strong><br>' + <?= json_encode(__a('%s alan çeviri servisi limiti nedeniyle atlandı; hata mesajı yazılmasın diye mevcut hali korundu.', '%s fields were skipped due to the translation service limit; their current content was kept so no error message gets written into them.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>.replace('%s', failed);
         } else {
             alertEl.style.background = '#f0fdf4';
             alertEl.style.border = '1px solid #bbf7d0';
             alertEl.style.color = '#15803d';
-            alertEl.innerHTML = '✅ <strong>Mükemmel!</strong> ' + total + ' alanın tamamı seçili dile başarıyla çevrildi ve tuvale uygulandı.';
+            alertEl.innerHTML = '✅ <strong>' + <?= json_encode(__a('Mükemmel!', 'Perfect!'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</strong> ' + <?= json_encode(__a('%s alanın tamamı seçili dile çevrildi ve tuvale uygulandı.', 'All %s fields were translated into the selected language and applied to the canvas.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>.replace('%s', total);
         }
     }
 }
@@ -2923,7 +2923,7 @@ function cancelAutoTranslate() {
     if (isAutoTranslateRunning) {
         cancelTranslateRequested = true;
         var textEl = document.getElementById('modalProgressText');
-        if (textEl) textEl.textContent = 'İşlem durduruluyor...';
+        if (textEl) textEl.textContent = <?= json_encode(__a('İşlem durduruluyor...', 'Stopping...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     } else {
         closeTranslateModal();
     }
@@ -2932,7 +2932,7 @@ function cancelAutoTranslate() {
 function closeTranslateModal() {
     var hide = function () { var modal = document.getElementById('modalAutoTranslateProgress'); if (modal) modal.style.display = 'none'; };
     if (!isAutoTranslateRunning) return hide();
-    adminConfirm('Çeviri sürüyor. Durdurursanız şu ana kadar çevrilen alanlar kalır, kalanlar çevrilmez.', { title: 'Çeviri durdurulsun mu?', ok: 'Durdur ve kapat', danger: false }).then(function (ok) {
+    adminConfirm(<?= json_encode(__a('Çeviri sürüyor. Durdurursanız şu ana kadar çevrilen alanlar kalır, kalanlar çevrilmez.', 'Translation in progress. If you stop, fields translated so far are kept; the rest are not translated.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, { title: <?= json_encode(__a('Çeviri durdurulsun mu?', 'Stop the translation?'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, ok: 'Durdur ve kapat', danger: false }).then(function (ok) {
         if (!ok) return;
         cancelTranslateRequested = true;
         hide();
@@ -2969,7 +2969,7 @@ function autoTranslateCurrentLang() {
     }
     var dstTitle = document.getElementById('input_title_' + targetLang);
     if (srcTitle && dstTitle && srcTitle.value.trim() !== '') {
-        queueTask((isEn ? 'Title' : 'Başlık'), '📝', srcTitle.value, function(res) {
+        queueTask((<?= json_encode(__a('Başlık', 'Title'), JSON_UNESCAPED_UNICODE) ?>), '📝', srcTitle.value, function(res) {
             dstTitle.value = res;
             if (targetLang === 'en') generateSlugEn();
             else if (targetLang === 'tr') generateSlugTr();
@@ -2983,7 +2983,7 @@ function autoTranslateCurrentLang() {
     }
     var dstDesc = document.getElementById('input_description_' + targetLang);
     if (srcDesc && dstDesc && srcDesc.value.trim() !== '') {
-        queueTask((isEn ? 'Short Description' : 'Kısa Açıklama'), '📄', srcDesc.value, function(res) { dstDesc.value = res; }, 'desc');
+        queueTask((<?= json_encode(__a('Kısa Açıklama', 'Short Description'), JSON_UNESCAPED_UNICODE) ?>), '📄', srcDesc.value, function(res) { dstDesc.value = res; }, 'desc');
     }
 
     var srcLoc = document.getElementById('input_location_' + srcLang);
@@ -2992,7 +2992,7 @@ function autoTranslateCurrentLang() {
     }
     var dstLoc = document.getElementById('input_location_' + targetLang);
     if (srcLoc && dstLoc && srcLoc.value.trim() !== '') {
-        queueTask((isEn ? 'Location / Geography' : 'Konum / Coğrafya'), '📍', srcLoc.value, function(res) { dstLoc.value = res; }, 'loc');
+        queueTask((<?= json_encode(__a('Konum / Coğrafya', 'Location / Geography'), JSON_UNESCAPED_UNICODE) ?>), '📍', srcLoc.value, function(res) { dstLoc.value = res; }, 'loc');
     }
 
     var srcIntroEl = document.getElementById('introEditable_' + srcLang);
@@ -3002,7 +3002,7 @@ function autoTranslateCurrentLang() {
     var dstIntroEl = document.getElementById('introEditable_' + targetLang);
     var srcIntroHtml = srcIntroEl ? getRichContent(srcIntroEl) : '';
     if (srcIntroHtml && dstIntroEl) {
-        queueTask('Giriş Hikayesi (Intro Story)', '📖', srcIntroHtml, function(res) {
+        queueTask(<?= json_encode(__a('Giriş Hikayesi (Intro Story)', 'Intro Story'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, '📖', srcIntroHtml, function(res) {
             dstIntroEl.innerHTML = res;
             studioIntro[targetLang] = res;
         }, 'intro');
@@ -3015,23 +3015,23 @@ function autoTranslateCurrentLang() {
             var sAlt = b['alt_' + srcLang] || (srcLang !== 'tr' ? (b['alt_tr'] || '') : '');
             if (sAlt) {
                 (function(pn) {
-                    queueTask('Fotoğraf #' + pn + ' Alt Yazısı', '🖼️', sAlt, function(res) { b['alt_' + targetLang] = res; }, 'photo_' + bIdx);
+                    queueTask(<?= json_encode(__a('Fotoğraf #', 'Photo #'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + pn + ' ' + <?= json_encode(__a('Alt Yazısı', 'Caption'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '', '🖼️', sAlt, function(res) { b['alt_' + targetLang] = res; }, 'photo_' + bIdx);
                 })(photoNum);
             }
         } else if (b.type === 'chapter') {
             var sTitle = b['title_' + srcLang] || (srcLang !== 'tr' ? (b['title_tr'] || '') : '');
             var sLead = b['lead_' + srcLang] || (srcLang !== 'tr' ? (b['lead_tr'] || '') : '');
-            if (sTitle) queueTask('Bölüm Başlığı', '📑', sTitle, function(res) { b['title_' + targetLang] = res; }, 'ch_title_' + bIdx);
-            if (sLead) queueTask('Bölüm Özeti', '📑', sLead, function(res) { b['lead_' + targetLang] = res; }, 'ch_lead_' + bIdx);
+            if (sTitle) queueTask(<?= json_encode(__a('Bölüm Başlığı', 'Section Title'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, '📑', sTitle, function(res) { b['title_' + targetLang] = res; }, 'ch_title_' + bIdx);
+            if (sLead) queueTask(<?= json_encode(__a('Bölüm Özeti', 'Section Summary'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, '📑', sLead, function(res) { b['lead_' + targetLang] = res; }, 'ch_lead_' + bIdx);
         } else if (b.type === 'text' || b.type === 'quote') {
             var sTxt = b['text_' + srcLang] || (srcLang !== 'tr' ? (b['text_tr'] || '') : '');
-            var typeName = b.type === 'quote' ? 'Alıntı (Quote)' : 'Metin Bloğu (Text)';
+            var typeName = b.type === 'quote' ? <?= json_encode(__a('Alıntı (Quote)', 'Quote'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> : <?= json_encode(__a('Metin Bloğu (Text)', 'Text Block'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
             if (sTxt) queueTask(typeName, '💬', sTxt, function(res) { b['text_' + targetLang] = res; }, 'text_' + bIdx);
         }
     });
 
     if (!tasks.length) {
-        alert('Kaynak dil olarak İngilizce (EN) içeriği bulunamadı. Lütfen önce İngilizce alanları doldurun.');
+        alert(<?= json_encode(__a('Kaynak dil olarak İngilizce (EN) içeriği bulunamadı. Lütfen önce İngilizce alanları doldurun.', 'No English (EN) content was found as the source language. Please fill in the English fields first.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
         return;
     }
 
@@ -3061,7 +3061,7 @@ function autoTranslateCurrentLang() {
             updateTaskRowUI(idx, tasks[idx]);
         }
 
-        updateModalProgress(completedCount, tasks.length, successCount, failCount, 'Çevriliyor (' + (taskIndex + 1) + '-' + Math.min(taskIndex + batchSize, tasks.length) + ' / ' + tasks.length + ')...');
+        updateModalProgress(completedCount, tasks.length, successCount, failCount, <?= json_encode(__a('Çevriliyor (', 'Translating ('), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + (taskIndex + 1) + '-' + Math.min(taskIndex + batchSize, tasks.length) + ' / ' + tasks.length + ')...');
 
         fetch('<?= url("admin/api-translate.php") ?>', {
             method: 'POST',
@@ -3095,7 +3095,7 @@ function autoTranslateCurrentLang() {
                     successCount++;
                 } else {
                     t.status = 'failed';
-                    t.errorMsg = (resObj && resObj.error) ? resObj.error : 'Kota limiti veya servis hatası (Alan korundu)';
+                    t.errorMsg = (resObj && resObj.error) ? resObj.error : <?= json_encode(__a('Kota limiti veya servis hatası (Alan korundu)', 'Quota limit or service error (field kept)'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
                     failCount++;
                 }
                 completedCount++;
@@ -3116,7 +3116,7 @@ function autoTranslateCurrentLang() {
             currentBatch.forEach(function(t, bIdx) {
                 var globalIdx = currentIndices[bIdx];
                 t.status = 'failed';
-                t.errorMsg = 'Bağlantı hatası (Alan korundu)';
+                t.errorMsg = <?= json_encode(__a('Bağlantı hatası (Alan korundu)', 'Connection error (field kept)'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
                 failCount++;
                 completedCount++;
                 updateTaskRowUI(globalIdx, t);
@@ -3448,12 +3448,12 @@ function uploadDirectToProject(files) {
                 });
                 renderStoryCanvas();
             } else {
-                alert('Yükleme hatası: ' + (data.error || 'Bilinmeyen hata'));
+                alert('' + <?= json_encode(__a('Yükleme hatası:', 'Upload error:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + (data.error || 'Bilinmeyen hata'));
             }
             processUploadQueue();
         })
         .catch(function(err) {
-            alert('Sunucu hatası oluştu.');
+            alert(<?= json_encode(__a('Sunucu hatası oluştu.', 'A server error occurred.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
             processUploadQueue();
         });
     }
@@ -3497,7 +3497,7 @@ function onSlugEnChange() {
     updateSlugPreviews();
     var f = getActiveProjectFolder();
     var el = document.getElementById('targetFolderNotice');
-    if (el) el.innerText = 'Klasör: ' + f;
+    if (el) el.innerText = '' + <?= json_encode(__a('Klasör:', 'Folder:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + f;
 }
 
 function onSlugTrChange() {
@@ -3591,10 +3591,10 @@ function updateRightPanelUI() {
         if (btn) {
             btn.classList.add('btn-primary');
             btn.classList.remove('btn-secondary');
-            if (label) label.textContent = isEn ? 'Open Settings' : 'Ayarları Aç';
-            btn.title = isEn ? 'Open Side Settings Panel (Ctrl+])' : 'Sağ Ayarlar Panelini Aç (Ctrl+])';
+            if (label) label.textContent = <?= json_encode(__a('Ayarları Aç', 'Open Settings'), JSON_UNESCAPED_UNICODE) ?>;
+            btn.title = <?= json_encode(__a('Sağ Ayarlar Panelini Aç (Ctrl+])', 'Open Side Settings Panel (Ctrl+])'), JSON_UNESCAPED_UNICODE) ?>;
         }
-        if (tabLabel) tabLabel.textContent = isEn ? 'Open Settings' : 'Ayarları Aç';
+        if (tabLabel) tabLabel.textContent = <?= json_encode(__a('Ayarları Aç', 'Open Settings'), JSON_UNESCAPED_UNICODE) ?>;
         if (tabBtn) {
             tabBtn.classList.add('btn-primary');
             tabBtn.classList.remove('btn-secondary');
@@ -3603,10 +3603,10 @@ function updateRightPanelUI() {
         if (btn) {
             btn.classList.remove('btn-primary');
             btn.classList.add('btn-secondary');
-            if (label) label.textContent = isEn ? 'Side Panel' : 'Sağ Panel';
-            btn.title = isEn ? 'Hide Side Settings Panel (Ctrl+])' : 'Sağ Ayarlar Panelini Gizle (Ctrl+])';
+            if (label) label.textContent = <?= json_encode(__a('Sağ Panel', 'Side Panel'), JSON_UNESCAPED_UNICODE) ?>;
+            btn.title = <?= json_encode(__a('Sağ Ayarlar Panelini Gizle (Ctrl+])', 'Hide Side Settings Panel (Ctrl+])'), JSON_UNESCAPED_UNICODE) ?>;
         }
-        if (tabLabel) tabLabel.textContent = isEn ? 'Hide Settings' : 'Ayarları Gizle';
+        if (tabLabel) tabLabel.textContent = <?= json_encode(__a('Ayarları Gizle', 'Hide Settings'), JSON_UNESCAPED_UNICODE) ?>;
         if (tabBtn) {
             tabBtn.classList.remove('btn-primary');
             tabBtn.classList.add('btn-secondary');
@@ -3646,13 +3646,13 @@ function updateFocusModeBtn() {
     if (isFocused) {
         btn.classList.add('btn-primary');
         btn.classList.remove('btn-secondary');
-        if (label) label.textContent = isEn ? 'Normal Mode' : 'Normal Mod';
-        btn.title = isEn ? 'Return to Normal View (Show Panels)' : 'Normal Görünüme Dön (Panelleri Göster)';
+        if (label) label.textContent = <?= json_encode(__a('Normal Mod', 'Normal Mode'), JSON_UNESCAPED_UNICODE) ?>;
+        btn.title = <?= json_encode(__a('Normal Görünüme Dön (Panelleri Göster)', 'Return to Normal View (Show Panels)'), JSON_UNESCAPED_UNICODE) ?>;
     } else {
         btn.classList.remove('btn-primary');
         btn.classList.add('btn-secondary');
-        if (label) label.textContent = isEn ? 'Focus' : 'Odaklan';
-        btn.title = isEn ? 'Fullscreen Focus Mode (Hides Left and Right Panels)' : 'Tam Ekran Odaklanma Modu (Sol ve Sağ Panelleri Gizler)';
+        if (label) label.textContent = <?= json_encode(__a('Odaklan', 'Focus'), JSON_UNESCAPED_UNICODE) ?>;
+        btn.title = <?= json_encode(__a('Tam Ekran Odaklanma Modu (Sol ve Sağ Panelleri Gizler)', 'Fullscreen Focus Mode (Hides Left and Right Panels)'), JSON_UNESCAPED_UNICODE) ?>;
     }
 }
 
@@ -3696,8 +3696,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <!-- Mini Stats Badges -->
                 <div style="display:flex; gap:10px; margin-top:10px; font-size:12px; flex-wrap:wrap;">
-                    <span style="background:var(--bg-surface); border:1px solid var(--border-subtle); padding:2px 8px; border-radius:10px; color:var(--text-muted);" id="statTotal">Toplam: 0 alan</span>
-                    <span style="background:rgba(16,185,129,0.15); padding:2px 8px; border-radius:10px; color:var(--success-text); font-weight:600;" id="statSuccess">✅ 0 Başarılı</span>
+                    <span style="background:var(--bg-surface); border:1px solid var(--border-subtle); padding:2px 8px; border-radius:10px; color:var(--text-muted);" id="statTotal"><?= e(__a('Toplam: 0 alan', 'Total: 0 fields')) ?></span>
+                    <span style="background:rgba(16,185,129,0.15); padding:2px 8px; border-radius:10px; color:var(--success-text); font-weight:600;" id="statSuccess"><?= e(__a('✅ 0 Başarılı', '✅ 0 successful')) ?></span>
                     <span style="background:rgba(225,29,72,0.15); padding:2px 8px; border-radius:10px; color:var(--danger-text); font-weight:600;" id="statFailed">⚠️ 0 Atlanan / Korunan</span>
                     <span style="background:var(--accent-blue-subtle); padding:2px 8px; border-radius:10px; color:var(--accent-blue); font-weight:600;" id="statRemaining">⏳ 0 Bekleyen</span>
                 </div>

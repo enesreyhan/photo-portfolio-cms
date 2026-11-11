@@ -758,7 +758,7 @@ require __DIR__ . '/includes/header.php';
         <span class="search-prominent-icon" aria-hidden="true">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </span>
-        <input type="search" id="mediaSearchInput" placeholder="<?= __a('Fotoğraf adı, şehir, ülke, proje kodu veya kamera modeli ile arşivde ara...', 'Search archive by photo name, city, country, project code or camera model...') ?>" class="filter-search-input" oninput="handleSearch()" aria-label="Medya kütüphanesinde ara">
+        <input type="search" id="mediaSearchInput" placeholder="<?= __a('Fotoğraf adı, şehir, ülke, proje kodu veya kamera modeli ile arşivde ara...', 'Search archive by photo name, city, country, project code or camera model...') ?>" class="filter-search-input" oninput="handleSearch()" aria-label="<?= e(__a('Medya kütüphanesinde ara', 'Search media library')) ?>">
         <button type="button" id="btnSearchClear" class="search-clear-btn" onclick="event.stopPropagation(); clearSearchInput()"><?= __a('Temizle', 'Clear') ?> &times;</button>
         <kbd class="search-kbd-hint" title="<?= __a('Hızlı arama için / tuşuna basın', 'Press / for quick search') ?>">/</kbd>
     </div>
@@ -1208,7 +1208,7 @@ function loadMedia() {
             }
         })
         .catch(function(err) {
-            document.getElementById('mediaGrid').innerHTML = '<div style="color:var(--danger); grid-column:1/-1; text-align:center;">Görseller yüklenirken hata oluştu.</div>';
+            document.getElementById('mediaGrid').innerHTML = '<div style="color:var(--danger); grid-column:1/-1; text-align:center;">' + <?= json_encode(__a('Görseller yüklenirken hata oluştu.', 'An error occurred while loading images.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</div>';
         });
 }
 
@@ -1219,9 +1219,9 @@ function updateStatsBadges(total, filtered, cityCount) {
 
     var sub = document.getElementById('folderSubtitle');
     if (activeFolder === 'all') {
-        sub.innerText = (window.MEDIA_I18N.listing_total || 'Toplam %d fotoğraf listeleniyor.').replace('%d', filtered);
+        sub.innerText = (window.MEDIA_I18N.listing_total || <?= json_encode(__a('Toplam %d fotoğraf listeleniyor.', 'Listing %d photos in total.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>).replace('%d', filtered);
     } else {
-        sub.innerText = (window.MEDIA_I18N.photos_in_folder || '"%s" klasöründe %d fotoğraf bulunuyor.').replace('%d', filtered).replace('%s', activeFolder);
+        sub.innerText = (window.MEDIA_I18N.photos_in_folder || '"%s" ' + <?= json_encode(__a('klasöründe %d fotoğraf bulunuyor.', 'folder contains %d photos.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '').replace('%d', filtered).replace('%s', activeFolder);
     }
 }
 
@@ -1370,19 +1370,19 @@ function updateActiveFilterChips() {
     if (qVal !== '') chips.push({ label: 'Arama: "' + qVal + '"', key: 'mediaSearchInput' });
 
     var cCountry = document.getElementById('filterCountry');
-    if (cCountry.value !== 'all') chips.push({ label: 'Ülke: ' + cCountry.options[cCountry.selectedIndex].text.split('(')[0], key: 'filterCountry' });
+    if (cCountry.value !== 'all') chips.push({ label: '' + <?= json_encode(__a('Ülke:', 'Country:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + cCountry.options[cCountry.selectedIndex].text.split('(')[0], key: 'filterCountry' });
 
     var cCity = document.getElementById('filterCity');
-    if (cCity.value !== 'all') chips.push({ label: 'Şehir: ' + cCity.options[cCity.selectedIndex].text.split('(')[0], key: 'filterCity' });
+    if (cCity.value !== 'all') chips.push({ label: '' + <?= json_encode(__a('Şehir:', 'City:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + cCity.options[cCity.selectedIndex].text.split('(')[0], key: 'filterCity' });
 
     var cType = document.getElementById('filterType');
-    if (cType.value !== 'all') chips.push({ label: 'Tür: ' + cType.options[cType.selectedIndex].text, key: 'filterType' });
+    if (cType.value !== 'all') chips.push({ label: '' + <?= json_encode(__a('Tür:', 'Type:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + cType.options[cType.selectedIndex].text, key: 'filterType' });
 
     var cProject = document.getElementById('filterProject');
     if (cProject.value !== 'all') chips.push({ label: 'Proje/Seri: ' + cProject.options[cProject.selectedIndex].text.split('(')[0], key: 'filterProject' });
 
     var cYear = document.getElementById('filterYear');
-    if (cYear.value !== 'all') chips.push({ label: 'Yıl: ' + cYear.value, key: 'filterYear' });
+    if (cYear.value !== 'all') chips.push({ label: '' + <?= json_encode(__a('Yıl:', 'Year:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ' + cYear.value, key: 'filterYear' });
 
     var cCam = document.getElementById('filterCamera');
     if (cCam.value !== 'all') chips.push({ label: 'Kamera: ' + cCam.value, key: 'filterCamera' });
@@ -1532,7 +1532,7 @@ function renderFolderSidebar(cats, total) {
 function renderCatList(containerId, folders) {
     var ul = document.getElementById(containerId);
     if (!folders || !folders.length) {
-        ul.innerHTML = '<li style="font-size:12px; color:var(--text-sub); padding:4px 10px;">' + (window.MEDIA_I18N.no_folders_yet || 'Henüz klasör yok') + '</li>';
+        ul.innerHTML = '<li style="font-size:12px; color:var(--text-sub); padding:4px 10px;">' + (window.MEDIA_I18N.no_folders_yet) + '</li>';
         return;
     }
     ul.innerHTML = folders.map(function(f) {
@@ -1551,9 +1551,9 @@ function selectFolder(folder) {
     activeFolder = folder;
     var dropTitle = document.getElementById('dropZoneTitle');
     if (folder === 'all') {
-        dropTitle.innerText = 'Genel Klasöre Fotoğraf Yükleyin (Sürükle & Bırak)';
+        dropTitle.innerText = <?= json_encode(__a('Genel Klasöre Fotoğraf Yükleyin (Sürükle & Bırak)', 'Upload Photos to the General Folder (Drag & Drop)'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     } else {
-        dropTitle.innerText = '"' + folder + '" Klasörüne Yükleyin';
+        dropTitle.innerText = '"' + folder + '" ' + <?= json_encode(__a('Klasörüne Yükleyin', 'Upload to Folder'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '';
     }
     loadMedia();
 }
@@ -1565,8 +1565,8 @@ function renderMediaGrid(images) {
 
     if (!images.length) {
         grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--text-sub);">' +
-            '<p style="font-size:16px; font-weight:600;">Seçilen filtrelere uygun görsel bulunamadı.</p>' +
-            '<p style="font-size:12px; margin-top:6px;">Filtreleri sıfırlayarak tüm arşivi görüntüleyebilirsiniz.</p>' +
+            '<p style="font-size:16px; font-weight:600;">' + <?= json_encode(__a('Seçilen filtrelere uygun görsel bulunamadı.', 'No images match the selected filters.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</p>' +
+            '<p style="font-size:12px; margin-top:6px;">' + <?= json_encode(__a('Filtreleri sıfırlayarak tüm arşivi görüntüleyebilirsiniz.', 'Reset the filters to view the whole archive.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</p>' +
             '<button type="button" class="btn btn-secondary btn-sm" onclick="clearAllFilters()" style="margin-top:10px;">Filtreleri Temizle</button>' +
         '</div>';
         return;
@@ -1599,10 +1599,10 @@ function renderMediaGrid(images) {
                     '</div>' : '') +
                 '<div class="media-actions">' +
                     '<button type="button" class="btn btn-secondary btn-sm" style="flex:1; justify-content:center; padding:4px 8px; font-size:12px;" onclick="openDrawer(' + img.id + ')">' +
-                        (window.ADMIN_LANG === 'en' ? 'Details & EXIF' : 'Detaylar & EXIF') +
+                        (<?= json_encode(__a('Detaylar & EXIF', 'Details & EXIF'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>) +
                     '</button>' +
-                    '<a href="' + img.url + '" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="padding:4px 8px; font-size:12px;" title="' + (window.ADMIN_LANG === 'en' ? 'Open in new tab' : 'Görseli Yeni Sekmede Aç') + '">' +
-                        (window.ADMIN_LANG === 'en' ? 'Open ↗' : 'Aç ↗') +
+                    '<a href="' + img.url + '" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="padding:4px 8px; font-size:12px;" title="' + escapeHtml(<?= json_encode(__a('Görseli Yeni Sekmede Aç', 'Open image in new tab'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>) + '">' +
+                        <?= json_encode(__a('Aç ↗', 'Open ↗'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> +
                     '</a>' +
                 '</div>' +
             '</div>' +
@@ -1682,15 +1682,15 @@ function initOrUpdateMap() {
         var marker = L.marker([loc.lat, loc.lng], { icon: customIcon }).addTo(leafletMap);
 
         // Popup İçeriği
-        var projectsList = loc.projects.length ? loc.projects.join(', ') : 'Belgesel Fotoğraflar';
+        var projectsList = loc.projects.length ? loc.projects.join(', ') : <?= json_encode(__a('Belgesel Fotoğraflar', 'Documentary Photographs'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
         var popupContent = 
             '<div style="font-family:\'Space Grotesk\', sans-serif; min-width:210px; max-width:260px;">' +
                 (loc.sample_thumb ? '<div style="width:100%; height:110px; border-radius:6px; overflow:hidden; margin-bottom:8px; background:#000;"><img src="' + loc.sample_thumb + '" style="width:100%; height:100%; object-fit:cover;" /></div>' : '') +
                 '<h4 style="margin:0 0 4px 0; font-size:14px; font-weight:700;">' + (loc.country_flag ? loc.country_flag + ' ' : '') + loc.city_name + ', ' + loc.country_name + '</h4>' +
-                '<div style="font-size:12px; color:var(--accent-blue); font-weight:700; margin-bottom:6px;">' + loc.count + ' Fotoğraf</div>' +
+                '<div style="font-size:12px; color:var(--accent-blue); font-weight:700; margin-bottom:6px;">' + loc.count + ' ' + <?= json_encode(__a('Fotoğraf', 'Photos'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</div>' +
                 '<div style="font-size:12px; color:var(--text-muted); line-height:1.4; margin-bottom:10px;"><strong>Projeler:</strong> ' + projectsList + '</div>' +
                 '<button type="button" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; font-size:12px;" onclick="filterByMapCity(\'' + loc.city_code + '\')">' +
-                    'Bu Konumdaki Fotoğrafları Gör →' +
+                    <?= json_encode(__a('Bu Konumdaki Fotoğrafları Gör →', 'See Photos from This Location →'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> +
                 '</button>' +
             '</div>';
 
@@ -1736,7 +1736,7 @@ function openDrawer(imgId) {
     // Drawer içeriğini API'den taze detay ve varyantlarla çek
     var url = '<?= url("admin/api-media.php") ?>?action=details&id=' + imgId + '&admin_lang=' + encodeURIComponent(window.ADMIN_LANG || 'tr');
 
-    document.getElementById('drawerVariantsList').innerHTML = '<div style="font-size:12px; color:var(--text-sub);">' + (window.MEDIA_I18N.scanning_variants || 'Varyantlar taranıyor...') + '</div>';
+    document.getElementById('drawerVariantsList').innerHTML = '<div style="font-size:12px; color:var(--text-sub);">' + (window.MEDIA_I18N.scanning_variants) + '</div>';
 
     fetch(url)
         .then(function(res) { return res.json(); })
@@ -1748,7 +1748,7 @@ function openDrawer(imgId) {
                 var variants = data.variants || [];
 
                 document.getElementById('drawerTitle').innerText = img.original_name || img.filename;
-                document.getElementById('drawerDate').innerText = parsed.date ? ((window.MEDIA_I18N.shot_prefix || 'Çekim: ') + parsed.date) : '';
+                document.getElementById('drawerDate').innerText = parsed.date ? ((window.MEDIA_I18N.shot_prefix || '' + <?= json_encode(__a('Çekim:', 'Shot:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ') + parsed.date) : '';
                 document.getElementById('drawerImage').src = '<?= url("") ?>' + img.file_path;
 
                 // Rozetler
@@ -1760,7 +1760,7 @@ function openDrawer(imgId) {
                 // Künye
                 document.getElementById('drawerAuthor').innerText = parsed.author_name || <?= json_encode(site_owner_name(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>;
                 document.getElementById('drawerLocation').innerText = (parsed.country_flag ? parsed.country_flag + ' ' : '') + (parsed.city_name ? parsed.city_name + ', ' : '') + (parsed.country_name || (window.MEDIA_I18N.unknown || 'Bilinmiyor'));
-                document.getElementById('drawerProject').innerText = parsed.project_title || parsed.type_label || (window.MEDIA_I18N.single_photo || 'Tekil Fotoğraf');
+                document.getElementById('drawerProject').innerText = parsed.project_title || parsed.type_label || (window.MEDIA_I18N.single_photo || <?= json_encode(__a('Tekil Fotoğraf', 'Single Photo'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
                 document.getElementById('drawerFilename').innerText = img.filename;
                 document.getElementById('drawerPath').innerText = img.file_path;
 
@@ -1783,7 +1783,7 @@ function openDrawer(imgId) {
                 if (!delLink.dataset.baseConfirm) delLink.dataset.baseConfirm = delLink.getAttribute('data-confirm') || '';
                 var usedIn = data.used_in || [];
                 delLink.setAttribute('data-confirm', delLink.dataset.baseConfirm + (usedIn.length
-                    ? '\n\n' + (window.ADMIN_LANG === 'en' ? 'Used in: ' : 'Kullanıldığı yerler: ') + usedIn.join(', ')
+                    ? '\n\n' + (window.ADMIN_LANG === 'en' ? 'Used in: ' : '' + <?= json_encode(__a('Kullanıldığı yerler:', 'Used in:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + ' ') + usedIn.join(', ')
                     : ''));
             }
         });
@@ -1816,7 +1816,7 @@ document.addEventListener('keydown', function(e) {
 function renderDrawerVariants(variants) {
     var cont = document.getElementById('drawerVariantsList');
     if (!variants || !variants.length) {
-        cont.innerHTML = '<div style="font-size:12px; color:var(--text-sub);">' + (window.MEDIA_I18N.no_variants || 'Optimize varyant bulunamadı.') + '</div>';
+        cont.innerHTML = '<div style="font-size:12px; color:var(--text-sub);">' + (window.MEDIA_I18N.no_variants) + '</div>';
         return;
     }
 
@@ -1832,7 +1832,7 @@ function renderDrawerVariants(variants) {
                 '</div>' +
             '</div>' +
             '<div style="display:flex; gap:6px; flex-shrink:0;">' +
-                '<a href="' + v.url + '" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="padding:4px 10px; font-size:12px;">' + (window.MEDIA_I18N.open_btn || 'Aç ↗') + '</a>' +
+                '<a href="' + v.url + '" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="padding:4px 10px; font-size:12px;">' + (window.MEDIA_I18N.open_btn) + '</a>' +
             '</div>' +
         '</div>';
     }).join('');
@@ -1892,11 +1892,12 @@ function uploadFiles(files) {
         if (!queue.length && failed.length) {
             progressBox.style.display = 'none';
             loadMedia();
-            alert(((window.ADMIN_LANG === 'en') ? (failed.length + ' of ' + total + ' uploads failed:\n') : (total + ' dosyadan ' + failed.length + ' tanesi yüklenemedi:\n')) + failed.join('\n'));
+            alert(((window.ADMIN_LANG === 'en') ? (failed.length + ' of ' + total + ' uploads failed:\n') : (total + ' dosyadan ' + failed.length + ' ' + <?= json_encode(__a('tanesi yüklenemedi:
+', 'could not be uploaded:'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '')) + failed.join('\n'));
             return;
         }
         if (!queue.length) {
-            progressText.innerText = (window.ADMIN_LANG === 'en') ? 'All photos successfully uploaded, EXIF parsed and converted!' : 'Tüm fotoğraflar başarıyla yüklendi, EXIF verileri çözümlendi ve dönüştürüldü!';
+            progressText.innerText = (window.ADMIN_LANG === 'en') ? 'All photos successfully uploaded, EXIF parsed and converted!' : <?= json_encode(__a('Tüm fotoğraflar başarıyla yüklendi, EXIF verileri çözümlendi ve dönüştürüldü!', 'All photos were uploaded, EXIF data parsed and converted successfully!'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
             setTimeout(function() {
                 progressBox.style.display = 'none';
                 loadMedia();
@@ -1905,7 +1906,7 @@ function uploadFiles(files) {
         }
 
         var file = queue.shift();
-        progressText.innerText = (window.ADMIN_LANG === 'en') ? ('Converting "' + file.name + '" (AVIF & WebP)...') : ('"' + file.name + '" dönüştürülüyor (AVIF & WebP)...');
+        progressText.innerText = (window.ADMIN_LANG === 'en') ? ('Converting "' + file.name + '" (AVIF & WebP)...') : ('"' + file.name + '" ' + <?= json_encode(__a('dönüştürülüyor (AVIF & WebP)...', 'converting (AVIF & WebP)...'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '');
 
         var formData = new FormData();
         formData.append('image', file);
@@ -1939,7 +1940,7 @@ function uploadFiles(files) {
 
 function promptNewFolder() {
     var parent = (activeFolder && activeFolder !== 'all') ? activeFolder : 'uploads';
-    adminPrompt(window.ADMIN_LANG === 'en' ? 'New folder name (e.g. bosphorus-series)' : 'Yeni klasörün adı (ör. bosphorus-series)', '').then(function (name) {
+    adminPrompt(window.ADMIN_LANG === 'en' ? 'New folder name (e.g. bosphorus-series)' : <?= json_encode(__a('Yeni klasörün adı (ör. bosphorus-series)', 'Name of the new folder (e.g. bosphorus-series)'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, '').then(function (name) {
         name = (name || '').trim();
         if (name) createFolderNow(parent, name);
     });
@@ -1962,7 +1963,7 @@ function createFolderNow(parent, name) {
             activeFolder = data.folder;
             loadMedia();
         } else {
-            alert('Hata: ' + (data.error || 'Klasör oluşturulamadı.'));
+            alert('Hata: ' + (data.error || <?= json_encode(__a('Klasör oluşturulamadı.', 'The folder could not be created.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>));
         }
     });
 }

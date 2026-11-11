@@ -396,10 +396,10 @@ document.addEventListener('er:langbar', function (e) {
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:18px; border-top:1px solid var(--border-subtle); flex-wrap:wrap; gap:12px;">
                 <button type="button" class="btn btn-secondary btn-sm" onclick="confirmResetLegal()" style="color:var(--danger-text); border-color:var(--danger-border);">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
-                    <span>Varsayılan Yasal Şablona Sıfırla</span>
+                    <span><?= e(__a('Varsayılan Yasal Şablona Sıfırla', 'Reset to Default Legal Template')) ?></span>
                 </button>
                 <div style="display:flex; gap:10px;">
-                    <a href="settings.php#gizlilik" class="btn btn-secondary">Vazgeç</a>
+                    <a href="settings.php#gizlilik" class="btn btn-secondary"><?= e(__a('Vazgeç', 'Cancel')) ?></a>
                     <button type="submit" class="btn btn-primary" style="min-width:140px;">
                         <span><?= e(__a('Kaydet', 'Save')) ?></span>
                     </button>
@@ -426,68 +426,68 @@ function render_rich_editor_component($key, $initial_content, $placeholder) {
         <!-- Araç Çubuğu (Toolbar) -->
         <div class="rich-toolbar">
             <!-- Format Dropdown (P, H2, H3, H4) -->
-            <select class="rt-select" onchange="execRichBlock('<?= $key ?>', this.value); this.value='';" title="Başlık ve Paragraf Formatı">
-                <option value="">Biçim...</option>
-                <option value="p">Normal Paragraf</option>
-                <option value="h2">Ana Başlık (H2)</option>
-                <option value="h3">Alt Başlık (H3)</option>
-                <option value="h4">Küçük Başlık (H4)</option>
+            <select class="rt-select" onchange="execRichBlock('<?= $key ?>', this.value); this.value='';" title="<?= e(__a('Başlık ve Paragraf Formatı', 'Heading and Paragraph Format')) ?>">
+                <option value=""><?= e(__a('Biçim...', 'Format...')) ?></option>
+                <option value="p"><?= e(__a('Normal Paragraf', 'Normal Paragraph')) ?></option>
+                <option value="h2"><?= e(__a('Ana Başlık (H2)', 'Main Heading (H2)')) ?></option>
+                <option value="h3"><?= e(__a('Alt Başlık (H3)', 'Subheading (H3)')) ?></option>
+                <option value="h4"><?= e(__a('Küçük Başlık (H4)', 'Small Heading (H4)')) ?></option>
             </select>
 
             <div class="rt-sep"></div>
 
             <!-- Kalın, İtalik, Altı Çizili, Üstü Çizili -->
-            <button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'bold')" title="Kalın (Ctrl+B)"><strong>B</strong></button>
-            <button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'italic')" title="İtalik (Ctrl+I)"><em>I</em></button>
-            <button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'underline')" title="Altı Çizili (Ctrl+U)"><u>U</u></button>
-            <button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'strikeThrough')" title="Üstü Çizili"><s>S</s></button>
+            <button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'bold')" title="<?= e(__a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)')) ?>"><strong>B</strong></button>
+            <button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'italic')" title="<?= e(__a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)')) ?>"><em>I</em></button>
+            <button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'underline')" title="<?= e(__a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)')) ?>"><u>U</u></button>
+            <button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'strikeThrough')" title="<?= e(__a('Üstü Çizili', 'Strikethrough')) ?>"><s>S</s></button>
 
             <div class="rt-sep"></div>
 
             <!-- Hizalamalar -->
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyLeft')" title="Sola Yasla">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyLeft')" title="<?= e(__a('Sola Yasla', 'Align Left')) ?>">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
             </button>
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyCenter')" title="Ortala">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyCenter')" title="<?= e(__a('Ortala', 'Center')) ?>">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
             </button>
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyRight')" title="Sağa Yasla">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyRight')" title="<?= e(__a('Sağa Yasla', 'Align Right')) ?>">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
             </button>
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyFull')" title="İki Yana Yasla">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'justifyFull')" title="<?= e(__a('İki Yana Yasla', 'Justify')) ?>">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
             </button>
 
             <div class="rt-sep"></div>
 
             <!-- Listeler & Çizgi -->
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'insertUnorderedList')" title="Madde İmleri Listesi">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'insertUnorderedList')" title="<?= e(__a('Madde İmleri Listesi', 'Bulleted List')) ?>">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.5" fill="currentColor"/><circle cx="3.5" cy="12" r="1.5" fill="currentColor"/><circle cx="3.5" cy="18" r="1.5" fill="currentColor"/></svg>
             </button>
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'insertOrderedList')" title="Numaralı Liste">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'insertOrderedList')" title="<?= e(__a('Numaralı Liste', 'Numbered List')) ?>">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/></svg>
             </button>
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'insertHorizontalRule')" title="Ayırıcı Yatay Çizgi">―</button>
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'insertHorizontalRule')" title="<?= e(__a('Ayırıcı Yatay Çizgi', 'Horizontal Divider Line')) ?>">―</button>
 
             <div class="rt-sep"></div>
 
             <!-- Link Ekle / Kaldır -->
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichLink('<?= $key ?>')" title="Bağlantı / Link Ekle">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichLink('<?= $key ?>')" title="<?= e(__a('Bağlantı / Link Ekle', 'Insert Link')) ?>">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             </button>
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'unlink')" title="Bağlantıyı Kaldır">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'unlink')" title="<?= e(__a('Bağlantıyı Kaldır', 'Remove Link')) ?>">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18.84 12.25 1.72-1.71a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="m5.16 11.75-1.72 1.71a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
             </button>
 
             <div class="rt-sep"></div>
 
             <!-- Biçimlendirmeyi Temizle -->
-            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'removeFormat')" title="Biçimlendirmeyi Temizle">
+            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= $key ?>', 'removeFormat')" title="<?= e(__a('Biçimlendirmeyi Temizle', 'Clear Formatting')) ?>">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
             </button>
 
             <!-- HTML Kaynak Kod Modu Geçişi -->
-            <button type="button" class="rt-btn" onclick="toggleHtmlMode('<?= $key ?>')" style="margin-left:auto; font-size:12px; background:var(--bg-canvas-subtle); border-color:var(--border-subtle); color:var(--text-main); display:inline-flex; align-items:center; gap:5px;" title="HTML Kaynak Kodu ile Zengin Editör Arasında Geçiş Yap">
+            <button type="button" class="rt-btn" onclick="toggleHtmlMode('<?= $key ?>')" style="margin-left:auto; font-size:12px; background:var(--bg-canvas-subtle); border-color:var(--border-subtle); color:var(--text-main); display:inline-flex; align-items:center; gap:5px;" title="<?= e(__a('HTML Kaynak Kodu ile Zengin Editör Arasında Geçiş Yap', 'Toggle Between HTML Source and Rich Editor')) ?>">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                 <span id="toggleText_<?= $key ?>">Kaynak Kodu</span>
             </button>
@@ -607,7 +607,7 @@ function toggleHtmlMode(key) {
         textarea.value = editable.innerHTML.trim();
         editable.style.display = 'none';
         textarea.style.display = 'block';
-        btnText.textContent = 'Görsel Editör';
+        btnText.textContent = <?= json_encode(__a('Görsel Editör', 'Visual Editor'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
         htmlMode[key] = true;
     } else {
         // HTML Modundan Zengin Moda dönüş
@@ -642,7 +642,7 @@ function submitLegalForm() {
 }
 
 function confirmResetLegal() {
-    adminConfirm('Yasal metinlerde yaptığınız bütün düzenlemeler silinir ve metinler 6698 sayılı KVKK standart şablonuna döner.', { title: 'Yasal metinler sıfırlansın mı?', ok: 'Şablona sıfırla' }).then(function (ok) {
+    adminConfirm(<?= json_encode(__a('Yasal metinlerde yaptığınız bütün düzenlemeler silinir ve metinler 6698 sayılı KVKK standart şablonuna döner.', 'All your edits to the legal texts will be deleted and the texts will return to the standard KVKK (Law No. 6698) template.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, { title: <?= json_encode(__a('Yasal metinler sıfırlansın mı?', 'Reset the legal texts?'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, ok: <?= json_encode(__a('Şablona sıfırla', 'Reset to template'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> }).then(function (ok) {
         if (ok) document.getElementById('resetLegalForm').submit();
     });
 }

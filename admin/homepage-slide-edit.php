@@ -163,17 +163,17 @@ require __DIR__ . '/includes/image_modal.php';
 
         <div class="form-group" style="margin-bottom:14px;">
             <label class="form-label"><?= e(__a('location')) ?></label>
-            <input type="text" name="location" class="form-control" value="<?= e($slide['location'] ?? '') ?>" placeholder="Örn: Morogoro, Tanzanya">
+            <input type="text" name="location" class="form-control" value="<?= e($slide['location'] ?? '') ?>" placeholder="<?= e(__a('Örn: Morogoro, Tanzanya', 'e.g. Morogoro, Tanzania')) ?>">
         </div>
 
         <div class="form-group" style="margin-bottom:14px;">
             <label class="form-label"><?= e(__a('year')) ?></label>
-            <input type="text" name="year" class="form-control" value="<?= e($slide['year'] ?? '') ?>" placeholder="Örn: 2025">
+            <input type="text" name="year" class="form-control" value="<?= e($slide['year'] ?? '') ?>" placeholder="<?= e(__a('Örn: 2025', 'e.g. 2025')) ?>">
         </div>
 
         <div class="form-group" style="margin-bottom:14px;">
             <label class="form-label"><?= e(__a('Tıklama Bağlantısı (URL)', 'Click Link (URL)')) ?></label>
-            <input type="text" name="link_url" class="form-control" value="<?= e($slide['link_url'] ?? '') ?>" placeholder="Örn: projects/albino-families-tanzania/">
+            <input type="text" name="link_url" class="form-control" value="<?= e($slide['link_url'] ?? '') ?>" placeholder="<?= e(__a('Örn: projects/albino-families-tanzania/', 'e.g. projects/albino-families-tanzania/')) ?>">
         </div>
 
         <div style="padding-top:10px; border-top:1px solid var(--border-subtle);">

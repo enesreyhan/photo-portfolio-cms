@@ -210,7 +210,7 @@ $container_style = sprintf('--about-portrait-width: %d%%;', $about_portrait_widt
                     <!-- 4. Saha Haritası Kartı -->
                     <?php if ($about_show_field_map_link): ?>
                     <div class="bento-card bento-card-map">
-                        <span style="font-family:var(--font-mono, monospace); font-size:0.74rem; font-weight:700; color:var(--er-accent, #fdd000); letter-spacing:0.1em; text-transform:uppercase;">COĞRAFİ ARŞİV</span>
+                        <span style="font-family:var(--font-mono, monospace); font-size:0.74rem; font-weight:700; color:var(--er-accent, #fdd000); letter-spacing:0.1em; text-transform:uppercase;"><?= e(site_t('COĞRAFİ ARŞİV', 'GEOGRAPHIC ARCHIVE')) ?></span>
                         <h4 style="font-size:1.15rem; font-weight:700; margin:0.3rem 0 0.5rem 0;"><?= site_t('Saha Rotaları ve Belgesel Haritası', 'Field Work & Documentary Map') ?></h4>
                         <p style="font-size:0.88rem; opacity:0.75; line-height:1.5; margin-bottom:1rem;"><?= site_t('Belgesel çalışmalarının coğrafi rotaları ve koordinat istasyonları.', 'Geographic routes and coordinate stations of documentary field projects.') ?></p>
                         <a href="<?= e($field_map_url) ?>" class="about-field-link">

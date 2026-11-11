@@ -464,6 +464,7 @@ $admin_translations = [
         'blog_post'                 => 'Blog Yazısı',
         'image_path'                => 'Görsel Yolu',
         'select'                    => 'Seç',
+        'karakter'                    => 'karakter',
     ],
 
     'en' => [
@@ -916,6 +917,7 @@ $admin_translations = [
         'blog_post'                 => 'Blog Post',
         'image_path'                => 'Image Path',
         'select'                    => 'Select',
+        'karakter'                    => 'characters',
     ],
 
 ];
@@ -1019,6 +1021,15 @@ function get_admin_enabled_languages(): array {
 function __a(string $key, ?string $fallback = null): string {
     global $admin_translations, $admin_lang, $admin_ui_dictionary_tr_to_en;
     $curr = $admin_lang ?: 'tr';
+
+    // Açık TR/EN çifti verilmişse Türkçe ve İngilizce için kaynak koddaki metindir; katalog yalnızca diğer dilleri çevirir.
+    $explicit_pair = $fallback !== null && $fallback !== '' && !preg_match('/^[a-z0-9_]+$/', $key);
+    if ($explicit_pair && $curr === 'tr') {
+        return $key;
+    }
+    if ($explicit_pair && $curr === 'en') {
+        return $fallback;
+    }
 
     // ── 1. TÜRKÇE PANEL SEÇİLİ İSE ──
     if ($curr === 'tr') {
@@ -1566,10 +1577,20 @@ function admin_translate_ui_buffer(string $buffer): string {
 
     $translate_fn = function(string $text) use ($phrase_map, $word_map, $word_regex): string {
         if ($text === '') return '';
+        // Tek kelime çevirisi yalnızca metindeki her kelime biliniyorsa yapılır; aksi halde metin
+        // kullanıcı içeriğidir (ör. "Belgesel Fotoğrafçı") ve yarım çevrilmesin diye kelimelerine dokunulmaz.
+        $words_ok = false;
+        if ($word_regex !== null) {
+            $rest = !empty($phrase_map) ? strtr($text, array_fill_keys(array_keys($phrase_map), ' ')) : $text;
+            $words_ok = preg_match_all('/\p{L}+/u', $rest, $wm) > 0;
+            foreach ($wm[0] ?? [] as $w) {
+                if (!isset($word_map[$w])) { $words_ok = false; break; }
+            }
+        }
         if (!empty($phrase_map)) {
             $text = strtr($text, $phrase_map);
         }
-        if ($word_regex !== null) {
+        if ($word_regex !== null && $words_ok) {
             $text = preg_replace_callback($word_regex, function($m) use ($word_map) {
                 return $word_map[$m[1]] ?? $m[1];
             }, $text);

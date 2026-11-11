@@ -314,9 +314,9 @@ require __DIR__ . '/includes/header.php';
                 <?php if (empty($slides)): ?>
                     <tr>
                         <td colspan="5" style="text-align: center; color: var(--text-sub); padding: 48px 20px;">
-                            <div style="font-size: 16px; font-weight:600; color:var(--text-main); margin-bottom:6px;">Henüz ana sayfa seçkisi oluşturulmadı</div>
-                            <p style="font-size:13px; color:var(--text-sub); margin-bottom:16px;">Portfolyodaki projelerden seçebilir veya medya kütüphanesinden yeni fotoğraf ekleyebilirsiniz.</p>
-                            <button type="button" class="btn btn-primary btn-sm" onclick="openPortfolioImportModal()">Portfolyodan İçe Aktar</button>
+                            <div style="font-size: 16px; font-weight:600; color:var(--text-main); margin-bottom:6px;"><?= e(__a('Henüz ana sayfa seçkisi oluşturulmadı', 'No homepage selection has been created yet')) ?></div>
+                            <p style="font-size:13px; color:var(--text-sub); margin-bottom:16px;"><?= e(__a('Portfolyodaki projelerden seçebilir veya medya kütüphanesinden yeni fotoğraf ekleyebilirsiniz.', 'You can choose from projects in your portfolio or add new photos from the media library.')) ?></p>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="openPortfolioImportModal()"><?= e(__a('Portfolyodan İçe Aktar', 'Import from Portfolio')) ?></button>
                         </td>
                     </tr>
                 <?php else: ?>
@@ -364,7 +364,7 @@ require __DIR__ . '/includes/header.php';
                         }
                     ?>
                         <tr data-id="<?= $s['id'] ?>">
-                            <td class="drag-handle-cell drag-handle" title="Sıralamak için sürükleyin">
+                            <td class="drag-handle-cell drag-handle" title="<?= e(__a('Sıralamak için sürükleyin', 'Drag to reorder')) ?>">
                                 <div style="display:flex; align-items:center; justify-content:center; gap:6px;">
                                     <svg class="drag-grip-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
                                     <span class="weight-label" style="font-family:var(--font-mono); font-size:12px; color:var(--text-sub); font-weight:600;"><?= $idx + 1 ?></span>
@@ -372,7 +372,7 @@ require __DIR__ . '/includes/header.php';
                             </td>
                             <td style="width:96px;">
                                 <a href="<?= e($edit_url) ?>" class="drag-handle" title="<?= e(__a('edit')) ?>" style="width:76px; height:50px; border-radius:6px; overflow:hidden; border:1px solid var(--border-color); background:#000; position:relative; box-shadow:0 2px 6px rgba(0,0,0,0.08); display:block; flex-shrink:0;">
-                                    <img src="<?= e($thumb_url) ?>" width="76" height="50" loading="lazy" decoding="async" alt="<?= e($slide_title) ?>" style="width:76px !important; height:50px !important; max-width:76px !important; max-height:50px !important; object-fit:cover; display:block;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'76\' height=\'50\' fill=\'%23222\'><rect width=\'76\' height=\'50\'/><text x=\'50%25\' y=\'50%25\' fill=\'%23666\' font-size=\'10\' text-anchor=\'middle\' dy=\'.3em\'>Görsel Yok</text></svg>'">
+                                    <img src="<?= e($thumb_url) ?>" width="76" height="50" loading="lazy" decoding="async" alt="<?= e($slide_title) ?>" style="width:76px !important; height:50px !important; max-width:76px !important; max-height:50px !important; object-fit:cover; display:block;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'76\' height=\'50\' fill=\'%23222\'><rect width=\'76\' height=\'50\'/><text x=\'50%25\' y=\'50%25\' fill=\'%23666\' font-size=\'10\' text-anchor=\'middle\' dy=\'.3em\'><?= e(__a('Görsel Yok', 'No Image')) ?></text></svg>'">
                                 </a>
                             </td>
                             <td>
@@ -438,7 +438,7 @@ require __DIR__ . '/includes/header.php';
             <div style="margin-bottom:18px;">
                 <label class="form-label" style="font-weight:600;"><?= e(__a('slide_image_url')) ?> *</label>
                 <div style="display:flex; gap:8px; margin-bottom:10px;">
-                    <input type="text" name="image_path" id="input_image_path" class="form-control" placeholder="Örn: uploads/photo.jpg" required oninput="updateImagePreview(this.value)">
+                    <input type="text" name="image_path" id="input_image_path" class="form-control" placeholder="<?= e(__a('Örn: uploads/photo.jpg', 'e.g. uploads/photo.jpg')) ?>" required oninput="updateImagePreview(this.value)">
                     <button type="button" class="btn btn-secondary" onclick="openMediaModalForInput('input_image_path')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                         <span><?= e(__a('slide_choose_media')) ?></span>
@@ -455,14 +455,14 @@ require __DIR__ . '/includes/header.php';
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
                 <div>
                     <label class="form-label"><?= e(__a('slide_title_tr')) ?></label>
-                    <input type="text" name="title_tr" id="f_title_tr" class="form-control" placeholder="Örn: Kuzeyden Kaçış">
+                    <input type="text" name="title_tr" id="f_title_tr" class="form-control" placeholder="<?= e(__a('Örn: Kuzeyden Kaçış', 'e.g. Kuzeyden Kaçış')) ?>">
                 </div>
                 <div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                         <label class="form-label" style="margin:0;"><?= e(__a('slide_title_en')) ?></label>
                         <button type="button" class="btn btn-secondary btn-sm" onclick="autoTranslateSlideModal()" style="font-size:12px; padding:2px 7px;"><?= e(__a('cat_modal_auto_translate')) ?></button>
                     </div>
-                    <input type="text" name="title_en" id="f_title_en" class="form-control" placeholder="Örn: Escape to the North">
+                    <input type="text" name="title_en" id="f_title_en" class="form-control" placeholder="<?= e(__a('Örn: Escape to the North', 'e.g. Escape to the North')) ?>">
                 </div>
             </div>
 
@@ -470,11 +470,11 @@ require __DIR__ . '/includes/header.php';
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
                 <div>
                     <label class="form-label"><?= e(__a('slide_location')) ?></label>
-                    <input type="text" name="location" id="f_location" class="form-control" placeholder="Örn: Burkina Faso">
+                    <input type="text" name="location" id="f_location" class="form-control" placeholder="<?= e(__a('Örn: Burkina Faso', 'e.g. Burkina Faso')) ?>">
                 </div>
                 <div>
                     <label class="form-label"><?= e(__a('slide_year')) ?></label>
-                    <input type="text" name="year" id="f_year" class="form-control" placeholder="Örn: 2024">
+                    <input type="text" name="year" id="f_year" class="form-control" placeholder="<?= e(__a('Örn: 2024', 'e.g. 2024')) ?>">
                 </div>
             </div>
 
@@ -510,7 +510,7 @@ require __DIR__ . '/includes/header.php';
             <div style="display:grid; grid-template-columns:2fr 1fr; gap:14px; margin-bottom:16px;">
                 <div>
                     <label class="form-label"><?= e(__a('slide_link')) ?></label>
-                    <input type="text" name="link_url" id="f_link_url" class="form-control" placeholder="Örn: projects/through-the-fire/">
+                    <input type="text" name="link_url" id="f_link_url" class="form-control" placeholder="<?= e(__a('Örn: projects/through-the-fire/', 'e.g. projects/through-the-fire/')) ?>">
                 </div>
                 <div>
                     <label class="form-label"><?= e(__a('order')) ?></label>
@@ -609,7 +609,7 @@ function autoTranslateSlideModal() {
     var srcDescTr = document.getElementById('f_description_tr') ? document.getElementById('f_description_tr').value.trim() : '';
 
     if (!srcTitleEn && !srcTitleTr && !srcDescEn && !srcDescTr) {
-        alert('Önce İngilizce veya Türkçe başlık/açıklama girin.');
+        alert(<?= json_encode(__a('Önce İngilizce veya Türkçe başlık/açıklama girin.', 'First enter a title/description in English or Turkish.'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
         return;
     }
 

@@ -480,6 +480,8 @@ function find_photo_variants(string $base_dir, string $file_path, string $lang =
     $fn = basename($file_path);
     $stem = pathinfo($fn, PATHINFO_FILENAME);
     $is_en = ($lang === 'en');
+    // admin panelinden çağrılınca panel dilinin paketini kullan
+    $L = fn(string $tr, string $en): string => function_exists('__a') ? __a($tr, $en) : ($is_en ? $en : $tr);
 
     // Orijinal dosya
     $orig_local = $base_dir . '/' . $file_path;
@@ -487,7 +489,7 @@ function find_photo_variants(string $base_dir, string $file_path, string $lang =
         $variants[] = [
             'type'      => 'original',
             'format'    => strtoupper(pathinfo($file_path, PATHINFO_EXTENSION)),
-            'label'     => $is_en ? 'Original Master' : 'Orijinal Master',
+            'label'     => $L('Orijinal Master', 'Original Master'),
             'path'      => $file_path,
             'url'       => url($file_path),
             'size'      => filesize($orig_local),
@@ -529,15 +531,15 @@ function find_photo_variants(string $base_dir, string $file_path, string $lang =
                 if ($w > 0) {
                     $tier = '';
                     if ($w >= 1400) {
-                        $tier = $is_en ? ' Wide' : ' Geniş';
+                        $tier = ' ' . $L('Geniş', 'Wide');
                     } elseif ($w >= 800) {
-                        $tier = $is_en ? ' Medium' : ' Orta';
+                        $tier = ' ' . $L('Orta', 'Medium');
                     } else {
-                        $tier = $is_en ? ' Small' : ' Küçük';
+                        $tier = ' ' . $L('Küçük', 'Small');
                     }
                     $label = $fmt_upper . ' (' . $w . 'px' . $tier . ')';
                 } else {
-                    $label = ($ext === 'webp') ? ($is_en ? 'WebP Converted' : 'WebP Dönüştürülmüş') : ($fmt_upper . ($is_en ? ' Optimized' : ' Optimize'));
+                    $label = ($ext === 'webp') ? $L('WebP Dönüştürülmüş', 'WebP Converted') : ($fmt_upper . ' ' . $L('Optimize', 'Optimized'));
                 }
 
                 $proc_variants[] = [
