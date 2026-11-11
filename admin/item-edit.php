@@ -1214,6 +1214,7 @@ lang_bar([
                 .story-canvas.is-grid .story-card.type-photo .story-card-thumb { width: 100%; height: auto; aspect-ratio: 3 / 2; }
                 .story-canvas.is-grid .story-card.type-photo .story-card-body { display: none; }
                 .story-canvas.is-grid .story-card:not(.type-photo) { max-height: 104px; overflow: hidden; font-size: var(--fs-xs); flex-direction: row; }
+                .story-canvas.is-grid .story-card:not(.type-photo):not(.type-youtube) { cursor: pointer; }
                 .story-canvas.is-grid .story-card:not(.type-photo) .drag-handle { position: static; box-shadow: none; }
                 .story-canvas.is-grid .story-card:not(.type-photo) .story-card-body > :not(.story-card-top) { display: none; }
                 #canvasGridToggle[aria-pressed="true"] { background: var(--primary); color: var(--primary-text); border-color: var(--primary); }
@@ -1228,6 +1229,16 @@ lang_bar([
                     }
                     try { if (localStorage.getItem('item_canvas_grid') === '1') set(true); } catch (e) {}
                     btn.addEventListener('click', function () { set(!canvas.classList.contains('is-grid')); });
+                    // Izgarada metin alanı gizli: metin/alıntı/bölüm kartına tıklayınca listeye dönüp o karta odaklan
+                    canvas.addEventListener('click', function (e) {
+                        if (!canvas.classList.contains('is-grid') || e.target.closest('button, .drag-handle')) return;
+                        var card = e.target.closest('.story-card:not(.type-photo):not(.type-youtube)');
+                        if (!card) return;
+                        set(false);
+                        card.scrollIntoView({ block: 'center' });
+                        var field = card.querySelector('.block-lang-pane:not([style*="none"]) input, .block-lang-pane:not([style*="none"]) .rich-editable');
+                        if (field) field.focus({ preventScroll: true });
+                    });
                 })();
                 </script>
             </div>
