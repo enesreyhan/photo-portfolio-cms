@@ -428,7 +428,7 @@ if (!in_array($admin_theme, ['dark', 'light'], true)) {
 </head>
 <body>
 
-<button type="button" class="login-theme-btn" onclick="toggleLoginTheme()" title="<?= e(__a('Karanlık / Aydınlık Tema (Ctrl+Shift+D)', 'Dark / Light Theme (Ctrl+Shift+D)')) ?>" aria-label="<?= e(__a('Tema', 'Theme')) ?>">
+<button type="button" class="login-theme-btn" onclick="toggleLoginTheme()" title="Karanlık / Aydınlık Tema (Ctrl+Shift+D)" aria-label="Tema"><!-- i18n-ignore: login page has no admin i18n loaded -->
     <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
     <svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
 </button>
