@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/ms.php
  * UI Translation Catalog for MS
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => 'Master Asal',
     'WebP Converted' => 'Ditukar ke WebP',
     'Optimized' => 'Dioptimumkan',
+    'e.g.' => 'cth.',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => 'Pameran baharu: Dinding dan Wajah · 12 Disember, Istanbul',
 ];

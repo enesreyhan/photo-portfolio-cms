@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/ja.php
  * UI Translation Catalog for JA
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => 'オリジナルマスター',
     'WebP Converted' => 'WebP に変換済み',
     'Optimized' => '最適化済み',
+    'e.g.' => '例：',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => '新しい展覧会：壁と顔 · 12月12日、イスタンブール',
 ];

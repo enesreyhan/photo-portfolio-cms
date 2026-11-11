@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/ur.php
  * UI Translation Catalog for UR
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => 'اصل ماسٹر',
     'WebP Converted' => 'WebP میں تبدیل شدہ',
     'Optimized' => 'بہتر بنایا گیا',
+    'e.g.' => 'مثلاً',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => 'نئی نمائش: دیواریں اور چہرے · 12 دسمبر، استنبول',
 ];

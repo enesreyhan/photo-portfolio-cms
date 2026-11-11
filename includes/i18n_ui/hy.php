@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/hy.php
  * UI Translation Catalog for HY
- * Total terms: 3416
+ * Total terms: 3418
  */
 
 return [
@@ -3423,4 +3423,6 @@ return [
     'Original Master' => 'Բնօրինակ մաստեր',
     'WebP Converted' => 'Փոխարկված է WebP-ի',
     'Optimized' => 'Օպտիմալացված',
+    'e.g.' => 'օր.՝',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => 'Նոր ցուցահանդես. Պատեր և դեմքեր · դեկտեմբերի 12, Ստամբուլ',
 ];

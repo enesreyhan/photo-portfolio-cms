@@ -730,7 +730,7 @@ require_once __DIR__ . '/includes/settings_tabs.php';
                     <?php foreach ($site_languages as $sl): $lc = $sl['code']; ?>
                     <div class="form-group">
                         <label class="form-label"><?= e(__a('Duyuru metni', 'Announcement text')) ?> (<?= e(strtoupper($lc)) ?>)</label>
-                        <input type="text" name="announce_text_<?= e($lc) ?>" class="form-control" maxlength="300" value="<?= e(get_setting('announce_text_' . $lc)) ?>" placeholder="<?= e(__a('Örn: Yeni sergi: Surlar ve Suretler · 12 Aralık, İstanbul', 'e.g. New exhibition: Walls and Faces · 12 December, Istanbul')) ?>">
+                        <input type="text" name="announce_text_<?= e($lc) ?>" class="form-control" maxlength="300" value="<?= e(get_setting('announce_text_' . $lc)) ?>" placeholder="<?php $eg = __a('Örn:', 'e.g.'); /* önek panel dilinde, örnek alanın dilinde */ echo e($eg . (preg_match('/：$/u', $eg) ? '' : ' ') . site_t('Yeni sergi: Surlar ve Suretler · 12 Aralık, İstanbul', 'New exhibition: Walls and Faces · 12 December, Istanbul', $lc)); ?>">
                     </div>
                     <?php endforeach; ?>
                     <div class="form-group">

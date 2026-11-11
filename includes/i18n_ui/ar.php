@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/ar.php
  * UI Translation Catalog for AR
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => 'النسخة الأصلية',
     'WebP Converted' => 'تم التحويل إلى WebP',
     'Optimized' => 'محسّن',
+    'e.g.' => 'مثال:',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => 'معرض جديد: جدران ووجوه · 12 ديسمبر، إسطنبول',
 ];

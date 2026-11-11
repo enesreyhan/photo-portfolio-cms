@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/ko.php
  * UI Translation Catalog for KO
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => '오리지널 마스터',
     'WebP Converted' => 'WebP로 변환됨',
     'Optimized' => '최적화됨',
+    'e.g.' => '예:',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => '새 전시: 벽과 얼굴 · 12월 12일, 이스탄불',
 ];

@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/ru.php
  * UI Translation Catalog for RU
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => 'Исходный мастер',
     'WebP Converted' => 'Преобразовано в WebP',
     'Optimized' => 'Оптимизировано',
+    'e.g.' => 'напр.',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => 'Новая выставка: Стены и лица · 12 декабря, Стамбул',
 ];

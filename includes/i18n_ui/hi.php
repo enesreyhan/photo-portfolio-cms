@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/hi.php
  * UI Translation Catalog for HI
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => 'मूल मास्टर',
     'WebP Converted' => 'WebP में परिवर्तित',
     'Optimized' => 'अनुकूलित',
+    'e.g.' => 'उदा.',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => 'नई प्रदर्शनी: दीवारें और चेहरे · 12 दिसंबर, इस्तांबुल',
 ];

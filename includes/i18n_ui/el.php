@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/el.php
  * UI Translation Catalog for EL
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => 'Πρωτότυπο master',
     'WebP Converted' => 'Μετατράπηκε σε WebP',
     'Optimized' => 'Βελτιστοποιημένο',
+    'e.g.' => 'π.χ.',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => 'Νέα έκθεση: Τοίχοι και Πρόσωπα · 12 Δεκεμβρίου, Κωνσταντινούπολη',
 ];

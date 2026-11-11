@@ -2,7 +2,7 @@
 /**
  * includes/i18n_ui/zh.php
  * UI Translation Catalog for ZH
- * Total terms: 3418
+ * Total terms: 3420
  */
 
 return [
@@ -3425,4 +3425,6 @@ return [
     'Original Master' => '原始母版',
     'WebP Converted' => '已转换为 WebP',
     'Optimized' => '已优化',
+    'e.g.' => '例如：',
+    'New exhibition: Walls and Faces · 12 December, Istanbul' => '新展览：墙与面孔 · 12 月 12 日，伊斯坦布尔',
 ];
