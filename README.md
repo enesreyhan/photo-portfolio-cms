@@ -15,6 +15,7 @@ A multilingual portfolio website and admin panel for photographers, written in p
 - [The website](#the-website)
 - [The admin panel](#the-admin-panel)
 - [Features at a glance](#features-at-a-glance)
+- [Performance](#performance)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [First settings](#first-settings)
@@ -79,7 +80,7 @@ Every page is responsive; the menu turns into a full-screen drawer on small scre
 
 ### Setup wizard
 
-The first time you open `/admin/`, the wizard asks for the **setup language** (17 languages), then for the first administrator account. The admin panel opens in the language you chose.
+The first time you open `/admin/`, the wizard asks for the **setup language** (18 languages), then for the first administrator account. The admin panel opens in the language you chose.
 
 <table>
   <tr>
@@ -137,7 +138,9 @@ Bulk upload by drag and drop, folders, search and filters (country, city, year, 
 
 ### Languages
 
-Add a language with one click from 17 ready-made ones, publish or hide it, choose the default language and the admin panel language. A translation table and automatic translation help you fill in the content.
+Add a language with one click from 18 ready-made ones, publish or hide it, choose the default language and the admin panel language. A translation table and automatic translation help you fill in the content.
+
+**Available languages:** Turkish, English, Portuguese, Korean, Hindi, Urdu, Malay, French, German, Spanish, Italian, Russian, Chinese, Japanese, Arabic, Greek, Armenian and Western Armenian.
 
 ![Languages](docs/screenshots/en/admin-languages.webp)
 
@@ -156,10 +159,21 @@ Site title and description per language, site owner, contact email and phone, so
 | **Portfolio** | Your own categories, story canvas, cover and focal point, password-protected links, drafts, old-address redirects |
 | **Homepage** | Curated slideshow or all works, 26 themes, live design editor |
 | **Media** | Bulk upload, folders, EXIF, automatic AVIF/WebP, filters, "in use" warning |
-| **Languages** | 17 languages for site and panel, language-specific URLs, translation table, automatic translation |
+| **Languages** | 18 languages for site and panel, language-specific URLs, translation table, automatic translation |
 | **Pages** | About, Contact (form + inbox), Blog, privacy notice and explicit consent texts |
 | **SEO** | Sitemap, RSS/Atom, Schema.org, Open Graph, clean URLs |
 | **Other** | Cookie consent, Google Analytics 4 statistics, maintenance mode, database backup download, login rate limiting |
+
+---
+
+## Performance
+
+[PageSpeed Insights](https://pagespeed.web.dev/analysis/https-www-enesreyhan-com/2rlyzuwtva) results for [enesreyhan.com](https://www.enesreyhan.com) (November 2026):
+
+| | Performance | Accessibility | Best Practices | SEO |
+| --- | :---: | :---: | :---: | :---: |
+| **Mobile** | 97 | 100 | 100 | 100 |
+| **Desktop** | 100 | 100 | 100 | 100 |
 
 ---
 

@@ -15,6 +15,7 @@ Fotoğrafçılar için çok dilli portfolyo sitesi ve yönetim paneli. Saf PHP i
 - [Web sitesi](#web-sitesi)
 - [Yönetim paneli](#yönetim-paneli)
 - [Özellikler bir bakışta](#özellikler-bir-bakışta)
+- [Performans](#performans)
 - [Gereksinimler](#gereksinimler)
 - [Kurulum](#kurulum)
 - [İlk ayarlar](#i̇lk-ayarlar)
@@ -79,7 +80,7 @@ Tüm sayfalar mobil uyumludur; küçük ekranlarda menü tam ekran bir çekmecey
 
 ### Kurulum sihirbazı
 
-`/admin/` adresini ilk açtığınızda sihirbaz önce **kurulum dilini** (17 dil), ardından ilk yönetici hesabını sorar. Yönetim paneli seçtiğiniz dilde açılır.
+`/admin/` adresini ilk açtığınızda sihirbaz önce **kurulum dilini** (18 dil), ardından ilk yönetici hesabını sorar. Yönetim paneli seçtiğiniz dilde açılır.
 
 <table>
   <tr>
@@ -137,7 +138,9 @@ Kendi fotoğraflarınızla önizlenen 26 hazır tema. **Özelleştir** canlı ta
 
 ### Diller
 
-17 hazır dilden birini tek tıkla ekleyin, yayınlayın ya da gizleyin; varsayılan dili ve panel dilini seçin. Çeviri tablosu ve otomatik çeviri içerikleri doldurmanıza yardım eder.
+18 hazır dilden birini tek tıkla ekleyin, yayınlayın ya da gizleyin; varsayılan dili ve panel dilini seçin. Çeviri tablosu ve otomatik çeviri içerikleri doldurmanıza yardım eder.
+
+**Hazır diller:** Türkçe, İngilizce, Portekizce, Korece, Hintçe, Urduca, Malayca, Fransızca, Almanca, İspanyolca, İtalyanca, Rusça, Çince, Japonca, Arapça, Yunanca, Ermenice ve Batı Ermenicesi.
 
 ![Diller](docs/screenshots/tr/admin-languages.webp)
 
@@ -156,10 +159,21 @@ Dile göre site başlığı ve açıklaması, site sahibi, iletişim e-postası 
 | **Portfolyo** | Kendi kategorileriniz, hikâye tuvali, kapak ve odak noktası, şifreli bağlantılar, taslaklar, eski adres yönlendirmeleri |
 | **Ana sayfa** | Slayt seçkisi ya da tüm çalışmalar, 26 tema, canlı tasarım editörü |
 | **Medya** | Toplu yükleme, klasörler, EXIF, otomatik AVIF/WebP, filtreler, "kullanımda" uyarısı |
-| **Diller** | Site ve panel için 17 dil, dile göre URL'ler, çeviri tablosu, otomatik çeviri |
+| **Diller** | Site ve panel için 18 dil, dile göre URL'ler, çeviri tablosu, otomatik çeviri |
 | **Sayfalar** | Hakkımda, İletişim (form + gelen kutusu), Blog, KVKK aydınlatma ve açık rıza metinleri |
 | **SEO** | Sitemap, RSS/Atom, Schema.org, Open Graph, temiz URL'ler |
 | **Diğer** | Çerez onayı, Google Analytics 4 istatistikleri, bakım modu, veritabanı yedeği indirme, giriş denemesi sınırı |
+
+---
+
+## Performans
+
+[enesreyhan.com](https://www.enesreyhan.com) için [PageSpeed Insights](https://pagespeed.web.dev/analysis/https-www-enesreyhan-com/2rlyzuwtva) sonuçları (Kasım 2026):
+
+| | Performans | Erişilebilirlik | En İyi Uygulamalar | SEO |
+| --- | :---: | :---: | :---: | :---: |
+| **Mobil** | 97 | 100 | 100 | 100 |
+| **Masaüstü** | 100 | 100 | 100 | 100 |
 
 ---
 
