@@ -2894,6 +2894,7 @@ return [
     'الإنجليزية' => 'Inglês',
     'Αγγλικά' => 'Inglês',
     'Անգլերեն' => 'Inglês',
+    'Անգլերէն' => 'Inglês',
     'Read Story' => 'Ler a história',
     'Back to List' => 'Voltar à lista',
     'min read' => 'min de leitura',

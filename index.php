@@ -122,7 +122,13 @@ if ($raw_path === '') {
         if (!empty($_COOKIE['site_lang']) && in_array($_COOKIE['site_lang'], $supported_languages, true)) {
             $detected_lang = $_COOKIE['site_lang'];
         } elseif (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $pref = strtolower(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
+            $accept = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $pref = substr($accept, 0, 2);
+            // Ermenice: tarayıcı hyw gönderirse ya da hy kapalıyken hyw açıksa Batı Ermenicesine yönlendir
+            if ($pref === 'hy' && in_array('hyw', $supported_languages, true)
+                && (strncmp($accept, 'hyw', 3) === 0 || !in_array('hy', $supported_languages, true))) {
+                $pref = 'hyw';
+            }
             if (in_array($pref, $supported_languages, true)) {
                 $detected_lang = $pref;
             }

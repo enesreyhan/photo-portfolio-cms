@@ -276,11 +276,11 @@ foreach ($active_site_langs as $asl) {
     <?php if (!empty($html_class) && strpos($html_class, 'field-map') !== false): ?>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     <?php endif; ?>
-    <?php if (in_array($lang, ['hy', 'ar', 'ru', 'el', 'ja'], true) || $lang_dir === 'rtl'): ?>
+    <?php if (in_array($lang, ['hy', 'hyw', 'ar', 'ru', 'el', 'ja'], true) || $lang_dir === 'rtl'): ?>
     <!-- Çoklu Alfabe (Multi-Script) ve RTL Tipografi Desteği -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <?php if ($lang === 'hy'): ?>
+    <?php if ($lang === 'hy' || $lang === 'hyw'): ?>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;500;600;700;800&family=Noto+Serif+Armenian:wght@400;600;700&display=swap" rel="stylesheet" />
     <?php elseif ($lang === 'ar' || $lang_dir === 'rtl'): ?>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -288,7 +288,7 @@ foreach ($active_site_langs as $asl) {
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
     <?php endif; ?>
     <style>
-        html[lang="hy"] body, html[lang="hy"] h1, html[lang="hy"] h2, html[lang="hy"] h3, html[lang="hy"] p {
+        html[lang|="hy"] body, html[lang|="hy"] h1, html[lang|="hy"] h2, html[lang|="hy"] h3, html[lang|="hy"] p, html[lang="hyw"] body, html[lang="hyw"] h1, html[lang="hyw"] h2, html[lang="hyw"] h3, html[lang="hyw"] p {
             font-family: "ZedTextL", "Noto Sans Armenian", -apple-system, BlinkMacSystemFont, sans-serif;
         }
         html[lang="ar"] body, html[dir="rtl"] body, html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] p {

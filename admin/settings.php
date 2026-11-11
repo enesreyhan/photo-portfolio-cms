@@ -600,7 +600,7 @@ require_once __DIR__ . '/includes/settings_tabs.php';
                 <div class="seo-lang-tabs">
                     <?php foreach ($site_languages as $idx => $sl):
                         $lc = $sl['code'];
-                        $flag = ($lc === 'tr') ? '🇹🇷' : (($lc === 'en') ? '🇬🇧' : (($lc === 'hy') ? '🇦🇲' : '🌐'));
+                        $flag = ($lc === 'tr') ? '🇹🇷' : (($lc === 'en') ? '🇬🇧' : (in_array($lc, ['hy', 'hyw'], true) ? '🇦🇲' : '🌐'));
                     ?>
                         <button type="button" class="seo-lang-tab <?= $idx === 0 ? 'active' : '' ?>" id="seoTabBtn_<?= e($lc) ?>" onclick="switchSeoLang('<?= e($lc) ?>')">
                             <span><?= $flag ?></span>

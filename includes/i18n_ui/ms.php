@@ -2894,6 +2894,7 @@ return [
     'الإنجليزية' => 'Bahasa Inggeris',
     'Αγγλικά' => 'Bahasa Inggeris',
     'Անգլերեն' => 'Bahasa Inggeris',
+    'Անգլերէն' => 'Bahasa Inggeris',
     'Read Story' => 'Baca Cerita',
     'Back to List' => 'Kembali ke Senarai',
     'min read' => 'min bacaan',

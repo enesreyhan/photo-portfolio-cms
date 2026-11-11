@@ -506,7 +506,7 @@ require __DIR__ . '/includes/image_modal.php';
     <!-- ── DİL SEKMELERİ: gizli; ortak dil çubuğu bunları kullanır ── -->
     <div class="blog-lang-tabs">
         <?php foreach ($site_languages as $idx => $sl):
-            $flag = $sl['flag'] ?? (($sl['code'] === 'tr') ? '🇹🇷' : (($sl['code'] === 'en') ? '🇬🇧' : (($sl['code'] === 'hy') ? '🇦🇲' : '🌐')));
+            $flag = $sl['flag'] ?? (($sl['code'] === 'tr') ? '🇹🇷' : (($sl['code'] === 'en') ? '🇬🇧' : (in_array($sl['code'], ['hy', 'hyw'], true) ? '🇦🇲' : '🌐')));
         ?>
             <button type="button" class="blog-lang-tab <?= $idx === 0 ? 'active' : '' ?>" onclick="switchLangTab('<?= e($sl['code']) ?>')" id="tabBtn_<?= e($sl['code']) ?>">
                 <span><?= $flag ?></span>

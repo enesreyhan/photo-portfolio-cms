@@ -485,6 +485,11 @@ function get_preset_language_catalog(): array {
             'flag' => '🇦🇲', 'direction' => 'ltr', 'locale' => 'hy_AM', 'fallback_lang' => 'en',
             'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
+        'hyw' => [
+            'code' => 'hyw', 'name_native' => 'Արեւմտահայերէն', 'name_tr' => 'Batı Ermenicesi',
+            'flag' => '🇦🇲', 'direction' => 'ltr', 'locale' => 'hy_AM', 'fallback_lang' => 'en',
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+        ],
         'zh' => [
             'code' => 'zh', 'name_native' => '简体中文', 'name_tr' => 'Çince (Basitleştirilmiş - Standart)',
             'flag' => '🇨🇳', 'direction' => 'ltr', 'locale' => 'zh_CN', 'fallback_lang' => 'en',
@@ -576,103 +581,109 @@ function get_localized_language_name(string $code, ?string $display_lang = null)
             'tr' => 'Türkçe', 'en' => 'İngilizce', 'pt' => 'Portekizce', 'ko' => 'Korece', 'hi' => 'Hintçe',
             'ur' => 'Urduca', 'ms' => 'Malayca', 'fr' => 'Fransızca', 'de' => 'Almanca', 'es' => 'İspanyolca',
             'it' => 'İtalyanca', 'ru' => 'Rusça', 'zh' => 'Çince', 'ja' => 'Japonca', 'ar' => 'Arapça',
-            'el' => 'Yunanca', 'hy' => 'Ermenice'
+            'el' => 'Yunanca', 'hy' => 'Ermenice', 'hyw' => 'Batı Ermenicesi'
         ],
         'en' => [
             'tr' => 'Turkish', 'en' => 'English', 'pt' => 'Portuguese', 'ko' => 'Korean', 'hi' => 'Hindi',
             'ur' => 'Urdu', 'ms' => 'Malay', 'fr' => 'French', 'de' => 'German', 'es' => 'Spanish',
             'it' => 'Italian', 'ru' => 'Russian', 'zh' => 'Chinese', 'ja' => 'Japanese', 'ar' => 'Arabic',
-            'el' => 'Greek', 'hy' => 'Armenian'
+            'el' => 'Greek', 'hy' => 'Armenian', 'hyw' => 'Western Armenian'
         ],
         'pt' => [
             'tr' => 'Turco', 'en' => 'Inglês', 'pt' => 'Português', 'ko' => 'Coreano', 'hi' => 'Hindi',
             'ur' => 'Urdu', 'ms' => 'Malaio', 'fr' => 'Francês', 'de' => 'Alemão', 'es' => 'Espanhol',
             'it' => 'Italiano', 'ru' => 'Russo', 'zh' => 'Chinês', 'ja' => 'Japonês', 'ar' => 'Árabe',
-            'el' => 'Grego', 'hy' => 'Armênio'
+            'el' => 'Grego', 'hy' => 'Armênio', 'hyw' => 'Armênio Ocidental'
         ],
         'ko' => [
             'tr' => '튀르키예어', 'en' => '영어', 'pt' => '포르투갈어', 'ko' => '한국어', 'hi' => '힌디어',
             'ur' => '우르두어', 'ms' => '말레이어', 'fr' => '프랑스어', 'de' => '독일어', 'es' => '스페인어',
             'it' => '이탈리아어', 'ru' => '러시아어', 'zh' => '중국어', 'ja' => '일본어', 'ar' => '아랍어',
-            'el' => '그리스어', 'hy' => '아르메니아어'
+            'el' => '그리스어', 'hy' => '아르메니아어', 'hyw' => '서아르메니아어'
         ],
         'hi' => [
             'tr' => 'तुर्की', 'en' => 'अंग्रेज़ी', 'pt' => 'पुर्तगाली', 'ko' => 'कोरियाई', 'hi' => 'हिन्दी',
             'ur' => 'उर्दू', 'ms' => 'मलय', 'fr' => 'फ़्रेंच', 'de' => 'जर्मन', 'es' => 'स्पैनिश',
             'it' => 'इतालवी', 'ru' => 'रूसी', 'zh' => 'चीनी', 'ja' => 'जापानी', 'ar' => 'अरबी',
-            'el' => 'ग्रीक', 'hy' => 'अर्मेनियाई'
+            'el' => 'ग्रीक', 'hy' => 'अर्मेनियाई', 'hyw' => 'पश्चिमी अर्मेनियाई'
         ],
         'ur' => [
             'tr' => 'ترکی', 'en' => 'انگریزی', 'pt' => 'پرتگالی', 'ko' => 'کوریائی', 'hi' => 'ہندی',
             'ur' => 'اردو', 'ms' => 'مالائی', 'fr' => 'فرانسیسی', 'de' => 'جرمن', 'es' => 'ہسپانوی',
             'it' => 'اطالوی', 'ru' => 'روسی', 'zh' => 'چینی', 'ja' => 'جاپانی', 'ar' => 'عربی',
-            'el' => 'یونانی', 'hy' => 'آرمینیائی'
+            'el' => 'یونانی', 'hy' => 'آرمینیائی', 'hyw' => 'مغربی آرمینیائی'
         ],
         'ms' => [
             'tr' => 'Bahasa Turki', 'en' => 'Bahasa Inggeris', 'pt' => 'Bahasa Portugis', 'ko' => 'Bahasa Korea', 'hi' => 'Bahasa Hindi',
             'ur' => 'Bahasa Urdu', 'ms' => 'Bahasa Melayu', 'fr' => 'Bahasa Perancis', 'de' => 'Bahasa Jerman', 'es' => 'Bahasa Sepanyol',
             'it' => 'Bahasa Itali', 'ru' => 'Bahasa Rusia', 'zh' => 'Bahasa Cina', 'ja' => 'Bahasa Jepun', 'ar' => 'Bahasa Arab',
-            'el' => 'Bahasa Greek', 'hy' => 'Bahasa Armenia'
+            'el' => 'Bahasa Greek', 'hy' => 'Bahasa Armenia', 'hyw' => 'Bahasa Armenia Barat'
         ],
         'fr' => [
             'tr' => 'Turc', 'en' => 'Anglais', 'pt' => 'Portugais', 'ko' => 'Coréen', 'hi' => 'Hindi',
             'ur' => 'Ourdou', 'ms' => 'Malais', 'fr' => 'Français', 'de' => 'Allemand', 'es' => 'Espagnol',
             'it' => 'Italien', 'ru' => 'Russe', 'zh' => 'Chinois', 'ja' => 'Japonais', 'ar' => 'Arabe',
-            'el' => 'Grec', 'hy' => 'Arménien'
+            'el' => 'Grec', 'hy' => 'Arménien', 'hyw' => 'Arménien occidental'
         ],
         'de' => [
             'tr' => 'Türkisch', 'en' => 'Englisch', 'pt' => 'Portugiesisch', 'ko' => 'Koreanisch', 'hi' => 'Hindi',
             'ur' => 'Urdu', 'ms' => 'Malaiisch', 'fr' => 'Französisch', 'de' => 'Deutsch', 'es' => 'Spanisch',
             'it' => 'Italienisch', 'ru' => 'Russisch', 'zh' => 'Chinesisch', 'ja' => 'Japanisch', 'ar' => 'Arabisch',
-            'el' => 'Griechisch', 'hy' => 'Armenisch'
+            'el' => 'Griechisch', 'hy' => 'Armenisch', 'hyw' => 'Westarmenisch'
         ],
         'es' => [
             'tr' => 'Turco', 'en' => 'Inglés', 'pt' => 'Portugués', 'ko' => 'Coreano', 'hi' => 'Hindi',
             'ur' => 'Urdu', 'ms' => 'Malayo', 'fr' => 'Francés', 'de' => 'Alemán', 'es' => 'Español',
             'it' => 'Italiano', 'ru' => 'Ruso', 'zh' => 'Chino', 'ja' => 'Japonés', 'ar' => 'Árabe',
-            'el' => 'Griego', 'hy' => 'Armenio'
+            'el' => 'Griego', 'hy' => 'Armenio', 'hyw' => 'Armenio occidental'
         ],
         'it' => [
             'tr' => 'Turco', 'en' => 'Inglese', 'pt' => 'Portoghese', 'ko' => 'Coreano', 'hi' => 'Hindi',
             'ur' => 'Urdu', 'ms' => 'Malese', 'fr' => 'Francese', 'de' => 'Tedesco', 'es' => 'Spagnolo',
             'it' => 'Italiano', 'ru' => 'Russo', 'zh' => 'Cinese', 'ja' => 'Giapponese', 'ar' => 'Arabo',
-            'el' => 'Greco', 'hy' => 'Armeno'
+            'el' => 'Greco', 'hy' => 'Armeno', 'hyw' => 'Armeno occidentale'
         ],
         'ru' => [
             'tr' => 'Турецкий', 'en' => 'Английский', 'pt' => 'Португальский', 'ko' => 'Корейский', 'hi' => 'Хинди',
             'ur' => 'Урду', 'ms' => 'Малайский', 'fr' => 'Французский', 'de' => 'Немецкий', 'es' => 'Испанский',
             'it' => 'Итальянский', 'ru' => 'Русский', 'zh' => 'Китайский', 'ja' => 'Японский', 'ar' => 'Арабский',
-            'el' => 'Греческий', 'hy' => 'Армянский'
+            'el' => 'Греческий', 'hy' => 'Армянский', 'hyw' => 'Западноармянский'
         ],
         'zh' => [
             'tr' => '土耳其语', 'en' => '英语', 'pt' => '葡萄牙语', 'ko' => '韩语', 'hi' => '印地语',
             'ur' => '乌尔都语', 'ms' => '马来语', 'fr' => '法语', 'de' => '德语', 'es' => '西班牙语',
             'it' => '意大利语', 'ru' => '俄语', 'zh' => '简体中文', 'ja' => '日语', 'ar' => '阿拉伯语',
-            'el' => '希腊语', 'hy' => '亚美尼亚语'
+            'el' => '希腊语', 'hy' => '亚美尼亚语', 'hyw' => '西亚美尼亚语'
         ],
         'ja' => [
             'tr' => 'トルコ語', 'en' => '英語', 'pt' => 'ポルトガル語', 'ko' => '韓国語', 'hi' => 'ヒンディー語',
             'ur' => 'ウルドゥー語', 'ms' => 'マレー語', 'fr' => 'フランス語', 'de' => 'ドイツ語', 'es' => 'スペイン語',
             'it' => 'イタリア語', 'ru' => 'ロシア語', 'zh' => '中国語', 'ja' => '日本語', 'ar' => 'アラビア語',
-            'el' => 'ギリシャ語', 'hy' => 'アルメニア語'
+            'el' => 'ギリシャ語', 'hy' => 'アルメニア語', 'hyw' => '西アルメニア語'
         ],
         'ar' => [
             'tr' => 'التركية', 'en' => 'الإنجليزية', 'pt' => 'البرتغالية', 'ko' => 'الكورية', 'hi' => 'الهندية',
             'ur' => 'الأردية', 'ms' => 'الملايو', 'fr' => 'الفرنسية', 'de' => 'الألمانية', 'es' => 'الإسبانية',
             'it' => 'الإيطالية', 'ru' => 'الروسية', 'zh' => 'الصينية', 'ja' => 'اليابانية', 'ar' => 'العربية',
-            'el' => 'اليونانية', 'hy' => 'الأرمنية'
+            'el' => 'اليونانية', 'hy' => 'الأرمنية', 'hyw' => 'الأرمنية الغربية'
         ],
         'el' => [
             'tr' => 'Τουρκικά', 'en' => 'Αγγλικά', 'pt' => 'Πορτογαλικά', 'ko' => 'Κορεατικά', 'hi' => 'Χίντι',
             'ur' => 'Ούρντου', 'ms' => 'Μαλαϊκά', 'fr' => 'Γαλλικά', 'de' => 'Γερμανικά', 'es' => 'Ισπανικά',
             'it' => 'Ιταλικά', 'ru' => 'Ρωσικά', 'zh' => 'Κινεζικά', 'ja' => 'Ιαπωνικά', 'ar' => 'Αραβικά',
-            'el' => 'Ελληνικά', 'hy' => 'Αρμενικά'
+            'el' => 'Ελληνικά', 'hy' => 'Αρμενικά', 'hyw' => 'Δυτικά Αρμενικά'
         ],
         'hy' => [
             'tr' => 'Թուրքերեն', 'en' => 'Անգլերեն', 'pt' => 'Պորտուգալերեն', 'ko' => 'Կորեերեն', 'hi' => 'Հինդի',
             'ur' => 'Ուրդու', 'ms' => 'Մալայերեն', 'fr' => 'Ֆրանսերեն', 'de' => 'Գերմաներեն', 'es' => 'Իսպաներեն',
             'it' => 'Իտալերեն', 'ru' => 'Ռուսերեն', 'zh' => 'Չինարեն', 'ja' => 'Ճապոներեն', 'ar' => 'Արաբերեն',
-            'el' => 'Հունարեն', 'hy' => 'Հայերեն'
+            'el' => 'Հունարեն', 'hy' => 'Հայերեն', 'hyw' => 'Արևմտահայերեն'
+        ],
+        'hyw' => [
+            'tr' => 'Թրքերէն', 'en' => 'Անգլերէն', 'pt' => 'Փորթուգալերէն', 'ko' => 'Քորէերէն', 'hi' => 'Հինտի',
+            'ur' => 'Ուրտու', 'ms' => 'Մալայերէն', 'fr' => 'Ֆրանսերէն', 'de' => 'Գերմաներէն', 'es' => 'Սպաներէն',
+            'it' => 'Իտալերէն', 'ru' => 'Ռուսերէն', 'zh' => 'Չինարէն', 'ja' => 'Ճափոներէն', 'ar' => 'Արաբերէն',
+            'el' => 'Յունարէն', 'hy' => 'Արեւելահայերէն', 'hyw' => 'Արեւմտահայերէն'
         ]
     ];
 
@@ -809,6 +820,7 @@ function format_date(?string $date_str, string $lang = 'en'): string {
     $month_maps = [
         'tr' => ['01' => 'Ocak', '02' => 'Şubat', '03' => 'Mart', '04' => 'Nisan', '05' => 'Mayıs', '06' => 'Haziran', '07' => 'Temmuz', '08' => 'Ağustos', '09' => 'Eylül', '10' => 'Ekim', '11' => 'Kasım', '12' => 'Aralık'],
         'hy' => ['01' => 'Հունվար', '02' => 'Փետրվար', '03' => 'Մարտ', '04' => 'Ապրիլ', '05' => 'Մայիս', '06' => 'Հունիս', '07' => 'Հուլիս', '08' => 'Օգոստոս', '09' => 'Սեպտեմբեր', '10' => 'Հոկտեմբեր', '11' => 'Նոյեմբեր', '12' => 'Դեկտեմբեր'],
+        'hyw' => ['01' => 'Յունուար', '02' => 'Փետրուար', '03' => 'Մարտ', '04' => 'Ապրիլ', '05' => 'Մայիս', '06' => 'Յունիս', '07' => 'Յուլիս', '08' => 'Օգոստոս', '09' => 'Սեպտեմբեր', '10' => 'Հոկտեմբեր', '11' => 'Նոյեմբեր', '12' => 'Դեկտեմբեր'],
         'ku' => ['01' => 'Rêbendan', '02' => 'Reşemî', '03' => 'Adar', '04' => 'Avrêl', '05' => 'Gulan', '06' => 'Pûşper', '07' => 'Tîrmeh', '08' => 'Gelawêj', '09' => 'Rezber', '10' => 'Kewçêr', '11' => 'Sermawez', '12' => 'Berfanbar'],
         'fr' => ['01' => 'janvier', '02' => 'février', '03' => 'mars', '04' => 'avril', '05' => 'mai', '06' => 'juin', '07' => 'juillet', '08' => 'août', '09' => 'septembre', '10' => 'octobre', '11' => 'novembre', '12' => 'décembre'],
         'de' => ['01' => 'Januar', '02' => 'Februar', '03' => 'März', '04' => 'April', '05' => 'Mai', '06' => 'Juni', '07' => 'Juli', '08' => 'August', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Dezember'],
@@ -973,6 +985,7 @@ function get_standard_category_matrix(): array {
             'ms' => ['name' => 'Projek', 'slug' => 'projek'],
             'el' => ['name' => 'Έργα', 'slug' => 'projects'],
             'hy' => ['name' => 'Նախագծեր', 'slug' => 'projects'],
+            'hyw' => ['name' => 'Նախագիծեր', 'slug' => 'projects'],
         ],
         'series' => [
             'tr' => ['name' => 'Seriler', 'slug' => 'seriler'],
@@ -992,6 +1005,7 @@ function get_standard_category_matrix(): array {
             'ms' => ['name' => 'Siri', 'slug' => 'siri'],
             'el' => ['name' => 'Σειρές', 'slug' => 'series'],
             'hy' => ['name' => 'Սերիա', 'slug' => 'series'],
+            'hyw' => ['name' => 'Շարքեր', 'slug' => 'series'],
         ],
         'single' => [
             'tr' => ['name' => 'Tekil', 'slug' => 'tekil'],
@@ -1011,6 +1025,7 @@ function get_standard_category_matrix(): array {
             'ms' => ['name' => 'Foto Tunggal', 'slug' => 'tunggal'],
             'el' => ['name' => 'Μεμονωμένες Φωτογραφίες', 'slug' => 'single'],
             'hy' => ['name' => 'Եզակի', 'slug' => 'single'],
+            'hyw' => ['name' => 'Առանձին', 'slug' => 'single'],
         ],
         'selected' => [
             'tr' => ['name' => 'Seçki', 'slug' => 'secki'],
@@ -1030,6 +1045,7 @@ function get_standard_category_matrix(): array {
             'ms' => ['name' => 'Pilihan', 'slug' => 'pilihan'],
             'el' => ['name' => 'Επιλογή', 'slug' => 'selected'],
             'hy' => ['name' => 'ընտրություն', 'slug' => 'selected'],
+            'hyw' => ['name' => 'ընտրութիւն', 'slug' => 'selected'],
         ],
     ];
 }
@@ -1057,6 +1073,7 @@ function get_standard_menu_matrix(): array {
             'ms' => ['title' => 'Tentang Saya', 'url' => 'ms/tentang-saya/'],
             'el' => ['title' => 'Σχετικά', 'url' => 'el/about/'],
             'hy' => ['title' => 'Իմ մասին', 'url' => 'hy/about/'],
+            'hyw' => ['title' => 'Իմ մասին', 'url' => 'hyw/about/'],
         ],
         'separator' => [
             'tr' => ['title' => '| Dikey Ayraç', 'url' => ''],
@@ -1076,6 +1093,7 @@ function get_standard_menu_matrix(): array {
             'ms' => ['title' => '| Pemisah', 'url' => ''],
             'el' => ['title' => '| Διαχωριστικό', 'url' => ''],
             'hy' => ['title' => '| Բաժանիչ', 'url' => ''],
+            'hyw' => ['title' => '| Բաժանիչ', 'url' => ''],
         ],
     ];
 }
@@ -1305,70 +1323,70 @@ function ui_text(string $key, string $lang = 'en', string $default_en = '', stri
 
     $builtin = [
         'read_story' => [
-            'tr' => 'Hikayeyi Oku', 'en' => 'Read Story', 'hy' => 'Կարդալ պատմությունը',
+            'tr' => 'Hikayeyi Oku', 'en' => 'Read Story', 'hy' => 'Կարդալ պատմությունը', 'hyw' => 'Կարդալ պատմութիւնը',
             'ku' => 'Çîrokê Bixwîne', 'fr' => 'Lire le récit', 'de' => 'Geschichte lesen',
             'es' => 'Leer historia', 'it' => 'Leggi la storia', 'ru' => 'Читать историю',
             'ar' => 'اقرأ القصة', 'el' => 'Διαβάστε την ιστορία', 'ja' => 'ストーリーを読む',
             'pt' => 'Ler História', 'ko' => '스토리 읽기', 'hi' => 'कहानी पढ़ें', 'ur' => 'کہانی پڑھیں', 'ms' => 'Baca Kisah', 'zh' => '阅读故事',
         ],
         'back_to_list' => [
-            'tr' => 'Listeye Dön', 'en' => 'Back to List', 'hy' => 'Վերադառնալ ցանկին',
+            'tr' => 'Listeye Dön', 'en' => 'Back to List', 'hy' => 'Վերադառնալ ցանկին', 'hyw' => 'Վերադառնալ ցանկին',
             'ku' => 'Vegere Lîsteyê', 'fr' => 'Retour à la liste', 'de' => 'Zurück zur Liste',
             'es' => 'Volver a la lista', 'it' => 'Torna alla lista', 'ru' => 'Назад к списку',
             'ar' => 'العودة إلى القائمة', 'el' => 'Επιστροφή στη λίστα', 'ja' => '一覧に戻る',
             'pt' => 'Voltar à Lista', 'ko' => '목록으로 돌아가기', 'hi' => 'सूची पर वापस जाएँ', 'ur' => 'فہرست پر واپس جائیں', 'ms' => 'Kembali ke Senarai', 'zh' => '返回列表',
         ],
         'share' => [
-            'tr' => 'Paylaş', 'en' => 'Share', 'hy' => 'Կիսվել',
+            'tr' => 'Paylaş', 'en' => 'Share', 'hy' => 'Կիսվել', 'hyw' => 'Բաժնել',
             'ku' => 'Parve bike', 'fr' => 'Partager', 'de' => 'Teilen',
             'es' => 'Compartir', 'it' => 'Condividi', 'ru' => 'Поделиться',
             'ar' => 'مشاركة', 'el' => 'Κοινοποίηση', 'ja' => '共有',
             'pt' => 'Compartilhar', 'ko' => '공유하기', 'hi' => 'साझा करें', 'ur' => 'اشتراک کریں', 'ms' => 'Kongsi', 'zh' => '分享',
         ],
         'minutes_read' => [
-            'tr' => 'dk okuma', 'en' => 'min read', 'hy' => 'րոպե ընթերցում',
+            'tr' => 'dk okuma', 'en' => 'min read', 'hy' => 'րոպե ընթերցում', 'hyw' => 'վայրկեան ընթերցում',
             'ku' => 'dq xwendin', 'fr' => 'min de lecture', 'de' => 'Min. Lesezeit',
             'es' => 'min de lectura', 'it' => 'min di lettura', 'ru' => 'мин чтения',
             'ar' => 'دقائق قراءة', 'el' => 'λεπτά ανάγνωσης', 'ja' => '分で読めます',
             'pt' => 'min de leitura', 'ko' => '분 소요', 'hi' => 'मिनट का पाठ', 'ur' => 'منٹ کا مطالعہ', 'ms' => 'min bacaan', 'zh' => '分钟阅读',
         ],
         'all_works' => [
-            'tr' => 'Tümü', 'en' => 'All Works', 'hy' => 'Բոլոր աշխատանքները',
+            'tr' => 'Tümü', 'en' => 'All Works', 'hy' => 'Բոլոր աշխատանքները', 'hyw' => 'Բոլոր գործերը',
             'ku' => 'Hemû Berhem', 'fr' => 'Toutes les œuvres', 'de' => 'Alle Arbeiten',
             'es' => 'Todos los trabajos', 'it' => 'Tutti i lavori', 'ru' => 'Все работы',
             'ar' => 'جميع الأعمال', 'el' => 'Όλα τα έργα', 'ja' => 'すべての作品',
             'pt' => 'Todos', 'ko' => '전체', 'hi' => 'सभी', 'ur' => 'تمام', 'ms' => 'Semua', 'zh' => '全部',
         ],
         'view_project' => [
-            'tr' => 'Çalışmayı İncele', 'en' => 'View Story', 'hy' => 'Դիտել նախագիծը',
+            'tr' => 'Çalışmayı İncele', 'en' => 'View Story', 'hy' => 'Դիտել նախագիծը', 'hyw' => 'Դիտել նախագիծը',
             'ku' => 'Projeyê Bibîne', 'fr' => 'Voir le projet', 'de' => 'Projekt ansehen',
             'es' => 'Ver proyecto', 'it' => 'Vedi progetto', 'ru' => 'Смотреть проект',
             'ar' => 'عرض المشروع', 'el' => 'Προβολή έργου', 'ja' => 'プロジェクトを見る',
             'pt' => 'Ver História', 'ko' => '스토리 보기', 'hi' => 'कहानी देखें', 'ur' => 'کہانی دیکھیں', 'ms' => 'Lihat Kisah', 'zh' => '查看作品',
         ],
         'location' => [
-            'tr' => 'Konum', 'en' => 'Location', 'hy' => 'Վայր',
+            'tr' => 'Konum', 'en' => 'Location', 'hy' => 'Վայր', 'hyw' => 'Վայր',
             'ku' => 'Cih', 'fr' => 'Lieu', 'de' => 'Ort',
             'es' => 'Ubicación', 'it' => 'Luogo', 'ru' => 'Место',
             'ar' => 'الموقع', 'el' => 'Τοποθεσία', 'ja' => '場所',
             'pt' => 'Localização', 'ko' => '위치', 'hi' => 'स्थान', 'ur' => 'مقام', 'ms' => 'Lokasi', 'zh' => '地点',
         ],
         'date' => [
-            'tr' => 'Tarih', 'en' => 'Date', 'hy' => 'Ամսաթիվ',
+            'tr' => 'Tarih', 'en' => 'Date', 'hy' => 'Ամսաթիվ', 'hyw' => 'Թուական',
             'ku' => 'Dîrok', 'fr' => 'Date', 'de' => 'Datum',
             'es' => 'Fecha', 'it' => 'Data', 'ru' => 'Дата',
             'ar' => 'التاريخ', 'el' => 'Ημερομηνία', 'ja' => '日付',
             'pt' => 'Data', 'ko' => '날짜', 'hi' => 'तारीख', 'ur' => 'تاریخ', 'ms' => 'Tarikh', 'zh' => '日期',
         ],
         'photos_count' => [
-            'tr' => 'Kare', 'en' => 'Frames', 'hy' => 'Կադր',
+            'tr' => 'Kare', 'en' => 'Frames', 'hy' => 'Կադր', 'hyw' => 'Կադր',
             'ku' => 'Wêne', 'fr' => 'Photographies', 'de' => 'Aufnahmen',
             'es' => 'Fotografías', 'it' => 'Fotografie', 'ru' => 'Кадров',
             'ar' => 'صور', 'el' => 'Φωτογραφίες', 'ja' => '枚',
             'pt' => 'Fotografias', 'ko' => '장', 'hi' => 'फ़ोटो', 'ur' => 'تصاویر', 'ms' => 'Keping', 'zh' => '张',
         ],
         'contact' => [
-            'tr' => 'İletişim', 'en' => 'Contact', 'hy' => 'Կապ',
+            'tr' => 'İletişim', 'en' => 'Contact', 'hy' => 'Կապ', 'hyw' => 'Կապ',
             'ku' => 'Têkilî', 'fr' => 'Contact', 'de' => 'Kontakt',
             'es' => 'Contacto', 'it' => 'Contatto', 'ru' => 'Контакты',
             'ar' => 'اتصل بنا', 'el' => 'Επικοινωνία', 'ja' => '連絡先',

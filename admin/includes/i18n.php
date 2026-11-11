@@ -1201,7 +1201,7 @@ function admin_translate_ui_buffer(string $buffer): string {
         $raw = [];
 
         // 1. Tüm 17 Hazır Dilin Orijinal ve Hedef Adları
-        $all_codes = ['tr', 'en', 'pt', 'ko', 'hi', 'ur', 'ms', 'fr', 'de', 'es', 'it', 'ru', 'zh', 'ja', 'ar', 'el', 'hy'];
+        $all_codes = ['tr', 'en', 'pt', 'ko', 'hi', 'ur', 'ms', 'fr', 'de', 'es', 'it', 'ru', 'zh', 'ja', 'ar', 'el', 'hy', 'hyw'];
         foreach ($all_codes as $code) {
             $tr_name = function_exists('get_localized_language_name') ? get_localized_language_name($code, 'tr') : '';
             $tgt_name = function_exists('get_localized_language_name') ? get_localized_language_name($code, $curr) : '';
@@ -1424,6 +1424,17 @@ function admin_translate_ui_buffer(string $buffer): string {
                 'Yönetim Paneli' => 'Կառավարման վահանակ',
                 'Güncelleme' => 'Թարմացում',
                 'Sıradaki' => 'Հաջորդը',
+                'Önceki' => 'Նախորդը',
+            ],
+            'hyw' => [
+                'Türkçe' => 'Թրքերէն',
+                'Fotoğraflar' => 'Լուսանկարներ',
+                'Fotoğrafçı' => 'Լուսանկարիչ',
+                'Kategoriler' => 'Դասակարգեր',
+                'Diller' => 'Լեզուներ',
+                'Yönetim Paneli' => 'Կառավարման վահանակ',
+                'Güncelleme' => 'Թարմացում',
+                'Sıradaki' => 'Յաջորդը',
                 'Önceki' => 'Նախորդը',
             ]
         ];
