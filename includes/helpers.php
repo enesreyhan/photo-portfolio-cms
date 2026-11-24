@@ -753,6 +753,100 @@ function item_url(array $item, string $lang = 'en'): string {
 }
 
 /**
+ * Tablodaki mevcut slug sütunlarını (`slug`, `key_slug`, `slug_en`, `slug_tr`, `slug_hyw` vb.) döndürür.
+ */
+function get_table_slug_columns(PDO $pdo, string $table): array {
+    static $cache = [];
+    if (isset($cache[$table])) {
+        return $cache[$table];
+    }
+    if (!in_array($table, ['items', 'categories'], true)) {
+        return [];
+    }
+    $cols = [];
+    try {
+        $is_sqlite = ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite');
+        if ($is_sqlite) {
+            $rows = $pdo->query("PRAGMA table_info(`{$table}`)")->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($rows as $row) {
+                $name = (string)($row['name'] ?? '');
+                if ($name === 'slug' || $name === 'key_slug' || preg_match('/^slug_[a-z0-9_]+$/', $name)) {
+                    $cols[] = $name;
+                }
+            }
+        } else {
+            $rows = $pdo->query("SHOW COLUMNS FROM `{$table}`")->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($rows as $row) {
+                $name = (string)($row['Field'] ?? '');
+                if ($name === 'slug' || $name === 'key_slug' || preg_match('/^slug_[a-z0-9_]+$/', $name)) {
+                    $cols[] = $name;
+                }
+            }
+        }
+    } catch (\Throwable $e) {}
+    if (empty($cols)) {
+        $cols = ($table === 'categories') ? ['slug_en', 'slug_tr', 'key_slug'] : ['slug_en', 'slug_tr', 'slug'];
+    }
+    return $cache[$table] = $cols;
+}
+
+/**
+ * Verilen slug'ı tüm dil sütunlarında (`slug_en`, `slug_tr`, `slug_hyw`, ... ve `slug`) arar.
+ * Önce aktif dilin sütununa bakar; bulunamazsa diğer dil sütunlarında arar (301 yönlendirme için).
+ */
+function find_item_by_slug(PDO $pdo, string $slug, string $preferred_lang = '', string $extra_where = ''): ?array {
+    if ($slug === '') return null;
+    $cols = get_table_slug_columns($pdo, 'items');
+    $and = $extra_where !== '' ? " AND ({$extra_where})" : '';
+
+    $pref_col = 'slug_' . preg_replace('/[^a-z0-9_]/', '', strtolower($preferred_lang));
+    if ($preferred_lang !== '' && in_array($pref_col, $cols, true)) {
+        $st = $pdo->prepare("SELECT * FROM `items` WHERE `{$pref_col}` = ?{$and} LIMIT 1");
+        $st->execute([$slug]);
+        $row = $st->fetch(PDO::FETCH_ASSOC);
+        if ($row) return $row;
+    }
+
+    $conds = [];
+    $params = [];
+    foreach ($cols as $col) {
+        $conds[] = "`{$col}` = ?";
+        $params[] = $slug;
+    }
+    $st = $pdo->prepare("SELECT * FROM `items` WHERE (" . implode(' OR ', $conds) . "){$and} LIMIT 1");
+    $st->execute($params);
+    $row = $st->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
+/**
+ * Verilen kategori slug'ını tüm dil sütunlarında (`slug_en`, `slug_tr`, `slug_hyw`, ... ve `key_slug`) arar.
+ */
+function find_category_by_slug(PDO $pdo, string $slug, string $preferred_lang = ''): ?array {
+    if ($slug === '') return null;
+    $cols = get_table_slug_columns($pdo, 'categories');
+
+    $pref_col = 'slug_' . preg_replace('/[^a-z0-9_]/', '', strtolower($preferred_lang));
+    if ($preferred_lang !== '' && in_array($pref_col, $cols, true)) {
+        $st = $pdo->prepare("SELECT * FROM `categories` WHERE `{$pref_col}` = ? LIMIT 1");
+        $st->execute([$slug]);
+        $row = $st->fetch(PDO::FETCH_ASSOC);
+        if ($row) return $row;
+    }
+
+    $conds = [];
+    $params = [];
+    foreach ($cols as $col) {
+        $conds[] = "`{$col}` = ?";
+        $params[] = $slug;
+    }
+    $st = $pdo->prepare("SELECT * FROM `categories` WHERE (" . implode(' OR ', $conds) . ") LIMIT 1");
+    $st->execute($params);
+    $row = $st->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
+/**
  * Slayt veya harici bağlantı URL'sini geçerli dile göre çözer
  */
 function resolve_slide_url(?string $raw_url, string $lang = 'en'): string {
@@ -782,20 +876,16 @@ function resolve_slide_url(?string $raw_url, string $lang = 'en'): string {
         return url($lang . '/' . get_static_slug('single', $lang) . '/');
     }
 
-    // DB'den kategori veya öğe ara
+    // DB'den kategori veya öğe ara (tüm dil slug sütunları dahil)
     try {
         $pdo = DB::getConnection();
-        $cat_st = $pdo->prepare("SELECT * FROM `categories` WHERE `slug_en` = ? OR `slug_tr` = ? OR `key_slug` = ? LIMIT 1");
-        $cat_st->execute([$last_slug, $last_slug, $last_slug]);
-        $cat_row = $cat_st->fetch(PDO::FETCH_ASSOC);
+        $cat_row = find_category_by_slug($pdo, $last_slug, $lang);
         if ($cat_row) {
             $c_slug = !empty($cat_row['slug_' . $lang]) ? $cat_row['slug_' . $lang] : (($lang === 'tr') ? ($cat_row['slug_tr'] ?: $cat_row['slug_en']) : ($cat_row['slug_en'] ?: $cat_row['slug_tr']));
             return url($lang . '/' . $c_slug . '/');
         }
 
-        $st = $pdo->prepare("SELECT * FROM `items` WHERE `slug` = ? OR `slug_en` = ? OR `slug_tr` = ? LIMIT 1");
-        $st->execute([$last_slug, $last_slug, $last_slug]);
-        $it = $st->fetch(PDO::FETCH_ASSOC);
+        $it = find_item_by_slug($pdo, $last_slug, $lang);
         if ($it) {
             return item_url($it, $lang);
         }

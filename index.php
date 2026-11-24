@@ -245,9 +245,7 @@ $sub_path = $segments[1] ?? '';
 // ----------------------------------------------------
 // 2a. Kategori İndeksleri (Projeler, Seriler, Tekil ve Özel Kategoriler)
 // ----------------------------------------------------
-$cat_stmt = $pdo->prepare("SELECT * FROM `categories` WHERE `slug_en` = ? OR `slug_tr` = ? OR `key_slug` = ? LIMIT 1");
-$cat_stmt->execute([$sub_path, $sub_path, $sub_path]);
-$matched_cat = $cat_stmt->fetch(PDO::FETCH_ASSOC);
+$matched_cat = find_category_by_slug($pdo, $sub_path, $lang);
 
 if ($matched_cat) {
     // Çapraz dil kontrolü (Örn: /tr/books/ -> /tr/kitaplar/ 301 yönlendirme)
@@ -419,9 +417,7 @@ if ($slug !== '') {
     $status_sql = is_logged_in() ? "`status` IN ('published', 'unlisted', 'draft')" : "`status` IN ('published', 'unlisted')";
     // 404 sistem sayfası (type 'page', slug '404') yalnızca bulunamayan adreslerde gösterilir
     $status_sql .= " AND NOT (`type` = 'page' AND `slug` = '404')";
-    $stmt = $pdo->prepare("SELECT * FROM `items` WHERE (`slug_en` = ? OR `slug_tr` = ? OR `slug` = ?) AND {$status_sql} LIMIT 1");
-    $stmt->execute([$slug, $slug, $slug]);
-    $item = $stmt->fetch(PDO::FETCH_ASSOC);
+    $item = find_item_by_slug($pdo, $slug, $lang, $status_sql);
 
     // Eğer doğrudan eşleşmediyse alias'lardan ara
     if (!$item) {
@@ -532,7 +528,7 @@ if ($slug !== '') {
             $next_item = null;
         } else {
             $type = $item['type'];
-            $all_stmt = $pdo->prepare("SELECT id, type, slug, slug_en, slug_tr, title_en, title_tr, cover_image, location, location_en, location_tr, year, date FROM `items` WHERE `type` = ? AND `status` = 'published' ORDER BY `weight` ASC, `date` DESC");
+            $all_stmt = $pdo->prepare("SELECT * FROM `items` WHERE `type` = ? AND `status` = 'published' ORDER BY `weight` ASC, `date` DESC");
             $all_stmt->execute([$type]);
             $all_type_items = $all_stmt->fetchAll(PDO::FETCH_ASSOC);
 

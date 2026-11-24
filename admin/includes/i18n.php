@@ -1625,7 +1625,7 @@ function admin_translate_ui_buffer(string $buffer): string {
             //    Bir dile ait içerik alanının (name="…_tr", "…_en", "…_hy" …) yer tutucusu o dildeki
             //    varsayılan içeriktir; panel diline çevrilmez.
             $part = preg_replace_callback('/<[a-z][^<>]*>/i', function($tag) use ($translate_fn) {
-                $content_field = (bool)preg_match('/\bname="[^"]*_[a-z]{2}(?:\[\])?"/', $tag[0]);
+                $content_field = (bool)preg_match('/\bname="[^"]*_[a-z]{2,3}(?:\[\])?"/', $tag[0]);
                 return preg_replace_callback('/\b(placeholder|title|aria-label)="([^"]+)"/i', function($m) use ($translate_fn, $content_field) {
                     if ($content_field && strtolower($m[1]) === 'placeholder') return $m[0];
                     return $m[1] . '="' . $translate_fn($m[2]) . '"';
