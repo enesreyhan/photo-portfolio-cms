@@ -12666,6 +12666,82 @@ html.gallery-paper .category-blog .project-gallery-content figure.blog-figure fi
 
 
 /* ==========================================================================
+   Editoryal Blok Hizalama (Sola / Sağa / Yan Yana İkili Split Akış)
+   Fotoğraf, Ara Metin ve Bölüm Kartı için ortak düzen
+   ========================================================================== */
+.project-gallery-content .story-split-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+    inline-size: 100%;
+    grid-column: 1 / -1;
+    margin-block: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.project-gallery-content .story-split-col {
+    min-inline-size: 0;
+}
+
+.project-gallery-content .story-split-col > figure.photo-figure,
+.project-gallery-content .story-split-col > .project-narrative-block,
+.project-gallery-content .story-split-col > .project-chapter-header {
+    margin: 0 !important;
+    max-inline-size: 100% !important;
+    inline-size: 100%;
+}
+
+.project-gallery-content .story-split-col > .project-narrative-block .project-narrative-block-inner {
+    margin: 0;
+    max-inline-size: 100%;
+}
+
+.project-gallery-content .story-split-col > figure.photo-figure img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+}
+
+.project-gallery-content figure.photo-figure.photo-align-left,
+.project-gallery-content .project-narrative-block.story-align-left,
+.project-gallery-content .project-chapter-header.story-align-left {
+    max-inline-size: min(62%, 720px);
+    margin-inline-start: 0 !important;
+    margin-inline-end: auto !important;
+    grid-column: 1 / -1;
+}
+
+.project-gallery-content figure.photo-figure.photo-align-right,
+.project-gallery-content .project-narrative-block.story-align-right,
+.project-gallery-content .project-chapter-header.story-align-right {
+    max-inline-size: min(62%, 720px);
+    margin-inline-start: auto !important;
+    margin-inline-end: 0 !important;
+    grid-column: 1 / -1;
+}
+
+.project-gallery-content .project-narrative-block.story-align-left .project-narrative-block-inner,
+.project-gallery-content .project-narrative-block.story-align-right .project-narrative-block-inner {
+    margin-inline: 0;
+    max-inline-size: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .project-gallery-content .story-split-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+    .project-gallery-content figure.photo-figure.photo-align-left,
+    .project-gallery-content figure.photo-figure.photo-align-right,
+    .project-gallery-content .project-narrative-block.story-align-left,
+    .project-gallery-content .project-narrative-block.story-align-right,
+    .project-gallery-content .project-chapter-header.story-align-left,
+    .project-gallery-content .project-chapter-header.story-align-right {
+        max-inline-size: 100%;
+    }
+}
+
+/* ==========================================================================
    B5: Diptik (Yan Yana İkili Fotoğraf Eşleştirme) Belgesel Mizanpajı
    ========================================================================== */
 .photo-row.diptych-row {

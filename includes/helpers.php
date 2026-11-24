@@ -2246,6 +2246,65 @@ function format_editorial_rich_text(?string $text): string {
 }
 
 /**
+ * Tekil bir yapılandırılmış bloğun (chapter başlığı, photo, text) HTML parçasını üretir.
+ * $in_split = true iken yan yana (story-split-row) kolon içi görünüm üretilir.
+ */
+function render_structured_single_block(array $b, bool $in_split = false): string {
+    $type = $b['type'] ?? 'photo';
+    $layout = $b['layout'] ?? 'single';
+
+    if ($type === 'chapter') {
+        $align_class = '';
+        if (!$in_split) {
+            if ($layout === 'left') $align_class = ' story-align-left';
+            elseif ($layout === 'right') $align_class = ' story-align-right';
+        }
+        $out = '<div class="project-chapter-header' . $align_class . '">' . "\n";
+        $out .= '<h2 class="project-chapter-title">' . htmlspecialchars($b['title'] ?? '') . '</h2>' . "\n";
+        if (!empty($b['lead'])) {
+            $leadText = format_editorial_rich_text($b['lead']);
+            $out .= '<div class="project-chapter-lead">' . $leadText . '</div>' . "\n";
+        }
+        $out .= '</div>' . "\n";
+        return $out;
+    }
+
+    if ($type === 'photo') {
+        $align_class = '';
+        if (!$in_split) {
+            if ($layout === 'left') $align_class = ' photo-align-left';
+            elseif ($layout === 'right') $align_class = ' photo-align-right';
+        }
+        $fig_html = get_responsive_image_html($b['path'] ?? '', $b['alt'] ?? '', $b['caption'] ?? '', true, $b['focal'] ?? '');
+        if ($align_class !== '') {
+            $fig_html = preg_replace('/class="photo-figure/', 'class="photo-figure' . $align_class, $fig_html, 1);
+        }
+        return $fig_html . "\n";
+    }
+
+    if ($type === 'text') {
+        $text = trim($b['text'] ?? ($b['content'] ?? ''));
+        $title = trim($b['title'] ?? '');
+        $align_class = '';
+        if (!$in_split) {
+            if ($layout === 'left') $align_class = ' story-align-left';
+            elseif ($layout === 'right') $align_class = ' story-align-right';
+        }
+        $out = '<div class="project-narrative-block' . $align_class . '">' . "\n";
+        $out .= '<div class="project-narrative-block-inner">' . "\n";
+        if ($title !== '') {
+            $out .= '<p><strong>' . htmlspecialchars($title) . '</strong></p>' . "\n";
+        }
+        $out .= format_editorial_rich_text($text) . "\n";
+        $out .= '</div>' . "\n";
+        $out .= '</div>' . "\n";
+        return $out;
+    }
+
+    return '';
+}
+
+/**
  * Normal Editoryal Blokları (Structured JSON) Ön Yüz HTML Çıktısına Dönüştürür
  */
 function render_structured_blocks(array $data): string {
@@ -2262,30 +2321,55 @@ function render_structured_blocks(array $data): string {
     $i = 0;
     $len = count($blocks);
     $inChapter = false;
+    $split_types = ['photo', 'text', 'chapter'];
 
     while ($i < $len) {
         $b = $blocks[$i];
         $type = $b['type'] ?? 'photo';
+        $layout = $b['layout'] ?? 'single';
+
+        // Yan yana eşleşen Sol + Sağ (veya Sağ + Sol) blok çifti (ör. Sola Ara Metin/Bölüm + Sağa Fotoğraf)
+        if (in_array($type, $split_types, true) && ($layout === 'left' || $layout === 'right') && ($i + 1 < $len)) {
+            $next = $blocks[$i + 1];
+            $next_type = $next['type'] ?? 'photo';
+            $next_layout = $next['layout'] ?? 'single';
+            if (in_array($next_type, $split_types, true)
+                && (($layout === 'left' && $next_layout === 'right') || ($layout === 'right' && $next_layout === 'left'))
+            ) {
+                if ($type === 'chapter' || $next_type === 'chapter') {
+                    if ($inChapter) {
+                        $html .= '</div>' . "\n";
+                    }
+                    $html .= '<div class="project-chapter chapter-dark">' . "\n";
+                    $inChapter = true;
+                }
+                $left_block  = ($layout === 'left') ? $b : $next;
+                $right_block = ($layout === 'left') ? $next : $b;
+                $html .= '<div class="story-split-row">' . "\n";
+                $html .= '<div class="story-split-col story-split-left">' . "\n";
+                $html .= render_structured_single_block($left_block, true);
+                $html .= '</div>' . "\n";
+                $html .= '<div class="story-split-col story-split-right">' . "\n";
+                $html .= render_structured_single_block($right_block, true);
+                $html .= '</div>' . "\n";
+                $html .= '</div>' . "\n";
+                $i += 2;
+                continue;
+            }
+        }
 
         if ($type === 'chapter') {
             if ($inChapter) {
                 $html .= '</div>' . "\n";
             }
             $html .= '<div class="project-chapter chapter-dark">' . "\n";
-            $html .= '<div class="project-chapter-header">' . "\n";
-            $html .= '<h2 class="project-chapter-title">' . htmlspecialchars($b['title'] ?? '') . '</h2>' . "\n";
-            if (!empty($b['lead'])) {
-                $leadText = format_editorial_rich_text($b['lead']);
-                $html .= '<div class="project-chapter-lead">' . $leadText . '</div>' . "\n";
-            }
-            $html .= '</div>' . "\n";
+            $html .= render_structured_single_block($b, false);
             $inChapter = true;
             $i++;
             continue;
         }
 
         if ($type === 'photo') {
-            $layout = $b['layout'] ?? 'single';
             if ($layout === 'row') {
                 $rowItems = [$b];
                 while ($i + 1 < $len && ($blocks[$i + 1]['type'] ?? '') === 'photo' && ($blocks[$i + 1]['layout'] ?? '') === 'row' && count($rowItems) < 2) {
@@ -2298,30 +2382,14 @@ function render_structured_blocks(array $data): string {
                 }
                 $html .= '</div>' . "\n";
             } else {
-                $align_class = '';
-                if ($layout === 'left') $align_class = ' photo-align-left';
-                elseif ($layout === 'right') $align_class = ' photo-align-right';
-                $fig_html = get_responsive_image_html($b['path'] ?? '', $b['alt'] ?? '', $b['caption'] ?? '', true, $b['focal'] ?? '');
-                if ($align_class !== '') {
-                    $fig_html = preg_replace('/class="photo-figure/', 'class="photo-figure' . $align_class, $fig_html, 1);
-                }
-                $html .= $fig_html . "\n";
+                $html .= render_structured_single_block($b, false);
             }
             $i++;
             continue;
         }
 
         if ($type === 'text') {
-            $text = trim($b['text'] ?? ($b['content'] ?? ''));
-            $title = trim($b['title'] ?? '');
-            $html .= '<div class="project-narrative-block">' . "\n";
-            $html .= '<div class="project-narrative-block-inner">' . "\n";
-            if ($title !== '') {
-                $html .= '<p><strong>' . htmlspecialchars($title) . '</strong></p>' . "\n";
-            }
-            $html .= format_editorial_rich_text($text) . "\n";
-            $html .= '</div>' . "\n";
-            $html .= '</div>' . "\n";
+            $html .= render_structured_single_block($b, false);
             $i++;
             continue;
         }

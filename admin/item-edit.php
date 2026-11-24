@@ -641,6 +641,12 @@ require __DIR__ . '/includes/image_modal.php';
     background: var(--bg-active);
 }
 
+.rt-btn.is-active {
+    background: var(--info-soft, rgba(2, 132, 199, 0.14));
+    color: var(--accent-blue, #0284c7);
+    border-color: var(--info-border, rgba(2, 132, 199, 0.35));
+}
+
 .rt-btn svg {
     display: block;
     stroke: currentColor;
@@ -1080,14 +1086,14 @@ lang_bar([
                     </p>
                     <div class="rich-editor-wrap">
                         <div class="rich-toolbar">
-                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this)" title="<?= __a('Paragraf veya Başlık Formatı', 'Paragraph or Heading Format') ?>">
+                            <select class="rt-select rt-format-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this)" title="<?= __a('Paragraf veya Başlık Formatı', 'Paragraph or Heading Format') ?>">
                                 <option value="p"><?= __a('Paragraf', 'Paragraph') ?></option>
                                 <option value="h2"><?= __a('Büyük Başlık (H2)', 'Heading 2 (H2)') ?></option>
                                 <option value="h3"><?= __a('Bölüm Başlığı (H3)', 'Chapter Title (H3)') ?></option>
                                 <option value="h4"><?= __a('Alt Başlık (H4)', 'Subheading (H4)') ?></option>
                                 <option value="blockquote"><?= __a('Alıntı Bloğu', 'Quote Block') ?></option>
                             </select>
-                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this)" title="<?= __a('Yazı Boyutu', 'Font Size') ?>">
+                            <select class="rt-select rt-size-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this)" title="<?= __a('Yazı Boyutu', 'Font Size') ?>">
                                 <option value="" disabled selected><?= __a('Boyut', 'Size') ?></option>
                                 <option value="12px"><?= __a('12px - Küçük / Not', '12px - Small / Note') ?></option>
                                 <option value="14px"><?= __a('14px - Standart', '14px - Standard') ?></option>
@@ -1105,21 +1111,21 @@ lang_bar([
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
                             </button>
                             <div class="rt-sep"></div>
-                            <button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'bold')" title="<?= __a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)') ?>"><strong>B</strong></button>
-                            <button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'italic')" title="<?= __a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)') ?>"><em>I</em></button>
-                            <button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'underline')" title="<?= __a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)') ?>"><u>U</u></button>
-                            <button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'strikeThrough')" title="<?= __a('Üstü Çizili', 'Strikethrough') ?>"><s>S</s></button>
+                            <button type="button" class="rt-btn rt-bold" data-cmd="bold" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'bold')" title="<?= __a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)') ?>"><strong>B</strong></button>
+                            <button type="button" class="rt-btn rt-italic" data-cmd="italic" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'italic')" title="<?= __a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)') ?>"><em>I</em></button>
+                            <button type="button" class="rt-btn rt-underline" data-cmd="underline" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'underline')" title="<?= __a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)') ?>"><u>U</u></button>
+                            <button type="button" class="rt-btn rt-strike" data-cmd="strikeThrough" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'strikeThrough')" title="<?= __a('Üstü Çizili', 'Strikethrough') ?>"><s>S</s></button>
                             <div class="rt-sep"></div>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyLeft')" title="<?= __a('Sola Yasla', 'Align Left') ?>">
+                            <button type="button" class="rt-btn" data-cmd="justifyLeft" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyLeft')" title="<?= __a('Sola Yasla', 'Align Left') ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyCenter')" title="<?= __a('Ortala', 'Center') ?>">
+                            <button type="button" class="rt-btn" data-cmd="justifyCenter" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyCenter')" title="<?= __a('Ortala', 'Center') ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyRight')" title="<?= __a('Sağa Yasla', 'Align Right') ?>">
+                            <button type="button" class="rt-btn" data-cmd="justifyRight" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyRight')" title="<?= __a('Sağa Yasla', 'Align Right') ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyFull')" title="<?= __a('İki Yana Yasla', 'Justify') ?>">
+                            <button type="button" class="rt-btn" data-cmd="justifyFull" onmousedown="event.preventDefault();" onclick="execRichCmd(this, 'justifyFull')" title="<?= __a('İki Yana Yasla', 'Justify') ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                             </button>
                             <div class="rt-sep"></div>
@@ -1488,11 +1494,13 @@ function normalizeBlockForUnified(b, lang) {
             title_tr: lang === 'tr' ? (b.title || b.title_tr || '') : '',
             title_en: lang === 'en' ? (b.title || b.title_en || '') : '',
             lead_tr: lang === 'tr' ? (b.lead || b.lead_tr || '') : '',
-            lead_en: lang === 'en' ? (b.lead || b.lead_en || '') : ''
+            lead_en: lang === 'en' ? (b.lead || b.lead_en || '') : '',
+            layout: b.layout || 'single'
         };
     } else if (type === 'text') {
         return {
             type: 'text',
+            layout: b.layout || 'single',
             text_tr: lang === 'tr' ? (b.text || b.text_tr || '') : '',
             text_en: lang === 'en' ? (b.text || b.text_en || '') : ''
         };
@@ -1526,6 +1534,7 @@ function createMergedBlock(tb, eb) {
         return {
             type: 'chapter',
             theme: (tb && tb.theme) || (eb && eb.theme) || 'dark',
+            layout: (tb && tb.layout) || (eb && eb.layout) || 'single',
             title_tr: (tb && (tb.title || tb.title_tr)) || '',
             title_en: (eb && (eb.title || eb.title_en)) || (tb && tb.title_en) || '',
             lead_tr: (tb && (tb.lead || tb.lead_tr)) || '',
@@ -1534,6 +1543,7 @@ function createMergedBlock(tb, eb) {
     } else if (type === 'text') {
         return {
             type: 'text',
+            layout: (tb && tb.layout) || (eb && eb.layout) || 'single',
             text_tr: (tb && (tb.text || tb.text_tr)) || '',
             text_en: (eb && (eb.text || eb.text_en)) || (tb && tb.text_en) || ''
         };
@@ -1680,6 +1690,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 2. Görsel Tuvali Render Et
     renderStoryCanvas();
+    syncAllRichToolbars();
 
     // 3. Sürükle-Bırak SortableJS Başlat
     initSortable();
@@ -1863,14 +1874,14 @@ function parseToNormalStructure(raw) {
 function renderRichToolbarHtml() {
     var isEn = (window.ADMIN_LANG === 'en');
     return '<div class="rich-toolbar">' +
-        '<select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this)" title="' + (<?= json_encode(__a('Format', 'Format'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+        '<select class="rt-select rt-format-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this)" title="' + (<?= json_encode(__a('Format', 'Format'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<option value="p">' + (<?= json_encode(__a('Paragraf', 'Paragraph'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
             '<option value="h2">' + (<?= json_encode(__a('Başlık 2 (H2)', 'Heading 2 (H2)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
             '<option value="h3">' + (<?= json_encode(__a('Bölüm Başlığı (H3)', 'Chapter Title (H3)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
             '<option value="h4">' + (<?= json_encode(__a('Alt Başlık (H4)', 'Subheading (H4)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
             '<option value="blockquote">' + (<?= json_encode(__a('Alıntı Bloğu', 'Quote Block'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
         '</select>' +
-        '<select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this)" title="' + (<?= json_encode(__a('Yazı Boyutu', 'Font Size'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+        '<select class="rt-select rt-size-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this)" title="' + (<?= json_encode(__a('Yazı Boyutu', 'Font Size'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<option value="" disabled selected>' + (<?= json_encode(__a('Boyut', 'Size'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
             '<option value="12px">' + (<?= json_encode(__a('12px (Küçük Not)', '12px (Small Note)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
             '<option value="14px">' + (<?= json_encode(__a('14px (Standart)', '14px (Standard)'), JSON_UNESCAPED_UNICODE) ?>) + '</option>' +
@@ -1888,21 +1899,21 @@ function renderRichToolbarHtml() {
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>' +
         '</button>' +
         '<div class="rt-sep"></div>' +
-        '<button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'bold\')" title="' + (<?= json_encode(__a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)'), JSON_UNESCAPED_UNICODE) ?>) + '"><strong>B</strong></button>' +
-        '<button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'italic\')" title="' + (<?= json_encode(__a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)'), JSON_UNESCAPED_UNICODE) ?>) + '"><em>I</em></button>' +
-        '<button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'underline\')" title="' + (<?= json_encode(__a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)'), JSON_UNESCAPED_UNICODE) ?>) + '"><u>U</u></button>' +
-        '<button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'strikeThrough\')" title="' + (<?= json_encode(__a('Üstü Çizili', 'Strikethrough'), JSON_UNESCAPED_UNICODE) ?>) + '"><s>S</s></button>' +
+        '<button type="button" class="rt-btn rt-bold" data-cmd="bold" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'bold\')" title="' + (<?= json_encode(__a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)'), JSON_UNESCAPED_UNICODE) ?>) + '"><strong>B</strong></button>' +
+        '<button type="button" class="rt-btn rt-italic" data-cmd="italic" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'italic\')" title="' + (<?= json_encode(__a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)'), JSON_UNESCAPED_UNICODE) ?>) + '"><em>I</em></button>' +
+        '<button type="button" class="rt-btn rt-underline" data-cmd="underline" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'underline\')" title="' + (<?= json_encode(__a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)'), JSON_UNESCAPED_UNICODE) ?>) + '"><u>U</u></button>' +
+        '<button type="button" class="rt-btn rt-strike" data-cmd="strikeThrough" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'strikeThrough\')" title="' + (<?= json_encode(__a('Üstü Çizili', 'Strikethrough'), JSON_UNESCAPED_UNICODE) ?>) + '"><s>S</s></button>' +
         '<div class="rt-sep"></div>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyLeft\')" title="' + (<?= json_encode(__a('Sola Yasla', 'Align Left'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+        '<button type="button" class="rt-btn" data-cmd="justifyLeft" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyLeft\')" title="' + (<?= json_encode(__a('Sola Yasla', 'Align Left'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="17" y1="18" x2="3" y2="18"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyCenter\')" title="' + (<?= json_encode(__a('Ortala', 'Center'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+        '<button type="button" class="rt-btn" data-cmd="justifyCenter" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyCenter\')" title="' + (<?= json_encode(__a('Ortala', 'Center'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="17" y1="12" x2="7" y2="12"/><line x1="19" y1="18" x2="5" y2="18"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyRight\')" title="' + (<?= json_encode(__a('Sağa Yasla', 'Align Right'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+        '<button type="button" class="rt-btn" data-cmd="justifyRight" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyRight\')" title="' + (<?= json_encode(__a('Sağa Yasla', 'Align Right'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="7" y2="18"/></svg>' +
         '</button>' +
-        '<button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyFull\')" title="' + (<?= json_encode(__a('İki Yana Yasla', 'Justify'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
+        '<button type="button" class="rt-btn" data-cmd="justifyFull" onmousedown="event.preventDefault();" onclick="execRichCmd(this, \'justifyFull\')" title="' + (<?= json_encode(__a('İki Yana Yasla', 'Justify'), JSON_UNESCAPED_UNICODE) ?>) + '">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="3" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/></svg>' +
         '</button>' +
         '<div class="rt-sep"></div>' +
@@ -1961,14 +1972,154 @@ function saveCurrentSelection() {
 
 document.addEventListener('selectionchange', function() {
     var sel = window.getSelection();
-    if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+    if (sel && sel.rangeCount > 0) {
         var node = sel.anchorNode;
         if (node && node.nodeType === 3) node = node.parentNode;
-        if (node && (node.closest('.rich-editable') || (node.classList && node.classList.contains('rich-editable')))) {
-            savedSelectionRange = sel.getRangeAt(0).cloneRange();
+        var editable = node ? (node.classList && node.classList.contains('rich-editable') ? node : node.closest('.rich-editable')) : null;
+        if (editable) {
+            if (!sel.isCollapsed) {
+                savedSelectionRange = sel.getRangeAt(0).cloneRange();
+            }
+            syncRichToolbarState(editable);
         }
     }
 });
+
+document.addEventListener('focusin', function(e) {
+    var ed = e.target && e.target.closest ? e.target.closest('.rich-editable') : null;
+    if (ed) syncRichToolbarState(ed);
+});
+
+document.addEventListener('keyup', function(e) {
+    var ed = e.target && e.target.closest ? e.target.closest('.rich-editable') : null;
+    if (ed) syncRichToolbarState(ed);
+});
+
+document.addEventListener('mouseup', function(e) {
+    var ed = e.target && e.target.closest ? e.target.closest('.rich-editable') : null;
+    if (ed) syncRichToolbarState(ed);
+});
+
+function detectInlineFontSize(node, editable) {
+    var cur = node;
+    while (cur && cur !== editable && cur.nodeType === 1) {
+        if (cur.style && cur.style.fontSize) {
+            return cur.style.fontSize.trim().toLowerCase();
+        }
+        cur = cur.parentNode;
+    }
+    if (editable && editable.style && editable.style.fontSize) {
+        return editable.style.fontSize.trim().toLowerCase();
+    }
+    return '';
+}
+
+function detectFirstContentNode(editable) {
+    if (!editable) return null;
+    var walker = document.createTreeWalker(editable, NodeFilter.SHOW_TEXT, null);
+    var tNode;
+    while ((tNode = walker.nextNode())) {
+        if (tNode.nodeValue && tNode.nodeValue.trim() !== '') {
+            return tNode.parentNode;
+        }
+    }
+    return editable.firstElementChild || editable;
+}
+
+function syncRichToolbarState(editable) {
+    if (!editable) return;
+    var wrap = editable.closest('.rich-editor-wrap');
+    if (!wrap) return;
+    var toolbar = wrap.querySelector('.rich-toolbar');
+    if (!toolbar) return;
+
+    var activeNode = null;
+    var isFocusedHere = false;
+    var sel = window.getSelection();
+    if (sel && sel.rangeCount > 0) {
+        var anchor = sel.anchorNode;
+        if (anchor && anchor.nodeType === 3) anchor = anchor.parentNode;
+        if (anchor && (anchor === editable || editable.contains(anchor))) {
+            activeNode = anchor;
+            isFocusedHere = true;
+        }
+    }
+    if (!activeNode) {
+        activeNode = detectFirstContentNode(editable);
+    }
+
+    // 1. Yazı Boyutu (Font Size) seçicisini güncelle
+    var sizeSel = toolbar.querySelector('.rt-size-select');
+    if (sizeSel) {
+        var detectedSize = detectInlineFontSize(activeNode, editable);
+        if (!detectedSize && activeNode === editable) {
+            var styledEl = editable.querySelector('[style*="font-size"]');
+            if (styledEl && styledEl.style && styledEl.style.fontSize) {
+                detectedSize = styledEl.style.fontSize.trim().toLowerCase();
+            }
+        }
+        var matchedOpt = false;
+        if (detectedSize) {
+            for (var i = 0; i < sizeSel.options.length; i++) {
+                if (sizeSel.options[i].value.toLowerCase() === detectedSize) {
+                    sizeSel.value = sizeSel.options[i].value;
+                    matchedOpt = true;
+                    break;
+                }
+            }
+        }
+        if (!matchedOpt) {
+            sizeSel.value = '';
+        }
+    }
+
+    // 2. Blok Formatı (p, h2, h3, h4, blockquote) seçicisini güncelle
+    var fmtSel = toolbar.querySelector('.rt-format-select');
+    if (fmtSel) {
+        var blockEl = activeNode && activeNode.closest ? activeNode.closest('p, h2, h3, h4, blockquote') : null;
+        if (blockEl && editable.contains(blockEl)) {
+            var tag = blockEl.tagName.toLowerCase();
+            fmtSel.value = tag;
+        } else {
+            fmtSel.value = 'p';
+        }
+    }
+
+    // 3. Biçimlendirme & hizalama butonlarının aktif durumunu güncelle
+    var cmds = ['bold', 'italic', 'underline', 'strikeThrough', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'];
+    cmds.forEach(function(cmd) {
+        var btn = toolbar.querySelector('.rt-btn[data-cmd="' + cmd + '"]');
+        if (!btn) return;
+        var active = false;
+        if (isFocusedHere) {
+            try { active = document.queryCommandState(cmd); } catch (e) {}
+        } else if (activeNode && activeNode.nodeType === 1) {
+            if (cmd === 'bold') active = !!activeNode.closest('strong, b');
+            else if (cmd === 'italic') active = !!activeNode.closest('em, i');
+            else if (cmd === 'underline') active = !!activeNode.closest('u');
+            else if (cmd === 'strikeThrough') active = !!activeNode.closest('s, strike, del');
+            else if (cmd.indexOf('justify') === 0) {
+                var blk = activeNode.closest('p, div, h2, h3, h4, blockquote');
+                var ta = (blk && editable.contains(blk) && blk.style && blk.style.textAlign) ? blk.style.textAlign.toLowerCase() : '';
+                if (cmd === 'justifyLeft') active = (ta === 'left');
+                else if (cmd === 'justifyCenter') active = (ta === 'center');
+                else if (cmd === 'justifyRight') active = (ta === 'right');
+                else if (cmd === 'justifyFull') active = (ta === 'justify');
+            }
+        }
+        btn.classList.toggle('is-active', !!active);
+    });
+}
+
+function syncAllRichToolbars() {
+    document.querySelectorAll('.rich-editor-wrap').forEach(function(wrap) {
+        var visibleEd = null;
+        wrap.querySelectorAll('.rich-editable').forEach(function(ed) {
+            if (!visibleEd && ed.style.display !== 'none') visibleEd = ed;
+        });
+        if (visibleEd) syncRichToolbarState(visibleEd);
+    });
+}
 
 function getEditableFromTarget(target) {
     if (!target) return null;
@@ -1998,6 +2149,7 @@ function execRichCmd(target, cmd, val) {
     }
     document.execCommand(cmd, false, val || null);
     editable.dispatchEvent(new Event('input', { bubbles: true }));
+    syncRichToolbarState(editable);
 }
 
 function execRichBlockFormat(target, tagVal) {
@@ -2023,6 +2175,7 @@ function execRichBlockFormat(target, tagVal) {
         document.execCommand('formatBlock', false, '<' + tag + '>');
     }
     editable.dispatchEvent(new Event('input', { bubbles: true }));
+    syncRichToolbarState(editable);
 }
 
 function execRichFontSize(target, sizeVal) {
@@ -2054,10 +2207,14 @@ function execRichFontSize(target, sizeVal) {
             var block = node ? node.closest('p, h2, h3, h4, blockquote, li, div') : null;
             if (block && editable.contains(block)) {
                 block.style.fontSize = '';
+                block.querySelectorAll('[style*="font-size"]').forEach(function(el) {
+                    el.style.fontSize = '';
+                });
             }
         }
         editable.dispatchEvent(new Event('input', { bubbles: true }));
         if (target && target.tagName === 'SELECT') target.value = '';
+        syncRichToolbarState(editable);
         return;
     }
 
@@ -2089,7 +2246,7 @@ function execRichFontSize(target, sizeVal) {
     }
 
     editable.dispatchEvent(new Event('input', { bubbles: true }));
-    if (target && target.tagName === 'SELECT') target.value = '';
+    syncRichToolbarState(editable);
 }
 
 function execRichLink(target) {
@@ -2197,12 +2354,14 @@ function packStudioData() {
                 langBlocks.push({
                     type: 'chapter',
                     theme: b.theme || 'dark',
+                    layout: b.layout || 'single',
                     title: b['title_' + lc] || '',
                     lead: b['lead_' + lc] || ''
                 });
             } else if (b.type === 'text') {
                 langBlocks.push({
                     type: 'text',
+                    layout: b.layout || 'single',
                     text: b['text_' + lc] || ''
                 });
             } else if (b.type === 'quote') {
@@ -2301,6 +2460,7 @@ function renderStoryCanvas() {
                 '</div>';
             }).join('');
 
+            var chLayout = b.layout || 'single';
             cardHtml = '<div class="story-card type-chapter" data-idx="' + idx + '" data-card-lang="' + activeLang + '">' +
                 '<div class="drag-handle" title="' + (<?= json_encode(__a('Sırasını değiştirmek için sürükleyin', 'Drag to reorder'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.drag + '</div>' +
                 '<div class="story-card-body">' +
@@ -2309,6 +2469,11 @@ function renderStoryCanvas() {
                             '<span class="story-badge badge-chapter">' + MIN_ICONS.chapter + ' ' + (<?= json_encode(__a('Bölüm', 'Chapter'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' +
                         '</div>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
+                            '<div class="story-card-layout-pills card-tool">' +
+                                '<button type="button" class="layout-pill ' + (chLayout === 'single' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'single\')" title="' + (<?= json_encode(__a('Tam Genişlik', 'Full Width'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Tam Boy', 'Full'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                                '<button type="button" class="layout-pill ' + (chLayout === 'left' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'left\')" title="' + (<?= json_encode(__a('Sola Yasla (yanındaki Sağ blokla eşleşir)', 'Align Left (pairs with adjacent Right block)'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Sola', 'Left'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                                '<button type="button" class="layout-pill ' + (chLayout === 'right' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'right\')" title="' + (<?= json_encode(__a('Sağa Yasla (yanındaki Sol blokla eşleşir)', 'Align Right (pairs with adjacent Left block)'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Sağa', 'Right'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                            '</div>' +
                             '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Bölümü Kaldır', 'Remove Chapter'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                         '</div>' +
                     '</div>' +
@@ -2327,12 +2492,18 @@ function renderStoryCanvas() {
                 '</div>';
             }).join('');
 
+            var txtLayout = b.layout || 'single';
             cardHtml = '<div class="story-card type-text" data-idx="' + idx + '" data-card-lang="' + activeLang + '">' +
                 '<div class="drag-handle" title="' + (<?= json_encode(__a('Sırasını değiştirmek için sürükleyin', 'Drag to reorder'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.drag + '</div>' +
                 '<div class="story-card-body">' +
                     '<div class="story-card-top">' +
                         '<span class="story-badge badge-text">' + MIN_ICONS.text + ' ' + (<?= json_encode(__a('Ara Metin', 'Subtext'), JSON_UNESCAPED_UNICODE) ?>) + '</span>' +
                         '<div style="display:flex; align-items:center; gap:6px;">' +
+                            '<div class="story-card-layout-pills card-tool">' +
+                                '<button type="button" class="layout-pill ' + (txtLayout === 'single' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'single\')" title="' + (<?= json_encode(__a('Tam Genişlik', 'Full Width'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Tam Boy', 'Full'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                                '<button type="button" class="layout-pill ' + (txtLayout === 'left' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'left\')" title="' + (<?= json_encode(__a('Sola Yasla (yanındaki Sağ blokla eşleşir)', 'Align Left (pairs with adjacent Right block)'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Sola', 'Left'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                                '<button type="button" class="layout-pill ' + (txtLayout === 'right' ? 'active' : '') + '" onclick="changeCardLayout(' + idx + ', \'right\')" title="' + (<?= json_encode(__a('Sağa Yasla (yanındaki Sol blokla eşleşir)', 'Align Right (pairs with adjacent Left block)'), JSON_UNESCAPED_UNICODE) ?>) + '">' + (<?= json_encode(__a('Sağa', 'Right'), JSON_UNESCAPED_UNICODE) ?>) + '</button>' +
+                            '</div>' +
                             '<button type="button" class="btn-card-del" onclick="removeBlockFromStory(' + idx + ')" title="' + (<?= json_encode(__a('Metni Kaldır', 'Remove Text'), JSON_UNESCAPED_UNICODE) ?>) + '">' + MIN_ICONS.close + '</button>' +
                         '</div>' +
                     '</div>' +
@@ -2456,6 +2627,7 @@ function renderStoryCanvas() {
 
         return cardHtml;
     }).join('');
+    syncAllRichToolbars();
 }
 
 // ── Kart ve Global Dil Geçiş Yöneticileri ──
@@ -2539,6 +2711,7 @@ function setGlobalCanvasLang(lang) {
         });
     });
     checkLanguageForWarnings(lang);
+    syncAllRichToolbars();
 }
 
 function switchFieldLang(fieldName, lang) {
@@ -3162,6 +3335,7 @@ function addTextBlock() {
     syncActiveInputsToBlocks();
     studioBlocks.push({
         type: 'text',
+        layout: 'single',
         text_tr: '',
         text_en: ''
     });
@@ -3172,6 +3346,7 @@ function addChapterBlock() {
     syncActiveInputsToBlocks();
     studioBlocks.push({
         type: 'chapter',
+        layout: 'single',
         title_tr: '',
         title_en: '',
         lead_tr: '',
