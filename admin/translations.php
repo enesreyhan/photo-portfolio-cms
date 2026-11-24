@@ -97,6 +97,34 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 try {
                     $pdo->prepare($sql)->execute($vals);
                     $saved_count++;
+
+                    // Bağlı menü satırındaki ad ve URL'leri de tüm dillerde senkronize et
+                    $cat_q = $pdo->prepare("SELECT `menu_id` FROM `categories` WHERE `id` = ? LIMIT 1");
+                    $cat_q->execute([$id]);
+                    $menu_id = (int)$cat_q->fetchColumn();
+                    if ($menu_id > 0) {
+                        $m_sets = [];
+                        $m_vals = [];
+                        foreach ($all_languages as $l) {
+                            $lc = $l['code'];
+                            if (isset($lang_fields['name_' . $lc])) {
+                                $m_sets[] = "`title_{$lc}` = ?";
+                                $m_vals[] = trim((string)$lang_fields['name_' . $lc]);
+                            }
+                            if (isset($lang_fields['slug_' . $lc])) {
+                                $raw_s = trim((string)$lang_fields['slug_' . $lc]);
+                                $clean_s = $raw_s !== '' ? slugify($raw_s) : '';
+                                if ($clean_s !== '') {
+                                    $m_sets[] = "`url_{$lc}` = ?";
+                                    $m_vals[] = $lc . '/' . $clean_s . '/';
+                                }
+                            }
+                        }
+                        if (!empty($m_sets)) {
+                            $m_vals[] = $menu_id;
+                            $pdo->prepare("UPDATE `menus` SET " . implode(', ', $m_sets) . " WHERE `id` = ?")->execute($m_vals);
+                        }
+                    }
                 } catch (\Throwable $e) {}
             }
         }

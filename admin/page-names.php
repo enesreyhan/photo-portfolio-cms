@@ -130,29 +130,51 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } catch (\Throwable $e) {}
 
         // Ek diller
+        $cat_lang_names = ['tr' => $name_tr, 'en' => $name_en];
+        $cat_lang_slugs = ['tr' => $slug_tr, 'en' => $slug_en];
         foreach ($site_languages as $l_row) {
             $lc = $l_row['code'];
+            ensure_language_columns($lc);
             $l_name = trim($_POST['cat_name_' . $lc . '_' . $cid] ?? '');
             $l_slug = slugify(trim($_POST['cat_slug_' . $lc . '_' . $cid] ?? ''));
             if ($l_name !== '') set_setting($ckey . '_title_' . $lc, $l_name);
             if ($l_slug !== '') set_setting('static_slug_' . $ckey . '_' . $lc, $l_slug);
             if (!in_array($lc, ['tr', 'en'], true)) {
+                $final_l_name = $l_name ?: $name_en;
+                $final_l_slug = $l_slug ?: $slug_en;
+                $cat_lang_names[$lc] = $final_l_name;
+                $cat_lang_slugs[$lc] = $final_l_slug;
                 try {
                     $st_l = $pdo->prepare("UPDATE `categories` SET `name_{$lc}` = ?, `slug_{$lc}` = ? WHERE `id` = ?");
-                    $st_l->execute([$l_name ?: $name_en, $l_slug ?: $slug_en, $cid]);
+                    $st_l->execute([$final_l_name, $final_l_slug, $cid]);
                 } catch (\Throwable $e) {}
             }
         }
 
-        // Üst menüde eşleşen bağlantıyı da otomatik güncelle
+        // Üst menüde eşleşen bağlantıyı tüm dillerde otomatik güncelle
         try {
             // menus.url_* kanonik biçimi 'tr/slug/'; eski kayıtlarda baştaki '/' olabilir
             $old_url_tr = 'tr/' . trim($old_slug_tr, '/') . '/';
             $old_url_en = 'en/' . trim($old_slug_en, '/') . '/';
-            $new_url_tr = 'tr/' . trim($slug_tr, '/') . '/';
-            $new_url_en = 'en/' . trim($slug_en, '/') . '/';
-            $st_m = $pdo->prepare("UPDATE `menus` SET `title_tr` = ?, `title_en` = ?, `url_tr` = ?, `url_en` = ? WHERE `url_tr` IN (?, ?) OR `url_en` IN (?, ?)");
-            $st_m->execute([$name_tr, $name_en, $new_url_tr, $new_url_en, $old_url_tr, '/' . $old_url_tr, $old_url_en, '/' . $old_url_en]);
+            $m_sets = [];
+            $m_vals = [];
+            foreach ($cat_lang_names as $lc => $m_title) {
+                $m_slug = trim($cat_lang_slugs[$lc] ?? '', '/');
+                $m_sets[] = "`title_{$lc}` = ?";
+                $m_vals[] = $m_title;
+                $m_sets[] = "`url_{$lc}` = ?";
+                $m_vals[] = $lc . '/' . $m_slug . '/';
+            }
+            $menu_id = (int)($cat['menu_id'] ?? 0);
+            if ($menu_id > 0) {
+                $m_vals[] = $menu_id;
+                $st_m = $pdo->prepare("UPDATE `menus` SET " . implode(', ', $m_sets) . " WHERE `id` = ?");
+                $st_m->execute($m_vals);
+            } else {
+                array_push($m_vals, $old_url_tr, '/' . $old_url_tr, $old_url_en, '/' . $old_url_en);
+                $st_m = $pdo->prepare("UPDATE `menus` SET " . implode(', ', $m_sets) . " WHERE `url_tr` IN (?, ?) OR `url_en` IN (?, ?)");
+                $st_m->execute($m_vals);
+            }
         } catch (\Throwable $e) {}
     }
 
@@ -161,42 +183,67 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $old_slug_tr = get_static_slug($pkey, 'tr');
         $old_slug_en = get_static_slug($pkey, 'en');
 
+        $page_lang_titles = [];
+        $page_lang_slugs  = [];
         foreach ($site_languages as $l_row) {
             $lc = $l_row['code'];
+            ensure_language_columns($lc);
             $def_t = ($lc === 'tr') ? $pmeta['def_title_tr'] : $pmeta['def_title_en'];
             $def_s = ($lc === 'tr') ? $pmeta['def_slug_tr'] : $pmeta['def_slug_en'];
 
             $val_t = trim($_POST['page_title_' . $pkey . '_' . $lc] ?? '');
             $val_s = ($pkey === 'home') ? '' : slugify(trim($_POST['page_slug_' . $pkey . '_' . $lc] ?? ''));
 
-            set_setting($pkey . '_title_' . $lc, $val_t !== '' ? $val_t : $def_t);
+            $final_t = ($val_t !== '') ? $val_t : $def_t;
+            $final_s = ($val_s !== '') ? $val_s : $def_s;
+            set_setting($pkey . '_title_' . $lc, $final_t);
             if ($pkey !== 'home') {
-                set_setting('static_slug_' . $pkey . '_' . $lc, $val_s !== '' ? $val_s : $def_s);
+                set_setting('static_slug_' . $pkey . '_' . $lc, $final_s);
             }
+            $page_lang_titles[$lc] = $final_t;
+            $page_lang_slugs[$lc]  = $final_s;
         }
 
         $new_title_tr = get_setting($pkey . '_title_tr', $pmeta['def_title_tr']);
         $new_title_en = get_setting($pkey . '_title_en', $pmeta['def_title_en']);
         $new_slug_tr  = get_setting('static_slug_' . $pkey . '_tr', $pmeta['def_slug_tr']);
         $new_slug_en  = get_setting('static_slug_' . $pkey . '_en', $pmeta['def_slug_en']);
+        $page_lang_titles['tr'] = $new_title_tr;
+        $page_lang_titles['en'] = $new_title_en;
+        $page_lang_slugs['tr']  = $new_slug_tr;
+        $page_lang_slugs['en']  = $new_slug_en;
 
-        // Hakkımda sayfası ise items tablosundaki aboutme kaydının başlığını da senkronize et
+        // Hakkımda sayfası ise items tablosundaki aboutme kaydının başlığını da tüm dillerde senkronize et
         if ($pkey === 'about') {
             try {
-                $st_ab = $pdo->prepare("UPDATE `items` SET `title_tr` = ?, `title_en` = ? WHERE `slug` = 'aboutme' AND `type` = 'page'");
-                $st_ab->execute([$new_title_tr, $new_title_en]);
+                $ab_sets = [];
+                $ab_vals = [];
+                foreach ($page_lang_titles as $lc => $ab_t) {
+                    $ab_sets[] = "`title_{$lc}` = ?";
+                    $ab_vals[] = $ab_t;
+                }
+                $st_ab = $pdo->prepare("UPDATE `items` SET " . implode(', ', $ab_sets) . " WHERE `slug` = 'aboutme' AND `type` = 'page'");
+                $st_ab->execute($ab_vals);
             } catch (\Throwable $e) {}
         }
 
-        // Üst menüde eşleşen bağlantıyı da otomatik güncelle
+        // Üst menüde eşleşen bağlantıyı tüm dillerde otomatik güncelle
         if ($pkey !== 'home') {
             try {
                 $old_url_tr = 'tr/' . trim($old_slug_tr, '/') . '/';
                 $old_url_en = 'en/' . trim($old_slug_en, '/') . '/';
-                $new_url_tr = 'tr/' . trim($new_slug_tr, '/') . '/';
-                $new_url_en = 'en/' . trim($new_slug_en, '/') . '/';
-                $st_m = $pdo->prepare("UPDATE `menus` SET `title_tr` = ?, `title_en` = ?, `url_tr` = ?, `url_en` = ? WHERE `url_tr` IN (?, ?) OR `url_en` IN (?, ?)");
-                $st_m->execute([$new_title_tr, $new_title_en, $new_url_tr, $new_url_en, $old_url_tr, '/' . $old_url_tr, $old_url_en, '/' . $old_url_en]);
+                $m_sets = [];
+                $m_vals = [];
+                foreach ($page_lang_titles as $lc => $m_title) {
+                    $m_slug = trim($page_lang_slugs[$lc] ?? '', '/');
+                    $m_sets[] = "`title_{$lc}` = ?";
+                    $m_vals[] = $m_title;
+                    $m_sets[] = "`url_{$lc}` = ?";
+                    $m_vals[] = $lc . '/' . $m_slug . '/';
+                }
+                array_push($m_vals, $old_url_tr, '/' . $old_url_tr, $old_url_en, '/' . $old_url_en);
+                $st_m = $pdo->prepare("UPDATE `menus` SET " . implode(', ', $m_sets) . " WHERE `url_tr` IN (?, ?) OR `url_en` IN (?, ?)");
+                $st_m->execute($m_vals);
             } catch (\Throwable $e) {}
         }
     }

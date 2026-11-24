@@ -184,7 +184,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') ==
     $fresh = $st->fetch(PDO::FETCH_ASSOC);
     // Bağımsız sayfanın adresi değiştiyse menüdeki bağlantısı da yeni adrese geçer
     if ($item['type'] === 'page') {
-        foreach (['tr', 'en'] as $c) {
+        foreach ($pg_langs as $c) {
             $old = (string)($item['slug_' . $c] ?: $item['slug']); $new = (string)($fresh['slug_' . $c] ?: $fresh['slug']);
             if ($old !== '' && $old !== $new) $pdo->prepare("UPDATE `menus` SET `url_{$c}` = ? WHERE TRIM(`url_{$c}`, '/') = ?")->execute([$c . '/' . $new . '/', $c . '/' . $old]);
         }
