@@ -708,9 +708,11 @@ $container_style = sprintf(
             <svg class="hp-ic-play" width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M1 0l9 5-9 5z"/></svg>
         </button>
         <?php endif; ?>
+        <?php if ($hp_show_counter): ?>
         <span id="hpCurrentFrameNum"><?= sprintf('%02d', $initial_active_idx + 1) ?></span>
         <span class="hp-counter-sep">/</span>
         <span><?= sprintf('%02d', $total_slides_count) ?></span>
+        <?php endif; ?>
     </div>
     <?php endif; ?>
 
