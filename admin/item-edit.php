@@ -1688,6 +1688,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (introEl) introEl.innerHTML = richTextToHtml(studioIntro[l.code] || '');
     });
 
+    // Eski içerikten kalan gömülü medya (video/iframe) editörde seçilip silinemiyor: tıklayınca onayla kaldır
+    document.addEventListener('click', function(e) {
+        var media = e.target.closest && e.target.closest('.rich-editable video, .rich-editable iframe, .rich-editable audio');
+        if (!media) return;
+        e.preventDefault();
+        var ed = media.closest('.rich-editable');
+        adminConfirm(<?= json_encode(__a('Bu gömülü medya metinden kaldırılsın mı?', 'Remove this embedded media from the text?'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>, { ok: <?= json_encode(__a('Kaldır', 'Remove'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> }).then(function(ok) {
+            if (!ok) return;
+            media.remove();
+            ed.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+    }, true);
+
     // 2. Görsel Tuvali Render Et
     renderStoryCanvas();
     syncAllRichToolbars();

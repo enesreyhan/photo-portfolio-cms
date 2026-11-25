@@ -174,8 +174,8 @@ function lang_bar(array $o = []): void {
         var current = codes.indexOf(cfg.initial) > -1 ? cfg.initial : codes[0];
         var T = cfg.t, refs = [];
         var SRC_KEY = 'er_lb_show_source';
-        var showSrc = true;
-        try { showSrc = localStorage.getItem(SRC_KEY) !== '0'; } catch (e) {}
+        var showSrc = false;
+        try { showSrc = localStorage.getItem(SRC_KEY) === '1'; } catch (e) {}
         bar.querySelector('.lb-src-cb').checked = showSrc;
 
         if (cfg.hide) document.querySelectorAll(cfg.hide).forEach(function (el) { el.classList.add('lb-hidden-ui'); });

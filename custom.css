@@ -9342,20 +9342,20 @@ html.gallery-paper .project-gallery-content .photo-grid figure.photo-figure {
 }
 
 /* 5. Kontak Baskı / İndeks Modu (Galeri Paspartu Kartları) */
-html.gallery-paper .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure,
-html.gallery-paper .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure.is-portrait {
+html:is(.gallery-paper, .gallery-white) .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure,
+html:is(.gallery-paper, .gallery-white) .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure.is-portrait {
     background: #faf9f5 !important;
     border: 1px solid rgba(20, 20, 18, 0.12) !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
 }
 
-html.gallery-paper .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure:hover {
+html:is(.gallery-paper, .gallery-white) .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure:hover {
     border-color: #141413 !important;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1) !important;
 }
 
-html.gallery-paper .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure a.glightbox,
-html.gallery-paper .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure a.cs-proxy-lightbox {
+html:is(.gallery-paper, .gallery-white) .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure a.glightbox,
+html:is(.gallery-paper, .gallery-white) .mono-inner-wrapper.is-contact-sheet .project-gallery-content figure.photo-figure a.cs-proxy-lightbox {
     background: #ebe8e0 !important;
 }
 
