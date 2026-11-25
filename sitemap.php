@@ -88,13 +88,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         <?php endforeach; ?>
         <priority>0.3</priority>
     </url>
-    <url>
-        <loc><?= e(url($lc . '/' . get_static_slug('explicit_consent', $lc) . '/')) ?></loc>
-        <?php foreach ($active_langs as $alt_lc): ?>
-        <xhtml:link rel="alternate" hreflang="<?= e($alt_lc) ?>" href="<?= e(url($alt_lc . '/' . get_static_slug('explicit_consent', $alt_lc) . '/')) ?>" />
-        <?php endforeach; ?>
-        <priority>0.3</priority>
-    </url>
     <?php endif; ?>
     <?php endforeach; ?>
 

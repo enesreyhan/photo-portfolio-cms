@@ -46,7 +46,6 @@ function pages_static_defs(): array {
         'blog'             => ['Blog', 'Blog', 'blog.php', 'blog', get_setting('blog_enabled', '0') === '1'],
         'field_work'       => ['Saha rotaları', 'Field work', 'about.php', '', true],
         'privacy_notice'   => ['Aydınlatma metni', 'Privacy notice', 'legal.php', '', true],
-        'explicit_consent' => ['Açık rıza metni', 'Explicit consent', 'legal.php', '', true],
     ];
     if (!field_map_enabled()) unset($defs['field_work']); // siteye özel modül
     return $defs;

@@ -338,14 +338,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     } elseif ($action === 'legal') {
         set_setting('kvkk_aydinlatma_metni_tr', trim($_POST['kvkk_aydinlatma_metni_tr'] ?? ''));
         set_setting('kvkk_aydinlatma_metni_en', trim($_POST['kvkk_aydinlatma_metni_en'] ?? ''));
-        set_setting('kvkk_acik_riza_metni_tr', trim($_POST['kvkk_acik_riza_metni_tr'] ?? ''));
-        set_setting('kvkk_acik_riza_metni_en', trim($_POST['kvkk_acik_riza_metni_en'] ?? ''));
         set_flash('success', 'KVKK Aydınlatma ve Açık Rıza metinleri başarıyla güncellendi.');
     } elseif ($action === 'reset_legal') {
         set_setting('kvkk_aydinlatma_metni_tr', get_default_kvkk_aydinlatma_tr());
         set_setting('kvkk_aydinlatma_metni_en', get_default_kvkk_aydinlatma_en());
-        set_setting('kvkk_acik_riza_metni_tr', get_default_kvkk_acik_riza_tr());
-        set_setting('kvkk_acik_riza_metni_en', get_default_kvkk_acik_riza_en());
         set_flash('success', 'Yasal metinler Türkiye KVKK mevzuatına uygun standart şablona sıfırlandı.');
     } elseif ($action === 'password') {
         $user_id = $_SESSION['admin_user_id'];
@@ -1105,7 +1101,7 @@ $b_og_image        = get_setting('default_og_image', '');
         <div class="card-header">
             <div>
                 <h2 class="card-title"><?= e(__a('Yasal Metinler', 'Legal Pages')) ?></h2>
-                <p class="card-sub"><?= e(__a('KVKK Aydınlatma Metni ve Açık Rıza Metni sayfaları. Açıkken alt bilgide bağlantıları görünür.', 'Privacy Notice and Explicit Consent pages. When on, links appear in the footer.')) ?></p>
+                <p class="card-sub"><?= e(__a('KVKK Aydınlatma Metni sayfası. Açıkken alt bilgide bağlantısı görünür.', 'Privacy Notice page. When on, a link appears in the footer.')) ?></p>
             </div>
             <?= st_switch('legal_pages_enabled', $legal_pages_enabled, 'legalStatusBadge', $L_live, $L_hidden, 'legalPagesToggle') ?>
         </div>
@@ -1115,12 +1111,6 @@ $b_og_image        = get_setting('default_og_image', '');
                     <div class="setting-row-title"><?= e(__a('Aydınlatma Metni', 'Privacy Notice')) ?></div>
                 </div>
                 <a href="legal.php?doc=aydinlatma&lang=tr" class="btn btn-secondary btn-sm"><?= e(__a('Metni Düzenle', 'Edit Text')) ?> →</a>
-            </div>
-            <div class="setting-row">
-                <div class="setting-row-text">
-                    <div class="setting-row-title"><?= e(__a('Açık Rıza Metni', 'Explicit Consent')) ?></div>
-                </div>
-                <a href="legal.php?doc=acik_riza&lang=tr" class="btn btn-secondary btn-sm"><?= e(__a('Metni Düzenle', 'Edit Text')) ?> →</a>
             </div>
         </div>
     </div>

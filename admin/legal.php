@@ -23,20 +23,18 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $action = $_POST['action'] ?? '';
 
     if ($action === 'legal') {
-        // Sitedeki her dil: kvkk_aydinlatma_metni_{dil}, kvkk_acik_riza_metni_{dil}
-        save_settings_l(['kvkk_aydinlatma_metni', 'kvkk_acik_riza_metni'], $_POST);
+        // Sitedeki her dil: kvkk_aydinlatma_metni_{dil}
+        save_settings_l(['kvkk_aydinlatma_metni'], $_POST);
 
-        set_flash('success', 'KVKK Aydınlatma Metni ve Açık Rıza Metni başarıyla kaydedildi.');
+        set_flash('success', 'KVKK Aydınlatma Metni başarıyla kaydedildi.');
         
-        $active_doc = in_array($_POST['active_doc'] ?? '', ['aydinlatma', 'acik_riza']) ? $_POST['active_doc'] : 'aydinlatma';
+        $active_doc = in_array($_POST['active_doc'] ?? '', ['aydinlatma']) ? $_POST['active_doc'] : 'aydinlatma';
         $active_lang = in_array($_POST['active_lang'] ?? '', array_column(get_active_languages(), 'code'), true) ? $_POST['active_lang'] : 'tr';
         header("Location: legal.php?doc={$active_doc}&lang={$active_lang}");
         exit;
     } elseif ($action === 'reset_legal') {
         set_setting('kvkk_aydinlatma_metni_tr', get_default_kvkk_aydinlatma_tr());
         set_setting('kvkk_aydinlatma_metni_en', get_default_kvkk_aydinlatma_en());
-        set_setting('kvkk_acik_riza_metni_tr', get_default_kvkk_acik_riza_tr());
-        set_setting('kvkk_acik_riza_metni_en', get_default_kvkk_acik_riza_en());
 
         set_flash('success', 'Yasal metinler 6698 sayılı KVKK standart şablonuna başarıyla sıfırlandı.');
         header('Location: legal.php');
@@ -49,14 +47,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 $legal_langs = array_column(get_active_languages(), 'code');
 $legal_content = [];
 foreach ($legal_langs as $c) {
-    foreach (['aydinlatma' => 'ayd', 'acik_riza' => 'riz'] as $type => $px) {
+    foreach (['aydinlatma' => 'ayd'] as $type => $px) {
         $legal_content[$px][$c] = in_array($c, ['tr', 'en'], true)
             ? get_legal_content($type, $c)
             : (string)get_setting("kvkk_{$type}_metni_{$c}", '');
     }
 }
 
-$initial_doc = in_array($_GET['doc'] ?? '', ['aydinlatma', 'acik_riza']) ? $_GET['doc'] : 'aydinlatma';
+$initial_doc = in_array($_GET['doc'] ?? '', ['aydinlatma']) ? $_GET['doc'] : 'aydinlatma';
 $initial_lang = in_array($_GET['lang'] ?? '', $legal_langs, true) ? $_GET['lang'] : (in_array($admin_lang ?? 'tr', $legal_langs, true) ? ($admin_lang ?? 'tr') : 'tr');
 
 $admin_title = __a('Hukuki Metinler', 'Legal Texts');
@@ -322,10 +320,9 @@ require __DIR__ . '/includes/header.php';
 
 <?php
 // Belge sekmelerinin adı seçili içerik dilinde (Sayfa Adları ayarı, yoksa o dilin çevirisi)
-$legal_doc_labels = ['ayd' => [], 'riz' => []];
+$legal_doc_labels = ['ayd' => []];
 foreach ($legal_langs as $c) {
     $legal_doc_labels['ayd'][$c] = get_page_custom_title('privacy_notice', $c, site_t('Aydınlatma Metni', 'Privacy Notice', $c));
-    $legal_doc_labels['riz'][$c] = get_page_custom_title('explicit_consent', $c, site_t('Açık Rıza Metni', 'Explicit Consent', $c));
 }
 ?>
 <script>
@@ -346,10 +343,6 @@ document.addEventListener('er:langbar', function (e) {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h6"/></svg>
                 <span data-doc-label="ayd">1. <?= e($legal_doc_labels['ayd'][$initial_lang] ?? '') ?></span>
             </button>
-            <button type="button" class="doc-tab-btn <?= $initial_doc === 'acik_riza' ? 'active' : '' ?>" id="docTab_acik_riza" onclick="switchDoc('acik_riza')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <span data-doc-label="riz">2. <?= e($legal_doc_labels['riz'][$initial_lang] ?? '') ?></span>
-            </button>
         </div>
 
         <!-- 2. Form Gövdesi -->
@@ -362,7 +355,6 @@ document.addEventListener('er:langbar', function (e) {
             <!-- Gizli Girdi Alanları (Gönderim esnasında senkronize edilir) -->
             <?php foreach ($legal_langs as $c): ?>
             <input type="hidden" name="kvkk_aydinlatma_metni_<?= e($c) ?>" id="hidden_ayd_<?= e($c) ?>">
-            <input type="hidden" name="kvkk_acik_riza_metni_<?= e($c) ?>" id="hidden_riz_<?= e($c) ?>">
             <?php endforeach; ?>
             <?php lang_bar(['scope' => '#legalForm', 'initial' => $initial_lang]); ?>
 
@@ -376,19 +368,6 @@ document.addEventListener('er:langbar', function (e) {
                         </a>
                     </div>
                     <?php render_rich_editor_component('ayd_' . $c, $legal_content['ayd'][$c], $c === 'tr' ? 'Aydınlatma metninizi buraya yazın veya biçimlendirin...' : ($c === 'en' ? 'Write or format your privacy notice here...' : sprintf(__a('%s metni henüz yok. Boş kalırsa sitede %s metin görünür.', 'No %s text yet. If left empty, the %s text is shown on the site.'), $l['name'], strtoupper($l['fallback'])))); ?>
-                <?php }); ?>
-            </div>
-
-            <!-- ── PANEL 2: AÇIK RIZA METNİ ── -->
-            <div id="panel_acik_riza" style="<?= $initial_doc === 'acik_riza' ? 'display:block;' : 'display:none;' ?>">
-                
-                <?php lb_panes(function ($c, $l) use ($legal_content, $initial_lang) { ?>
-                    <div class="lang-sub-bar" style="justify-content:flex-end;">
-                        <a href="<?= e(url($c . '/' . get_static_slug('explicit_consent', $c) . '/')) ?>" target="_blank" class="btn btn-secondary btn-sm" style="display:inline-flex; align-items:center; gap:5px;">
-                            <span><?= __a('Önizle', 'Preview') ?>: /<?= e($c) ?>/<?= e(get_static_slug('explicit_consent', $c)) ?>/ ↗</span>
-                        </a>
-                    </div>
-                    <?php render_rich_editor_component('riz_' . $c, $legal_content['riz'][$c], $c === 'tr' ? 'Açık rıza metninizi buraya yazın veya biçimlendirin...' : ($c === 'en' ? 'Write or format your explicit consent statement here...' : sprintf(__a('%s metni henüz yok. Boş kalırsa sitede %s metin görünür.', 'No %s text yet. If left empty, the %s text is shown on the site.'), $l['name'], strtoupper($l['fallback'])))); ?>
                 <?php }); ?>
             </div>
 
@@ -508,7 +487,7 @@ var currentDoc = '<?= e($initial_doc) ?>';
 var currentLang = '<?= e($initial_lang) ?>';
 var LEGAL_LANGS = <?= json_encode($legal_langs) ?>;
 var htmlMode = {};
-LEGAL_LANGS.forEach(function (c) { htmlMode['ayd_' + c] = false; htmlMode['riz_' + c] = false; });
+LEGAL_LANGS.forEach(function (c) { htmlMode['ayd_' + c] = false; });
 // Ortak dil çubuğunda dil değişince kaydettikten sonra aynı dile dönülsün
 document.addEventListener('er:langbar', function (e) { currentLang = e.detail.lang; var i = document.getElementById('activeLangInput'); if (i) i.value = e.detail.lang; });
 
@@ -522,7 +501,6 @@ function switchDoc(doc) {
     if (activeBtn) activeBtn.classList.add('active');
 
     document.getElementById('panel_aydinlatma').style.display = (doc === 'aydinlatma') ? 'block' : 'none';
-    document.getElementById('panel_acik_riza').style.display = (doc === 'acik_riza') ? 'block' : 'none';
 }
 
 // Dil Geçişi (TR vs EN)
@@ -627,7 +605,7 @@ function escapeHtml(str) {
 // Form Gönderme Hazırlığı — alttaki Kaydet, değişiklik çubuğu ve Ctrl+S hepsi submit olayından geçer
 function syncLegalHidden() {
     var keys = [];
-    LEGAL_LANGS.forEach(function (c) { keys.push('ayd_' + c, 'riz_' + c); });
+    LEGAL_LANGS.forEach(function (c) { keys.push('ayd_' + c); });
     keys.forEach(function(k) {
         var content = '';
         if (htmlMode[k]) {

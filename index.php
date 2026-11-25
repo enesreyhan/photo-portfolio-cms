@@ -10,7 +10,6 @@
  * - Statik Sayfalar:
  *     Hakkımda: /en/about/ ve /tr/hakkimda/
  *     Aydınlatma Metni: /en/privacy-notice/ ve /tr/aydinlatma-metni/
- *     Açık Rıza Metni: /en/explicit-consent/ ve /tr/acik-riza-metni/
  * - Tüm eski URL yapıları için 301 Kalıcı Yönlendirme (Permanent Redirect).
  */
 
@@ -387,24 +386,9 @@ if ($sub_path === $lang_privacy_slug || in_array($sub_path, ['privacy-notice', '
     exit;
 }
 
+// Açık rıza metni kaldırıldı; eski adresler aydınlatma metnine yönlenir
 if ($sub_path === $lang_consent_slug || in_array($sub_path, ['explicit-consent', 'acik-riza-metni'], true)) {
-    if (get_setting('legal_pages_enabled', '1') != '1') {
-        http_response_code(404);
-        require __DIR__ . '/includes/views/404.php';
-        exit;
-    }
-    if ($sub_path !== $lang_consent_slug) {
-        header('Location: ' . url($lang . '/' . $lang_consent_slug . '/'), true, 301);
-        exit;
-    }
-    $legal_type = 'acik_riza';
-    $alternate_en_url = url('en/explicit-consent/');
-    $alternate_tr_url = url('tr/acik-riza-metni/');
-    $alternate_urls = [];
-    foreach ($supported_languages as $sl_code) {
-        $alternate_urls[$sl_code] = url($sl_code . '/' . get_static_slug('explicit_consent', $sl_code) . '/');
-    }
-    require __DIR__ . '/includes/views/legal.php';
+    header('Location: ' . url($lang . '/' . $lang_privacy_slug . '/'), true, 301);
     exit;
 }
 

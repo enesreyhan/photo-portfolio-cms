@@ -276,8 +276,6 @@ a.footer-custom-nav-link:hover {
     <div class="footer-legal" style="<?= ($footer_layout === 'split_bar') ? 'justify-content:flex-start; margin:4px 0 0 0;' : '' ?>">
         <?php if ($show_legal_links): ?>
         <a href="<?= url(($is_tr ? 'tr/aydinlatma-metni/' : 'en/privacy-notice/')) ?>" class="footer-legal-link"><?= site_t('Aydınlatma Metni', 'Privacy Notice') ?></a>
-        <span class="footer-legal-sep">·</span>
-        <a href="<?= url(($is_tr ? 'tr/acik-riza-metni/' : 'en/explicit-consent/')) ?>" class="footer-legal-link"><?= site_t('Açık Rıza Metni', 'Explicit Consent') ?></a>
         <?php endif; ?>
         <?php if ($show_cookie_link): ?>
         <?php if ($show_legal_links): ?><span class="footer-legal-sep">·</span><?php endif; ?>
