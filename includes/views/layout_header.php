@@ -123,6 +123,8 @@ foreach ($active_site_langs as $asl) {
             if (<?= (function_exists('style_preview_key') && style_preview_key()) ? 'true' : 'false' ?>) saved = null;
             var mode = (saved === 'white' || saved === 'dark') ? saved : siteBase;
             if (isFieldMap) mode = 'dark';
+            // Tam görsel sayfalar (ana sayfa gibi) ziyaretçinin açık tercihiyle beyaza düşmez
+            if (root.classList.contains('full-image-page')) mode = siteBase;
             root.setAttribute('data-surface-theme', mode);
             // Açık zeminin tonu: kâğıt ya da gri (extra-templates.css → html.er-tone-*[data-surface-theme="white"])
             var tone = <?= json_encode(in_array(get_setting('site_surface_tone', ''), ['paper', 'gray'], true) ? get_setting('site_surface_tone') : '') ?>;
@@ -2446,14 +2448,15 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
             var isHomepage = root.classList.contains('hp-page');
             var isFieldMap = root.classList.contains('field-map-page');
             if (isFieldMap) nextMode = 'dark';
-            root.setAttribute('data-surface-theme', nextMode);
-            // Sitenin kendi renkleri (yazı rengi vb.) yalnızca sitenin zemininde geçerli
-            root.classList.toggle('er-site-surface', nextMode === window.erSiteSurfaceBase);
-
             try {
                 localStorage.setItem('er_surface_theme', nextMode);
                 if (window.erSiteSurfaceBase) localStorage.setItem('er_surface_theme_base', window.erSiteSurfaceBase);
             } catch (e) {}
+            // Tercih kaydedilir ama tam görsel sayfa sitenin kendi zemininde kalır
+            if (root.classList.contains('full-image-page') && window.erSiteSurfaceBase) nextMode = window.erSiteSurfaceBase;
+            root.setAttribute('data-surface-theme', nextMode);
+            // Sitenin kendi renkleri (yazı rengi vb.) yalnızca sitenin zemininde geçerli
+            root.classList.toggle('er-site-surface', nextMode === window.erSiteSurfaceBase);
 
             var meta = document.querySelector('meta[name="color-scheme"]');
             if (isHomepage) {
@@ -2487,6 +2490,7 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
         window.toggleSurfaceTheme = function(e) {
             if (e && e.stopPropagation) e.stopPropagation();
             var current = document.documentElement.getAttribute('data-surface-theme');
+            if (document.documentElement.classList.contains('full-image-page')) { try { current = localStorage.getItem('er_surface_theme') || current; } catch (err) {} }
             var isLight = current === 'white' || current === 'paper' || document.documentElement.classList.contains('light');
             window.setSurfaceTheme(isLight ? 'dark' : 'white');
         };
