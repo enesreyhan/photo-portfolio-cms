@@ -364,7 +364,7 @@ foreach ($languages as $l_ens) {
 $total_items  = (int)$pdo->query("SELECT COUNT(*) FROM `items` WHERE `type` != 'page'")->fetchColumn();
 $total_cats   = (int)$pdo->query("SELECT COUNT(*) FROM `categories`")->fetchColumn();
 $total_menus  = (int)$pdo->query("SELECT COUNT(*) FROM `menus` WHERE `is_separator` = 0")->fetchColumn();
-$total_slides = (int)$pdo->query("SELECT COUNT(*) FROM `homepage_slides`")->fetchColumn();
+$total_slides = (int)$pdo->query("SELECT COUNT(*) FROM `homepage_slides` WHERE `item_id` IS NULL")->fetchColumn();
 $seo_keys     = ['site_title', 'site_desc', 'header_logo_subtext', 'header_cta_text', 'footer_brand_title', 'footer_tagline'];
 $total_seo    = count($seo_keys);
 $grand_total  = $total_items + $total_cats + $total_menus + $total_slides + $total_seo;
@@ -391,7 +391,7 @@ foreach ($languages as $l) {
     } catch (\Throwable $e) {}
 
     try {
-        $tr_slides = (int)$pdo->query("SELECT COUNT(*) FROM `homepage_slides` WHERE `title_{$lc}` IS NOT NULL AND TRIM(`title_{$lc}`) != ''")->fetchColumn();
+        $tr_slides = (int)$pdo->query("SELECT COUNT(*) FROM `homepage_slides` WHERE `item_id` IS NULL AND `title_{$lc}` IS NOT NULL AND TRIM(`title_{$lc}`) != ''")->fetchColumn();
     } catch (\Throwable $e) {}
 
     foreach ($seo_keys as $sk) {

@@ -87,10 +87,12 @@ if ($slide_item_ids && isset($pdo)) {
     foreach ($stmt_si->fetchAll(PDO::FETCH_ASSOC) as $si) $slide_items[(int)$si['id']] = $si;
 }
 foreach ($slides as $idx => $s) {
-    $title = item_field($s, 'title', $lang);
-    $desc  = item_field($s, 'description', $lang);
-    $loc   = !empty($s['location_' . $lang]) ? $s['location_' . $lang] : ($s['location'] ?? '');
     $linked_item = $slide_items[(int)($s['item_id'] ?? 0)] ?? null;
+    // A slide linked to a work shows the work's own text; slide copies are only for unlinked slides
+    $text_src = $linked_item ?: $s;
+    $title = item_field($text_src, 'title', $lang);
+    $desc  = item_field($text_src, 'description', $lang);
+    $loc   = !empty($s['location_' . $lang]) ? $s['location_' . $lang] : ($s['location'] ?? '');
     if ($linked_item && item_field($linked_item, 'location', $lang) !== '') $loc = item_field($linked_item, 'location', $lang);
     $year  = $s['year'] ?? '';
 

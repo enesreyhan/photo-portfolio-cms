@@ -212,7 +212,8 @@ if ($section === 'items') {
 } elseif ($section === 'menus') {
     $data_rows = $pdo->query("SELECT * FROM `menus` WHERE `is_separator` = 0 ORDER BY `weight` ASC, `id` ASC")->fetchAll(PDO::FETCH_ASSOC);
 } elseif ($section === 'slides') {
-    $data_rows = $pdo->query("SELECT * FROM `homepage_slides` ORDER BY `weight` ASC, `id` DESC")->fetchAll(PDO::FETCH_ASSOC);
+    // Linked slides take their text from the work, so only unlinked ones are translated here
+    $data_rows = $pdo->query("SELECT * FROM `homepage_slides` WHERE `item_id` IS NULL ORDER BY `weight` ASC, `id` DESC")->fetchAll(PDO::FETCH_ASSOC);
 } elseif ($section === 'settings') {
     $data_rows = [
         ['key' => 'site_title',          'label' => 'Site Ana Başlığı (SEO Title)',        'default_tr' => site_owner_name(), 'default_en' => site_owner_name()],

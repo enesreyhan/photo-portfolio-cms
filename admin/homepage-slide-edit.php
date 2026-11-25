@@ -44,11 +44,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         redirect('admin/homepage-slide-edit.php?id=' . $id);
     }
 
+    // Linked slides have no text fields in the form: keep stored values untouched
+    $txt = $matched_item ? $slide : $_POST;
     $image_path     = trim($_POST['image_path'] ?? '');
-    $title_tr       = trim($_POST['title_tr'] ?? '');
-    $title_en       = trim($_POST['title_en'] ?? '');
-    $description_tr = trim($_POST['description_tr'] ?? '');
-    $description_en = trim($_POST['description_en'] ?? '');
+    $title_tr       = trim($txt['title_tr'] ?? '');
+    $title_en       = trim($txt['title_en'] ?? '');
+    $description_tr = trim($txt['description_tr'] ?? '');
+    $description_en = trim($txt['description_en'] ?? '');
     $location       = trim($_POST['location'] ?? '');
     $year           = trim($_POST['year'] ?? '');
     $link_url       = trim($_POST['link_url'] ?? '');
@@ -81,7 +83,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         // Ek diller
         foreach ($site_languages as $sl) {
             $lc = $sl['code'];
-            if (in_array($lc, ['tr', 'en'], true)) continue;
+            if ($matched_item || in_array($lc, ['tr', 'en'], true)) continue;
             $l_t = trim($_POST['title_' . $lc] ?? '');
             $l_d = trim($_POST['description_' . $lc] ?? '');
             try {
@@ -188,6 +190,9 @@ require __DIR__ . '/includes/image_modal.php';
     <div class="card" style="padding: 24px;">
         <h3 class="card-title" style="margin-bottom: 18px;"><?= e(__a('title')) ?> & <?= e(__a('description')) ?></h3>
 
+        <?php if ($matched_item): ?>
+        <p class="text-muted" style="font-size:13px; margin:0;"><?= e(__a('Bu görsel bir portfolyo çalışmasına bağlı. Başlık ve açıklama her dilde doğrudan çalışmadan gelir; o dilde boşsa ana dildeki metin gösterilir. Değiştirmek için portfolyo düzenleyicisini kullanın.', 'This slide is linked to a portfolio work. Title and description come from the work in every language; if a language is empty, the main language text is shown. Edit them in the portfolio editor.')) ?></p>
+        <?php else: ?>
         <?php lang_bar(['scope' => '#slideLangFields']); ?>
         <div id="slideLangFields">
         <?php lb_panes(function ($lc, $l) use ($slide) { ?>
@@ -201,6 +206,7 @@ require __DIR__ . '/includes/image_modal.php';
             </div>
         <?php }); ?>
         </div>
+        <?php endif; ?>
     </div>
 </form>
 
