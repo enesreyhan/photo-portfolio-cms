@@ -338,7 +338,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'email'  => trim($_POST['contact_email_' . $lc] ?? $contact_en['email']),
             'loc'    => trim($_POST['contact_loc_' . $lc] ?? $contact_en['loc'])
         ];
-        $l_ch_items = json_decode($_POST['chrono_items_' . $lc . '_json'] ?? '[]', true) ?: $chrono_items_en;
+        // Form alanı geldiyse boş liste de geçerli (tüm maddeler silinmiş olabilir)
+        $l_ch_raw = $_POST['chrono_items_' . $lc . '_json'] ?? '';
+        $l_ch_items = $l_ch_raw !== '' ? (json_decode($l_ch_raw, true) ?: []) : $chrono_items_en;
         $l_chrono = [
             'title' => trim($_POST['chrono_title_' . $lc] ?? $chronology_en['title']),
             'sub'   => trim($_POST['chrono_sub_' . $lc] ?? $chronology_en['sub']),
@@ -1234,7 +1236,19 @@ require __DIR__ . '/includes/image_modal.php';
                             <input type="text" name="contact_loc_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['contact']['loc'] ?? '') ?>">
                         </div>
                     </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+                </div>
+
+                <div class="about-section-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
+                        <h4 style="margin:0; border:none; padding:0; display:flex; align-items:center; gap:8px;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                            <span><?= e(__a('Sergiler, Yayınlar ve Medya Kronolojisi', 'Exhibitions, Publications & Media Chronology')) ?> (<?= e($sl['name_native']) ?>)</span>
+                        </h4>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="addChronoRow('<?= e($lc) ?>')" style="border-color:#0284c7; color:#0284c7; font-weight:600;">
+                            <span>+ <?= e(__a('Yeni Madde Ekle', 'Add New Entry')) ?></span>
+                        </button>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
                         <div class="form-group" style="margin:0;">
                             <label class="form-label"><?= __a('Kronoloji Başlığı', 'Chronology Title') ?></label>
                             <input type="text" name="chrono_title_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['chronology']['title'] ?? '') ?>">
@@ -1243,6 +1257,22 @@ require __DIR__ . '/includes/image_modal.php';
                             <label class="form-label"><?= __a('Kronoloji Alt Başlığı', 'Chronology Subtitle') ?></label>
                             <input type="text" name="chrono_sub_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['chronology']['sub'] ?? '') ?>">
                         </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="chrono-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:70px;"><?= e(__a('Sıra', 'Order')) ?></th>
+                                    <th style="width:90px;"><?= e(__a('Yıl', 'Year')) ?></th>
+                                    <th style="width:130px;"><?= e(__a('Kategori', 'Category')) ?></th>
+                                    <th><?= e(__a('Etkinlik / Başlık', 'Event / Title')) ?></th>
+                                    <th style="width:220px;"><?= e(__a('Bağlantı (URL)', 'Link (URL)')) ?></th>
+                                    <th><?= e(__a('Mekan / Yayın', 'Venue / Publication')) ?></th>
+                                    <th style="width:60px; text-align:center;"><?= e(__a('İşlem', 'Action')) ?></th>
+                                </tr>
+                            </thead>
+                            <tbody id="chronoTableBody_<?= e($lc) ?>"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -1259,6 +1289,11 @@ var chronoData = {
     tr: <?= json_encode($data_tr['chronology']['items'] ?? [], JSON_UNESCAPED_UNICODE) ?>,
     en: <?= json_encode($data_en['chronology']['items'] ?? [], JSON_UNESCAPED_UNICODE) ?>
 };
+<?php foreach ($data_extra as $lc => $d_lc): if (in_array($lc, ['tr', 'en'], true)) continue; ?>
+// Kayıtlı madde yoksa sitede gösterilen İngilizce maddelerle başla
+chronoData[<?= json_encode($lc) ?>] = <?= json_encode($d_lc['chronology']['items'] ?? [], JSON_UNESCAPED_UNICODE) ?>;
+if (!chronoData[<?= json_encode($lc) ?>].length) chronoData[<?= json_encode($lc) ?>] = JSON.parse(JSON.stringify(chronoData.en));
+<?php endforeach; ?>
 
 var htmlMode = {
     tr: false,
@@ -1682,8 +1717,7 @@ function escapeHtml(text) {
 
 // Sayfa Yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
-    renderChronoTable('tr');
-    renderChronoTable('en');
+    Object.keys(chronoData).forEach(renderChronoTable);
 });
 </script>
 
