@@ -168,6 +168,7 @@ $hp_pano_style = in_array(get_setting('hp_panorama_style', 'cards'), ['cards', '
 $container_classes[] = 'hp-pano-' . $hp_pano_style;
 if ($hp_hover_zoom) $container_classes[] = 'hp-has-hover-zoom';
 if ($hp_show_filmstrip) $container_classes[] = 'hp-has-filmstrip';
+if (get_setting('hp_banners_top', 'below_header') === 'top') $container_classes[] = 'xt-flush-top';
 
 $overlay_alpha = round($hp_overlay_opacity / 100, 2);
 $container_style = sprintf(

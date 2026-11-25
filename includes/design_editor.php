@@ -621,6 +621,12 @@ function design_listing_fields(string $p, string $section): array {
             'show_if' => $if(['section_banners']),
         ];
     }
+    $f[$p . '_banners_top'] = [
+        'section' => $section, 'sub' => 'options', 'type' => 'choice', 'default' => 'below_header',
+        'tr' => 'İlk afiş nereden başlasın', 'en' => 'First banner starts',
+        'choices' => design_choices(['below_header' => ['Menünün altından', 'Below the menu'], 'top' => ['Sayfanın en üstünden', 'At the very top']]),
+        'show_if' => $if(['section_banners']),
+    ];
     $f[$p . '_split_photo_width'] = [
         'section' => $section, 'sub' => 'options', 'type' => 'slider', 'min' => 45, 'max' => 75, 'step' => 5, 'unit' => '%', 'default' => '60',
         'tr' => 'Fotoğrafın genişliği', 'en' => 'Photo width',

@@ -649,7 +649,7 @@ a.xt-sb2-item:hover .xt-sb2-img { transform: scale(1.025); filter: brightness(.8
 .xt-sb2-arrow { flex-shrink: 0; }
 .xt-sb2-arrow { display: inline-flex; align-items: center; justify-content: center; width: clamp(34px, 3.4vw, 50px); height: clamp(34px, 3.4vw, 50px); border: 2px solid currentColor; border-radius: 50%; font-size: clamp(1rem, 1.6vw, 1.4rem); transition: transform .3s ease; }
 a.xt-sb2-item:hover .xt-sb2-arrow { transform: translateX(6px); }
-html:not(:has(#om-site-header.om-style-vertical_left)) .xt-sb2 { padding-top: clamp(64px, 9vh, 88px); }
+html:not(:has(#om-site-header.om-style-vertical_left)) .xt-root:not(.xt-flush-top) .xt-sb2 { padding-top: clamp(64px, 9vh, 88px); }
 
 @media (max-width: 767px) {
     .xt-zz { gap: 48px; padding: 96px 16px 56px; }
