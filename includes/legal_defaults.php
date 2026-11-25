@@ -84,28 +84,6 @@ function get_default_kvkk_aydinlatma_tr(): string {
 HTML);
 }
 
-function get_default_kvkk_acik_riza_tr(): string {
-    return legal_personalize(<<<'HTML'
-<h1>Kişisel Verilerin İşlenmesine İlişkin Açık Rıza Metni</h1>
-<p>Bu Açık Rıza Metni, 6698 sayılı <strong>Kişisel Verilerin Korunması Kanunu (“KVKK”)</strong> uyarınca; <strong>{host}</strong> web sitesinde yer alan <a href="aydinlatma-metni">Aydınlatma Metni</a> ile bilgilendirilmiş olan ziyaretçilerin ve ilgililerin, kanunun 5. maddesinin 1. fıkrası kapsamında açık rıza gerektiren kişisel veri işleme ve aktarım faaliyetlerine ilişkin serbest iradeleriyle onay vermelerini sağlamak amacıyla hazırlanmıştır.</p>
-<hr />
-<h3>1. Açık Rıza Kapsamında İşlenen Veriler ve Amaçlar</h3>
-<p>Aydınlatma Metni’nde ayrıntılı olarak açıklanan ilkeler doğrultusunda;</p>
-<ul>
-<li><strong>İletişim ve Proje Süreçleri:</strong> Web sitesindeki iletişim kanalları veya doğrudan e-posta vasıtasıyla şahsımla paylaştığım kimlik ve iletişim bilgilerimin (ad, soyad, e-posta, telefon, mesaj içeriği); fotoğraf çekim projeleri, editoryal lisanslama, sergi, baskı alımı ve iş birliği süreçlerinin yürütülmesi, tarafıma geri dönüş sağlanması ve gerekli bilgilendirmelerin yapılması amacıyla işlenmesine,</li>
-<li><strong>Editoryal ve Belgesel Görsel Kayıtlar:</strong> {owner} tarafından icra edilen belgesel ve sanatsal fotoğrafçılık projeleri kapsamında elde edilen görsel ve editoryal materyallerin; sanatçının portfolyosunda, basılı/dijital sergilerde, editoryal yayınlarda ve <strong>{host}</strong> platformunda telif ve basın etiği ilkeleri gözetilerek kamuya sunulmasına ve arşivlenmesine,</li>
-<li><strong>Analitik ve Web Deneyimi:</strong> Web sitesinin ziyaretçi deneyimini analiz etmek ve performansını optimize etmek üzere kullanılan anonim çerezler ve analitik araçları (Google Analytics vb.) vasıtasıyla elde edilen dijital kullanım verilerinin işlenmesine,</li>
-</ul>
-<p>özgür irademle, açıkça ve tereddüde mahal bırakmayacak şekilde <strong>onay veriyorum</strong>.</p>
-<hr />
-<h3>2. Yurt Dışına Veri Aktarımı</h3>
-<p>Web sitesinin teknik altyapısı gereği; kullanılan e-posta sunucuları, hosting sağlayıcıları ve ziyaretçi trafik analitiğini sağlayan uluslararası servis sağlayıcıların (Google vb.) veri merkezlerinin yurt dışında bulunabilmesi sebebiyle, yukarıda belirtilen kişisel verilerimin bu kapsamda yurt dışındaki güvenli sunuculara aktarılmasına açık rıza gösteriyorum.</p>
-<hr />
-<h3>3. Açık Rızanın Geri Alınması</h3>
-<p>KVKK uyarınca vermiş olduğum bu açık rızayı; hiçbir gerekçe göstermeksizin, dilediğim zaman Veri Sorumlusu {owner}’a <strong><a href="mailto:{email}">{email_text}</a></strong> adresi üzerinden yazılı bildirimde bulunarak kısmen veya tamamen <strong>geri alma hakkına</strong> sahip olduğumu biliyorum. Açık rızanın geri alınması, geri alma beyanının veri sorumlusuna ulaştığı andan itibaren hüküm doğuracak olup, bu tarihe kadar rıza kapsamında gerçekleştirilmiş işleme faaliyetlerinin hukuka uygunluğunu etkilemez.</p>
-HTML);
-}
-
 function get_default_kvkk_aydinlatma_en(): string {
     return legal_personalize(<<<'HTML'
 <h1>Personal Data Protection and Privacy Notice (KVKK)</h1>
@@ -171,27 +149,6 @@ function get_default_kvkk_aydinlatma_en(): string {
 HTML);
 }
 
-function get_default_kvkk_acik_riza_en(): string {
-    return legal_personalize(<<<'HTML'
-<h1>Explicit Consent Statement on Personal Data Processing</h1>
-<p>This Explicit Consent Statement is drafted pursuant to Law No. 6698 on the <strong>Protection of Personal Data (“KVKK”)</strong> for visitors and clients of <strong>{host}</strong> who have been informed via the <a href="aydinlatma-metni">Privacy &amp; Clarification Notice</a>, regarding personal data processing and cross-border data transfer activities requiring explicit consent under Article 5(1) of the KVKK.</p>
-<hr />
-<h3>1. Scope of Explicit Consent</h3>
-<p>In accordance with the principles set forth in the Clarification Notice, I freely, explicitly, and unequivocally grant my consent to:</p>
-<ul>
-<li><strong>Inquiry and Project Communications:</strong> Processing of my identity and contact information (name, email address, message details) submitted via online inquiry forms or email, for evaluating print purchases, editorial licensing, exhibition inquiries, and coordinating collaborations.</li>
-<li><strong>Editorial &amp; Documentary Archives:</strong> Archiving, presentation, and publication of photographic materials captured during documentary projects across {owner}'s portfolio, digital/print exhibitions, and website (<strong>{host}</strong>) in accordance with press ethics and artistic copyrights.</li>
-<li><strong>Digital Analytics &amp; Web Experience:</strong> Processing of anonymized browsing data and session cookies via Google Analytics for technical optimization.</li>
-</ul>
-<hr />
-<h3>2. Cross-Border Data Transfer</h3>
-<p>I explicitly acknowledge and consent that, due to the global infrastructure of email servers, web hosting providers, and international analytical services (e.g., Google), the aforementioned personal data may be processed and stored on secure data centers located outside Turkey.</p>
-<hr />
-<h3>3. Revocation of Consent</h3>
-<p>I understand that I may withdraw this consent partially or entirely at any time without stating any reason, by submitting a written notice to Data Controller {owner} at <strong><a href="mailto:{email}">{email_text}</a></strong>. Revocation takes effect upon receipt and does not affect the lawfulness of processing carried out prior to that date.</p>
-HTML);
-}
-
 /**
  * Verilen tip ve dile ait yasal metin içeriğini getirir (DB'den veya varsayılandan)
  */
@@ -206,8 +163,5 @@ function get_legal_content(string $type, string $lang = 'tr'): string {
         }
     }
 
-    if ($type === 'acik_riza') {
-        return ($lang === 'tr') ? get_default_kvkk_acik_riza_tr() : get_default_kvkk_acik_riza_en();
-    }
     return ($lang === 'tr') ? get_default_kvkk_aydinlatma_tr() : get_default_kvkk_aydinlatma_en();
 }

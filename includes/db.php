@@ -295,7 +295,6 @@ class DB {
                                 'about' => 'about',
                                 'field_work' => 'field-work',
                                 'privacy_notice' => 'privacy-notice',
-                                'explicit_consent' => 'explicit-consent',
                                 'projects' => 'projects',
                                 'series' => 'series',
                                 'single' => 'single',
@@ -317,7 +316,6 @@ class DB {
                                 'about' => 'hakkimda',
                                 'field_work' => 'saha-rotalari',
                                 'privacy_notice' => 'aydinlatma-metni',
-                                'explicit_consent' => 'acik-riza-metni',
                                 'projects' => 'projeler',
                                 'series' => 'seriler',
                                 'single' => 'tekil',
@@ -386,6 +384,26 @@ class DB {
                             ->execute([$now, $now]);
                     }
                     $pdo->exec(($is_sqlite ? "INSERT OR IGNORE" : "INSERT IGNORE") . " INTO `settings` (`key_name`, `key_value`) VALUES ('defaults_seeded_v1', '1');");
+                }
+            } catch (\Throwable $e) {}
+
+            // Açık rıza metni sayfası kaldırıldı: kayıtlı metinleri, sayfa adlarını ve adresleri bir kez temizle
+            try {
+                $consent_done = $pdo->query("SELECT `key_value` FROM `settings` WHERE `key_name` = 'explicit_consent_removed_v1'")->fetchColumn();
+                if (!$consent_done) {
+                    $pdo->exec("DELETE FROM `settings` WHERE `key_name` LIKE 'kvkk_acik_riza_metni_%'
+                        OR `key_name` LIKE 'explicit_consent_title_%'
+                        OR `key_name` LIKE 'page_title_explicit_consent_%'
+                        OR `key_name` LIKE 'static_slug_explicit_consent_%'");
+                    $upd = $pdo->prepare("UPDATE `languages` SET `url_slugs_json` = ? WHERE `id` = ?");
+                    foreach ($pdo->query("SELECT `id`, `url_slugs_json` FROM `languages`")->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                        $slugs = json_decode((string)$row['url_slugs_json'], true);
+                        if (is_array($slugs) && array_key_exists('explicit_consent', $slugs)) {
+                            unset($slugs['explicit_consent']);
+                            $upd->execute([json_encode($slugs, JSON_UNESCAPED_UNICODE), $row['id']]);
+                        }
+                    }
+                    $pdo->exec(($is_sqlite ? "INSERT OR IGNORE" : "INSERT IGNORE") . " INTO `settings` (`key_name`, `key_value`) VALUES ('explicit_consent_removed_v1', '1');");
                 }
             } catch (\Throwable $e) {}
         } catch (\Throwable $e) {}

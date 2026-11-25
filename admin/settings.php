@@ -338,7 +338,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     } elseif ($action === 'legal') {
         set_setting('kvkk_aydinlatma_metni_tr', trim($_POST['kvkk_aydinlatma_metni_tr'] ?? ''));
         set_setting('kvkk_aydinlatma_metni_en', trim($_POST['kvkk_aydinlatma_metni_en'] ?? ''));
-        set_flash('success', 'KVKK Aydınlatma ve Açık Rıza metinleri başarıyla güncellendi.');
+        set_flash('success', 'KVKK Aydınlatma Metni başarıyla güncellendi.');
     } elseif ($action === 'reset_legal') {
         set_setting('kvkk_aydinlatma_metni_tr', get_default_kvkk_aydinlatma_tr());
         set_setting('kvkk_aydinlatma_metni_en', get_default_kvkk_aydinlatma_en());

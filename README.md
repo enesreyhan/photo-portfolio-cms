@@ -160,7 +160,7 @@ Site title and description per language, site owner, contact email and phone, so
 | **Homepage** | Curated slideshow or all works, 26 themes, live design editor |
 | **Media** | Bulk upload, folders, EXIF, automatic AVIF/WebP, filters, "in use" warning |
 | **Languages** | 18 languages for site and panel, language-specific URLs, translation table, automatic translation |
-| **Pages** | About, Contact (form + inbox), Blog, privacy notice and explicit consent texts |
+| **Pages** | About, Contact (form + inbox), Blog, privacy notice |
 | **SEO** | Sitemap, RSS/Atom, Schema.org, Open Graph, clean URLs |
 | **Other** | Cookie consent, Google Analytics 4 statistics, maintenance mode, database backup download, login rate limiting |
 

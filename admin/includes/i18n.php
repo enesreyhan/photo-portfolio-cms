@@ -36,7 +36,7 @@ $admin_translations = [
         'footer_subnote_tr_label' => 'Ekstra Künye / Lisans Notu (Türkçe - Opsiyonel)',
         'footer_subnote_en_label' => 'Ekstra Künye / Lisans Notu (İngilizce - Opsiyonel)',
         'legal_page_breadcrumb' => 'Yasal Metinler',
-        'legal_page_sub' => 'Sitede yayınlanan Aydınlatma Metni ve Açık Rıza Metnini zengin metin editörüyle düzenleyin.',
+        'legal_page_sub' => 'Sitede yayınlanan Aydınlatma Metnini zengin metin editörüyle düzenleyin.',
         'back_to_settings' => 'Site Ayarlarına Dön',
         'btn_save_changes' => 'Değişiklikleri Kaydet',
         'homepage_tpl_btn_title' => 'Ana Sayfa Tasarım & Şablon Ayarlarını Yönet',
@@ -381,11 +381,8 @@ $admin_translations = [
         'Hukuki sayfaları ve alt bilgi (footer) bağlantılarını sitede aç / kapat' => 'Hukuki sayfaları ve alt bilgi (footer) bağlantılarını sitede aç / kapat',
         'Yasal Metinleri Düzenle →' => 'Yasal Metinleri Düzenle →',
         '1. Aydınlatma Metnini Düzenle' => '1. Aydınlatma Metnini Düzenle',
-        '2. Açık Rıza Metnini Düzenle'  => '2. Açık Rıza Metnini Düzenle',
         'Aydınlatma Metnini Yeni Sekmede Görüntüle' => 'Aydınlatma Metnini Yeni Sekmede Görüntüle',
         'Privacy Notice Yeni Sekmede Görüntüle'     => 'Privacy Notice Yeni Sekmede Görüntüle',
-        'Açık Rıza Metnini Yeni Sekmede Görüntüle'  => 'Açık Rıza Metnini Yeni Sekmede Görüntüle',
-        'Explicit Consent Yeni Sekmede Görüntüle'   => 'Explicit Consent Yeni Sekmede Görüntüle',
 
         // Settings (KVKK)
         'legal_settings_title'      => 'KVKK & Hukuki Metinler',
@@ -395,13 +392,9 @@ $admin_translations = [
         'legal_desc_active'         => '6698 Sayılı KVKK uyarınca sitede yasal sayfalar ve alt bilgi (footer) bağlantıları şu an açık.',
         'legal_desc_hidden'         => 'Yasal sayfalar ve alt bilgi (footer) bağlantıları şu anda kapalıdır (ziyaretçilere gizlenmiştir).',
         'legal_edit_btn'            => 'Yasal Metinleri Düzenle →',
-        'legal_settings_body_desc'  => 'Aydınlatma Metni (Privacy Notice) ve Açık Rıza Metni (Explicit Consent) içeriklerini sayfa düzenini bozmadan, zengin görsel metin editörü (WYSIWYG) aracılığıyla ayrı bir yönetim sayfasında rahatça düzenleyebilirsiniz.',
         'legal_edit_aydinlatma'     => '1. Aydınlatma Metnini Düzenle',
-        'legal_edit_acik_riza'      => '2. Açık Rıza Metnini Düzenle',
         'legal_view_aydinlatma_tr'  => 'Aydınlatma Metnini Yeni Sekmede Görüntüle',
         'legal_view_aydinlatma_en'  => 'Privacy Notice Yeni Sekmede Görüntüle',
-        'legal_view_acik_riza_tr'   => 'Açık Rıza Metnini Yeni Sekmede Görüntüle',
-        'legal_view_acik_riza_en'   => 'Explicit Consent Yeni Sekmede Görüntüle',
 
         // Languages & Behavior
         'admin_panel_lang_hint'     => 'Yönetim panelinin hangi dilde görüneceğini belirler.',
@@ -488,7 +481,7 @@ $admin_translations = [
         'footer_subnote_tr_label' => 'Extra Colophon / License Notice (Turkish - Optional)',
         'footer_subnote_en_label' => 'Extra Colophon / License Notice (English - Optional)',
         'legal_page_breadcrumb' => 'Legal Texts',
-        'legal_page_sub' => 'Edit the Privacy Notice and Explicit Consent texts published on the site with the rich text editor.',
+        'legal_page_sub' => 'Edit the Privacy Notice published on the site with the rich text editor.',
         'back_to_settings' => 'Back to Site Settings',
         'btn_save_changes' => 'Save Changes',
         'homepage_tpl_btn_title' => 'Manage Homepage Design & Template Settings',
@@ -825,11 +818,8 @@ $admin_translations = [
         'Hukuki sayfaları ve alt bilgi (footer) bağlantılarını sitede aç / kapat' => 'Toggle legal pages and footer links on the website',
         'Yasal Metinleri Düzenle →' => 'Edit Legal Notices →',
         '1. Aydınlatma Metnini Düzenle' => '1. Edit Privacy Notice',
-        '2. Açık Rıza Metnini Düzenle'  => '2. Edit Explicit Consent',
         'Aydınlatma Metnini Yeni Sekmede Görüntüle' => 'View Privacy Notice (TR) in New Tab',
         'Privacy Notice Yeni Sekmede Görüntüle'     => 'View Privacy Notice (EN) in New Tab',
-        'Açık Rıza Metnini Yeni Sekmede Görüntüle'  => 'View Explicit Consent (TR) in New Tab',
-        'Explicit Consent Yeni Sekmede Görüntüle'   => 'View Explicit Consent (EN) in New Tab',
 
         // Settings (KVKK)
         'legal_settings_title'      => 'GDPR / KVKK & Legal Notices',
@@ -839,13 +829,9 @@ $admin_translations = [
         'legal_desc_active'         => 'Legal pages and footer links are currently live on the site in compliance with regulations.',
         'legal_desc_hidden'         => 'Legal pages and footer links are currently disabled (hidden from visitors).',
         'legal_edit_btn'            => 'Edit Legal Notices →',
-        'legal_settings_body_desc'  => 'You can edit Privacy Notice and Explicit Consent texts conveniently on a dedicated page using the rich text editor (WYSIWYG) without breaking layout.',
         'legal_edit_aydinlatma'     => '1. Edit Privacy Notice',
-        'legal_edit_acik_riza'      => '2. Edit Explicit Consent',
         'legal_view_aydinlatma_tr'  => 'View Privacy Notice (TR) in New Tab',
         'legal_view_aydinlatma_en'  => 'View Privacy Notice (EN) in New Tab',
-        'legal_view_acik_riza_tr'   => 'View Explicit Consent (TR) in New Tab',
-        'legal_view_acik_riza_en'   => 'View Explicit Consent (EN) in New Tab',
 
         // Languages & Behavior
         'admin_panel_lang_label'    => 'Admin Panel Interface Language',

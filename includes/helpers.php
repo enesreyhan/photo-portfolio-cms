@@ -230,14 +230,14 @@ function get_all_languages(bool $refresh = false): array {
             'id' => 1, 'code' => 'en', 'name_native' => 'English', 'name_tr' => 'İngilizce',
             'flag' => '🇬🇧', 'direction' => 'ltr', 'locale' => 'en_US', 'fallback_lang' => 'tr',
             'is_active' => 1, 'is_default' => 1, 'is_admin_enabled' => 1, 'weight' => 1,
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
             'ui_strings' => [],
         ],
         [
             'id' => 2, 'code' => 'tr', 'name_native' => 'Türkçe', 'name_tr' => 'Türkçe',
             'flag' => '🇹🇷', 'direction' => 'ltr', 'locale' => 'tr_TR', 'fallback_lang' => 'en',
             'is_active' => 1, 'is_default' => 0, 'is_admin_enabled' => 1, 'weight' => 2,
-            'url_slugs' => ['about' => 'hakkimda', 'field_work' => 'saha-rotalari', 'privacy_notice' => 'aydinlatma-metni', 'explicit_consent' => 'acik-riza-metni', 'projects' => 'projeler', 'series' => 'seriler', 'single' => 'tekil'],
+            'url_slugs' => ['about' => 'hakkimda', 'field_work' => 'saha-rotalari', 'privacy_notice' => 'aydinlatma-metni', 'projects' => 'projeler', 'series' => 'seriler', 'single' => 'tekil'],
             'ui_strings' => [],
         ],
     ];
@@ -305,7 +305,7 @@ function get_language_info(string $code): ?array {
 }
 
 /**
- * Sabit sayfalar için dile göre kanonik slug döndürür (about, contact, blog, field_work, privacy_notice, explicit_consent, projects, series, single)
+ * Sabit sayfalar için dile göre kanonik slug döndürür (about, contact, blog, field_work, privacy_notice, projects, series, single)
  */
 function get_static_slug(string $page_key, string $lang = 'en'): string {
     $lang = strtolower(trim($lang));
@@ -341,7 +341,6 @@ function get_static_slug(string $page_key, string $lang = 'en'): string {
         'blog' => 'blog',
         'field_work' => 'field-work',
         'privacy_notice' => 'privacy-notice',
-        'explicit_consent' => 'explicit-consent',
         'projects' => 'projects',
         'series' => 'series',
         'single' => 'single',
@@ -352,7 +351,6 @@ function get_static_slug(string $page_key, string $lang = 'en'): string {
         'blog' => 'blog',
         'field_work' => 'saha-rotalari',
         'privacy_notice' => 'aydinlatma-metni',
-        'explicit_consent' => 'acik-riza-metni',
         'projects' => 'projeler',
         'series' => 'seriler',
         'single' => 'tekil',
@@ -386,7 +384,6 @@ function get_page_custom_title(string $page_key, string $lang = 'en', string $fa
         'blog' => 'Blog',
         'field_work' => 'Saha Rotaları',
         'privacy_notice' => 'Aydınlatma Metni',
-        'explicit_consent' => 'Açık Rıza Metni',
         'projects' => 'Portfolyo',
         'series' => 'Seriler',
         'single' => 'Tekil',
@@ -397,7 +394,6 @@ function get_page_custom_title(string $page_key, string $lang = 'en', string $fa
         'blog' => 'Blog',
         'field_work' => 'Field Work',
         'privacy_notice' => 'Privacy Notice',
-        'explicit_consent' => 'Explicit Consent',
         'projects' => 'Portfolio',
         'series' => 'Series',
         'single' => 'Single',
@@ -473,92 +469,92 @@ function get_preset_language_catalog(): array {
         'tr' => [
             'code' => 'tr', 'name_native' => 'Türkçe', 'name_tr' => 'Türkçe',
             'flag' => '🇹🇷', 'direction' => 'ltr', 'locale' => 'tr_TR', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'hakkimda', 'field_work' => 'saha-rotalari', 'privacy_notice' => 'aydinlatma-metni', 'explicit_consent' => 'acik-riza-metni', 'projects' => 'projeler', 'series' => 'seriler', 'single' => 'tekil'],
+            'url_slugs' => ['about' => 'hakkimda', 'field_work' => 'saha-rotalari', 'privacy_notice' => 'aydinlatma-metni', 'projects' => 'projeler', 'series' => 'seriler', 'single' => 'tekil'],
         ],
         'en' => [
             'code' => 'en', 'name_native' => 'English', 'name_tr' => 'İngilizce',
             'flag' => '🇬🇧', 'direction' => 'ltr', 'locale' => 'en_US', 'fallback_lang' => 'tr',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'hy' => [
             'code' => 'hy', 'name_native' => 'Հայերեն', 'name_tr' => 'Ermenice',
             'flag' => '🇦🇲', 'direction' => 'ltr', 'locale' => 'hy_AM', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'hyw' => [
             'code' => 'hyw', 'name_native' => 'Արեւմտահայերէն', 'name_tr' => 'Batı Ermenicesi',
             'flag' => '🇦🇲', 'direction' => 'ltr', 'locale' => 'hy_AM', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'zh' => [
             'code' => 'zh', 'name_native' => '简体中文', 'name_tr' => 'Çince (Basitleştirilmiş - Standart)',
             'flag' => '🇨🇳', 'direction' => 'ltr', 'locale' => 'zh_CN', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'fr' => [
             'code' => 'fr', 'name_native' => 'Français', 'name_tr' => 'Fransızca',
             'flag' => '🇫🇷', 'direction' => 'ltr', 'locale' => 'fr_FR', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'a-propos', 'field_work' => 'terrain', 'privacy_notice' => 'confidentialite', 'explicit_consent' => 'consentement', 'projects' => 'projets', 'series' => 'series', 'single' => 'unique'],
+            'url_slugs' => ['about' => 'a-propos', 'field_work' => 'terrain', 'privacy_notice' => 'confidentialite', 'projects' => 'projets', 'series' => 'series', 'single' => 'unique'],
         ],
         'de' => [
             'code' => 'de', 'name_native' => 'Deutsch', 'name_tr' => 'Almanca',
             'flag' => '🇩🇪', 'direction' => 'ltr', 'locale' => 'de_DE', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'ueber-mich', 'field_work' => 'feldarbeit', 'privacy_notice' => 'datenschutz', 'explicit_consent' => 'einwilligung', 'projects' => 'projekte', 'series' => 'serien', 'single' => 'einzel'],
+            'url_slugs' => ['about' => 'ueber-mich', 'field_work' => 'feldarbeit', 'privacy_notice' => 'datenschutz', 'projects' => 'projekte', 'series' => 'serien', 'single' => 'einzel'],
         ],
         'es' => [
             'code' => 'es', 'name_native' => 'Español', 'name_tr' => 'İspanyolca',
             'flag' => '🇪🇸', 'direction' => 'ltr', 'locale' => 'es_ES', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'sobre-mi', 'field_work' => 'trabajo-de-campo', 'privacy_notice' => 'privacidad', 'explicit_consent' => 'consentimiento', 'projects' => 'proyectos', 'series' => 'series', 'single' => 'individual'],
+            'url_slugs' => ['about' => 'sobre-mi', 'field_work' => 'trabajo-de-campo', 'privacy_notice' => 'privacidad', 'projects' => 'proyectos', 'series' => 'series', 'single' => 'individual'],
         ],
         'ar' => [
             'code' => 'ar', 'name_native' => 'العربية', 'name_tr' => 'Arapça',
             'flag' => '🇸🇦', 'direction' => 'rtl', 'locale' => 'ar_SA', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'ru' => [
             'code' => 'ru', 'name_native' => 'Русский', 'name_tr' => 'Rusça',
             'flag' => '🇷🇺', 'direction' => 'ltr', 'locale' => 'ru_RU', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'el' => [
             'code' => 'el', 'name_native' => 'Ελληνικά', 'name_tr' => 'Yunanca',
             'flag' => '🇬🇷', 'direction' => 'ltr', 'locale' => 'el_GR', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'it' => [
             'code' => 'it', 'name_native' => 'Italiano', 'name_tr' => 'İtalyanca',
             'flag' => '🇮🇹', 'direction' => 'ltr', 'locale' => 'it_IT', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'chi-sono', 'field_work' => 'sul-campo', 'privacy_notice' => 'privacy', 'explicit_consent' => 'consenso', 'projects' => 'progetti', 'series' => 'serie', 'single' => 'singole'],
+            'url_slugs' => ['about' => 'chi-sono', 'field_work' => 'sul-campo', 'privacy_notice' => 'privacy', 'projects' => 'progetti', 'series' => 'serie', 'single' => 'singole'],
         ],
         'ja' => [
             'code' => 'ja', 'name_native' => '日本語', 'name_tr' => 'Japonca',
             'flag' => '🇯🇵', 'direction' => 'ltr', 'locale' => 'ja_JP', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'pt' => [
             'code' => 'pt', 'name_native' => 'Português', 'name_tr' => 'Portekizce',
             'flag' => '🇵🇹', 'direction' => 'ltr', 'locale' => 'pt_PT', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'sobre-mim', 'field_work' => 'trabalho-de-campo', 'privacy_notice' => 'aviso-de-privacidade', 'explicit_consent' => 'consentimento-explicito', 'projects' => 'projetos', 'series' => 'series', 'single' => 'individual'],
+            'url_slugs' => ['about' => 'sobre-mim', 'field_work' => 'trabalho-de-campo', 'privacy_notice' => 'aviso-de-privacidade', 'projects' => 'projetos', 'series' => 'series', 'single' => 'individual'],
         ],
         'ko' => [
             'code' => 'ko', 'name_native' => '한국어', 'name_tr' => 'Korece',
             'flag' => '🇰🇷', 'direction' => 'ltr', 'locale' => 'ko_KR', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'hi' => [
             'code' => 'hi', 'name_native' => 'हिन्दी', 'name_tr' => 'Hintçe',
             'flag' => '🇮🇳', 'direction' => 'ltr', 'locale' => 'hi_IN', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'ur' => [
             'code' => 'ur', 'name_native' => 'اردو', 'name_tr' => 'Urduca',
             'flag' => '🇵🇰', 'direction' => 'rtl', 'locale' => 'ur_PK', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'explicit_consent' => 'explicit-consent', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
+            'url_slugs' => ['about' => 'about', 'field_work' => 'field-work', 'privacy_notice' => 'privacy-notice', 'projects' => 'projects', 'series' => 'series', 'single' => 'single'],
         ],
         'ms' => [
             'code' => 'ms', 'name_native' => 'Bahasa Melayu', 'name_tr' => 'Malayca',
             'flag' => '🇲🇾', 'direction' => 'ltr', 'locale' => 'ms_MY', 'fallback_lang' => 'en',
-            'url_slugs' => ['about' => 'tentang-saya', 'field_work' => 'kerja-lapangan', 'privacy_notice' => 'notis-privasi', 'explicit_consent' => 'persetujuan-nyata', 'projects' => 'projek', 'series' => 'siri', 'single' => 'tunggal'],
+            'url_slugs' => ['about' => 'tentang-saya', 'field_work' => 'kerja-lapangan', 'privacy_notice' => 'notis-privasi', 'projects' => 'projek', 'series' => 'siri', 'single' => 'tunggal'],
         ],
     ];
 }

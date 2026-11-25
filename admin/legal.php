@@ -1,7 +1,7 @@
 <?php
 /**
  * admin/legal.php
- * KVKK Aydınlatma Metni ve Açık Rıza Metni Yönetimi (Görsel Zengin Editör / WYSIWYG)
+ * KVKK Aydınlatma Metni Yönetimi (Görsel Zengin Editör / WYSIWYG)
  */
 
 require_once __DIR__ . '/../config.php';
@@ -77,7 +77,7 @@ require __DIR__ . '/includes/header.php';
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
-/* Doküman Ana Sekmeleri (1. Aydınlatma vs 2. Açık Rıza) */
+/* Doküman Ana Sekmesi */
 .doc-tabs-bar {
     display: flex;
     gap: 8px;
@@ -304,7 +304,7 @@ require __DIR__ . '/includes/header.php';
 <div class="page-header-wrap">
     <div>
         <h1 class="page-header-title"><?= e(__a('Hukuki Metinler', 'Legal Texts')) ?></h1>
-        <p class="page-header-sub"><?= e(__a('legal_page_sub', 'Sitede yayınlanan Aydınlatma Metni ve Açık Rıza Metnini zengin metin editörüyle düzenleyin.')) ?></p>
+        <p class="page-header-sub"><?= e(__a('legal_page_sub', 'Sitede yayınlanan Aydınlatma Metnini zengin metin editörüyle düzenleyin.')) ?></p>
     </div>
     <div class="page-header-actions">
         <a href="settings.php#gizlilik" class="btn btn-secondary">
@@ -337,7 +337,7 @@ document.addEventListener('er:langbar', function (e) {
 <div class="legal-editor-wrap">
     <div class="legal-card">
         
-        <!-- 1. Doküman Seçimi (Aydınlatma vs Açık Rıza) -->
+        <!-- 1. Doküman Sekmesi -->
         <div class="doc-tabs-bar">
             <button type="button" class="doc-tab-btn <?= $initial_doc === 'aydinlatma' ? 'active' : '' ?>" id="docTab_aydinlatma" onclick="switchDoc('aydinlatma')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h6"/></svg>
@@ -491,7 +491,7 @@ LEGAL_LANGS.forEach(function (c) { htmlMode['ayd_' + c] = false; });
 // Ortak dil çubuğunda dil değişince kaydettikten sonra aynı dile dönülsün
 document.addEventListener('er:langbar', function (e) { currentLang = e.detail.lang; var i = document.getElementById('activeLangInput'); if (i) i.value = e.detail.lang; });
 
-// Doküman Geçişi (Aydınlatma vs Açık Rıza)
+// Doküman Geçişi
 function switchDoc(doc) {
     currentDoc = doc;
     document.getElementById('activeDocInput').value = doc;
@@ -508,7 +508,7 @@ function switchLang(doc, lang) {
     currentLang = lang;
     document.getElementById('activeLangInput').value = lang;
 
-    var prefix = (doc === 'aydinlatma') ? 'ayd' : 'riz';
+    var prefix = 'ayd';
 
     // Buton aktiflik durumu
     var btnTr = document.getElementById('langBtn_' + prefix + '_tr');

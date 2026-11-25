@@ -282,7 +282,6 @@ $lang_contact_slug = get_static_slug('contact', $lang);
 $lang_blog_slug    = get_static_slug('blog', $lang);
 $lang_field_slug   = get_static_slug('field_work', $lang);
 $lang_privacy_slug = get_static_slug('privacy_notice', $lang);
-$lang_consent_slug = get_static_slug('explicit_consent', $lang);
 
 if ($sub_path === $lang_contact_slug || in_array($sub_path, ['contact', 'iletisim'], true)) {
     if (get_setting('contact_page_enabled', '0') === '1') {
@@ -383,12 +382,6 @@ if ($sub_path === $lang_privacy_slug || in_array($sub_path, ['privacy-notice', '
         $alternate_urls[$sl_code] = url($sl_code . '/' . get_static_slug('privacy_notice', $sl_code) . '/');
     }
     require __DIR__ . '/includes/views/legal.php';
-    exit;
-}
-
-// Açık rıza metni kaldırıldı; eski adresler aydınlatma metnine yönlenir
-if ($sub_path === $lang_consent_slug || in_array($sub_path, ['explicit-consent', 'acik-riza-metni'], true)) {
-    header('Location: ' . url($lang . '/' . $lang_privacy_slug . '/'), true, 301);
     exit;
 }
 

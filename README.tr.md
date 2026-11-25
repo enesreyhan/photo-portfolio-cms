@@ -160,7 +160,7 @@ Dile göre site başlığı ve açıklaması, site sahibi, iletişim e-postası 
 | **Ana sayfa** | Slayt seçkisi ya da tüm çalışmalar, 26 tema, canlı tasarım editörü |
 | **Medya** | Toplu yükleme, klasörler, EXIF, otomatik AVIF/WebP, filtreler, "kullanımda" uyarısı |
 | **Diller** | Site ve panel için 18 dil, dile göre URL'ler, çeviri tablosu, otomatik çeviri |
-| **Sayfalar** | Hakkımda, İletişim (form + gelen kutusu), Blog, KVKK aydınlatma ve açık rıza metinleri |
+| **Sayfalar** | Hakkımda, İletişim (form + gelen kutusu), Blog, KVKK aydınlatma metni |
 | **SEO** | Sitemap, RSS/Atom, Schema.org, Open Graph, temiz URL'ler |
 | **Diğer** | Çerez onayı, Google Analytics 4 istatistikleri, bakım modu, veritabanı yedeği indirme, giriş denemesi sınırı |
 
