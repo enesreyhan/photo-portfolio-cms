@@ -624,8 +624,8 @@ function escapeHtml(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// Form Gönderme Hazırlığı
-function submitLegalForm() {
+// Form Gönderme Hazırlığı — alttaki Kaydet, değişiklik çubuğu ve Ctrl+S hepsi submit olayından geçer
+function syncLegalHidden() {
     var keys = [];
     LEGAL_LANGS.forEach(function (c) { keys.push('ayd_' + c, 'riz_' + c); });
     keys.forEach(function(k) {
@@ -637,8 +637,12 @@ function submitLegalForm() {
         }
         document.getElementById('hidden_' + k).value = content;
     });
+}
+document.getElementById('legalForm').addEventListener('submit', syncLegalHidden);
 
-    document.getElementById('legalForm').submit();
+function submitLegalForm() {
+    var f = document.getElementById('legalForm');
+    f.requestSubmit ? f.requestSubmit() : (syncLegalHidden(), f.submit());
 }
 
 function confirmResetLegal() {
