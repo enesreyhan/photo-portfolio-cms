@@ -687,15 +687,27 @@ require __DIR__ . '/includes/image_modal.php';
 
         <div class="card-body">
 
-            <!-- ══════════════════════════════════════════ -->
-            <!-- ── TÜRKÇE SEKMESİ ── -->
-            <!-- ══════════════════════════════════════════ -->
-            <div id="tab-tr" class="tab-content <?= $active_tab === 'tab-tr' ? 'active' : '' ?>">
+            <?php
+            // Tüm diller aynı şablonla çizilir; yalnızca boş alan varsayılanları dile göre değişir
+            $about_defaults = [
+                'tr' => ['title' => 'Hakkımda', 'kicker' => 'EDİTORYAL İŞ BİRLİĞİ & TEMSİL', 'ctitle' => 'Saha Görevleri & İletişim', 'desc' => 'Ulusal ve uluslararası editoryal saha çalışmaları, uzun soluklu belgesel araştırmaları ve monografi projeleri için uygundur.', 'chtitle' => 'Sergi, Yayın ve Programlar', 'chsub' => 'Seçilmiş Monografiler, Katılımlar ve Basın Arşivi'],
+                'en' => ['title' => 'About Me', 'kicker' => 'EDITORIAL INQUIRIES & COMMISSIONS', 'ctitle' => 'Assignments & Contact', 'desc' => 'Available for national and international editorial field assignments, long-term documentary research, and monograph commissions.', 'chtitle' => 'Exhibitions, Publications & Media', 'chsub' => 'Selected Monographs, Features and Press Archive'],
+            ];
+            $placeholder_img = '/assets/brand/portrait-placeholder.svg';
+            $tab_langs = array_unique(array_merge(['tr', 'en'], array_column($site_languages, 'code')));
+            foreach ($tab_langs as $lc):
+                $d = $lc === 'tr' ? $data_tr : ($lc === 'en' ? $data_en : ($data_extra[$lc] ?? parse_about_content('')));
+                $def = $about_defaults[$lc] ?? ['title' => '', 'kicker' => '', 'ctitle' => '', 'desc' => '', 'chtitle' => '', 'chsub' => ''];
+                $p_img = $d['portrait']['img'] ?? '';
+                if ($lc !== 'tr' && ($p_img === '' || $p_img === $placeholder_img)) $p_img = $data_tr['portrait']['img'] ?? '';
+                if ($p_img === '') $p_img = $placeholder_img;
+            ?>
+            <div id="tab-<?= e($lc) ?>" class="tab-content <?= $active_tab === ('tab-' . $lc) ? 'active' : '' ?>">
                 
                 <!-- 1. Sayfa Başlığı -->
                 <div class="form-group" style="margin-bottom:20px;">
-                    <label class="form-label" style="font-weight:700;"><?= __a('Sayfa Ana Başlığı', 'Page Title (Turkish)') ?></label>
-                    <input type="text" name="title_tr" class="form-control" value="<?= e($item['title_tr'] ?? 'Hakkımda') ?>" placeholder="<?= e(__a('Örn: Hakkımda', 'e.g. Hakkımda')) ?>">
+                    <label class="form-label" style="font-weight:700;"><?= e(__a('Sayfa Ana Başlığı', 'Page Title')) ?></label>
+                    <input type="text" name="title_<?= e($lc) ?>" class="form-control" value="<?= e($item['title_' . $lc] ?? $def['title']) ?>" placeholder="<?= e(__a('Örn: Hakkımda', 'e.g. About Me')) ?>">
                 </div>
 
                 <!-- 2. Biyografi ve Anlatı (Zengin Görsel Editör) -->
@@ -711,7 +723,7 @@ require __DIR__ . '/includes/image_modal.php';
                     <div class="rich-editor-wrap">
                         <div class="rich-toolbar">
                             <!-- Paragraf / Başlık Formatı -->
-                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this, 'tr')" title="<?= e(__a('Paragraf veya Başlık Formatı', 'Paragraph or Heading Format')) ?>">
+                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this, '<?= e($lc) ?>')" title="<?= e(__a('Paragraf veya Başlık Formatı', 'Paragraph or Heading Format')) ?>">
                                 <option value="p"><?= e(__a('Normal Paragraf', 'Normal Paragraph')) ?></option>
                                 <option value="h2"><?= e(__a('Büyük Başlık (H2)', 'Large Heading (H2)')) ?></option>
                                 <option value="h3"><?= e(__a('Bölüm Başlığı (H3)', 'Section Heading (H3)')) ?></option>
@@ -720,7 +732,7 @@ require __DIR__ . '/includes/image_modal.php';
                             </select>
 
                             <!-- Yazı Boyutu Seçici -->
-                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this, 'tr')" title="<?= e(__a('Yazı Boyutu (Font Size)', 'Font Size')) ?>">
+                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this, '<?= e($lc) ?>')" title="<?= e(__a('Yazı Boyutu (Font Size)', 'Font Size')) ?>">
                                 <option value="" disabled selected><?= e(__a('Boyut', 'Size')) ?></option>
                                 <option value="12px"><?= e(__a('12px - Küçük / Not', '12px - Small / Note')) ?></option>
                                 <option value="14px"><?= e(__a('14px - Standart', '14px - Regular')) ?></option>
@@ -734,62 +746,62 @@ require __DIR__ . '/includes/image_modal.php';
                             <div class="rt-sep"></div>
 
                             <!-- Geri / İleri Al -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'undo')" title="<?= e(__a('Geri Al (Ctrl+Z)', 'Undo (Ctrl+Z)')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'undo')" title="<?= e(__a('Geri Al (Ctrl+Z)', 'Undo (Ctrl+Z)')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'redo')" title="<?= e(__a('İleri Al (Ctrl+Y)', 'Redo (Ctrl+Y)')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'redo')" title="<?= e(__a('İleri Al (Ctrl+Y)', 'Redo (Ctrl+Y)')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
                             </button>
 
                             <div class="rt-sep"></div>
 
                             <!-- Kalın / İtalik / Altı Çizili / Üstü Çizili -->
-                            <button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'bold')" title="<?= e(__a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)')) ?>"><strong>B</strong></button>
-                            <button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'italic')" title="<?= e(__a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)')) ?>"><em>I</em></button>
-                            <button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'underline')" title="<?= e(__a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)')) ?>"><u>U</u></button>
-                            <button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'strikeThrough')" title="<?= e(__a('Üstü Çizili (Strikethrough)', 'Strikethrough')) ?>"><s>S</s></button>
+                            <button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'bold')" title="<?= e(__a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)')) ?>"><strong>B</strong></button>
+                            <button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'italic')" title="<?= e(__a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)')) ?>"><em>I</em></button>
+                            <button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'underline')" title="<?= e(__a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)')) ?>"><u>U</u></button>
+                            <button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'strikeThrough')" title="<?= e(__a('Üstü Çizili (Strikethrough)', 'Strikethrough')) ?>"><s>S</s></button>
 
                             <div class="rt-sep"></div>
 
                             <!-- Hizalama: Sol, Orta, Sağ, İki Yana -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'justifyLeft')" title="<?= e(__a('Sola Yasla', 'Align Left')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'justifyLeft')" title="<?= e(__a('Sola Yasla', 'Align Left')) ?>">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="18" y2="18"></line></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'justifyCenter')" title="<?= e(__a('Ortala', 'Align Center')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'justifyCenter')" title="<?= e(__a('Ortala', 'Align Center')) ?>">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="6" y1="12" x2="18" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'justifyRight')" title="<?= e(__a('Sağa Yasla', 'Align Right')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'justifyRight')" title="<?= e(__a('Sağa Yasla', 'Align Right')) ?>">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="9" y1="12" x2="21" y2="12"></line><line x1="6" y1="18" x2="21" y2="18"></line></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'justifyFull')" title="<?= e(__a('İki Yana Yasla', 'Justify')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'justifyFull')" title="<?= e(__a('İki Yana Yasla', 'Justify')) ?>">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="18" y2="18"></line></svg>
                             </button>
 
                             <div class="rt-sep"></div>
 
                             <!-- Listeler & Çizgi -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'insertUnorderedList')" title="<?= e(__a('Madde İmleri Listesi', 'Bullet List')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'insertUnorderedList')" title="<?= e(__a('Madde İmleri Listesi', 'Bullet List')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.5" fill="currentColor"/><circle cx="3.5" cy="12" r="1.5" fill="currentColor"/><circle cx="3.5" cy="18" r="1.5" fill="currentColor"/></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'insertOrderedList')" title="<?= e(__a('Numaralı Liste', 'Numbered List')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'insertOrderedList')" title="<?= e(__a('Numaralı Liste', 'Numbered List')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'insertHorizontalRule')" title="<?= e(__a('Ayırıcı Yatay Çizgi', 'Horizontal Divider')) ?>">―</button>
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'insertHorizontalRule')" title="<?= e(__a('Ayırıcı Yatay Çizgi', 'Horizontal Divider')) ?>">―</button>
 
                             <div class="rt-sep"></div>
 
                             <!-- Bağlantı / Link -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichLink('tr')" title="<?= e(__a('Bağlantı / Link Ekle', 'Add Link')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichLink('<?= e($lc) ?>')" title="<?= e(__a('Bağlantı / Link Ekle', 'Add Link')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                             </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'unlink')" title="<?= e(__a('Bağlantıyı Kaldır', 'Remove Link')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'unlink')" title="<?= e(__a('Bağlantıyı Kaldır', 'Remove Link')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18.84 12.25 1.72-1.71a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="m5.16 11.75-1.72 1.71a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
                             </button>
 
                             <div class="rt-sep"></div>
 
                             <!-- Görsel Ekle -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="insertImageToNarrative('tr')" title="<?= e(__a('Medya Kütüphanesinden Görsel Ekle', 'Insert Image from Media Library')) ?>" style="display:inline-flex; align-items:center; gap:5px; color:#0284c7; font-weight:600;">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="insertImageToNarrative('<?= e($lc) ?>')" title="<?= e(__a('Medya Kütüphanesinden Görsel Ekle', 'Insert Image from Media Library')) ?>" style="display:inline-flex; align-items:center; gap:5px; color:#0284c7; font-weight:600;">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                                 <span><?= e(__a('Görsel Ekle', 'Add Image')) ?></span>
                             </button>
@@ -797,22 +809,22 @@ require __DIR__ . '/includes/image_modal.php';
                             <div class="rt-sep"></div>
 
                             <!-- Biçimlendirmeyi Temizle -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('tr', 'removeFormat')" title="<?= e(__a('Biçimlendirmeyi Temizle', 'Clear Formatting')) ?>">
+                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'removeFormat')" title="<?= e(__a('Biçimlendirmeyi Temizle', 'Clear Formatting')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
                             </button>
 
                             <!-- Kaynak Kod Modu Geçişi -->
-                            <button type="button" class="rt-btn rt-html-btn" onclick="toggleHtmlMode('tr')" style="margin-left:auto; font-size:12px; display:inline-flex; align-items:center; gap:5px;" title="<?= e(__a('HTML Kaynak Kodu ile Zengin Editör Arasında Geçiş Yap', 'Switch Between HTML Source and Rich Editor')) ?>">
+                            <button type="button" class="rt-btn rt-html-btn" onclick="toggleHtmlMode('<?= e($lc) ?>')" style="margin-left:auto; font-size:12px; display:inline-flex; align-items:center; gap:5px;" title="<?= e(__a('HTML Kaynak Kodu ile Zengin Editör Arasında Geçiş Yap', 'Switch Between HTML Source and Rich Editor')) ?>">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                                <span id="toggleText_tr"><?= e(__a('Kaynak Kodu', 'Source Code')) ?></span>
+                                <span id="toggleText_<?= e($lc) ?>"><?= e(__a('Kaynak Kodu', 'Source Code')) ?></span>
                             </button>
                         </div>
 
                         <!-- Görsel Zengin Editör -->
-                        <div class="rich-editable" id="editable_tr" contenteditable="true" data-placeholder="<?= e(__a('Biyografi, belgesel fotoğrafçılık yaklaşımınız ve editoryal hikaye paragraflarınızı buraya yazın...', 'Write your biography, your approach to documentary photography and your editorial story paragraphs here...')) ?>"><!--noi18n--><?= $data_tr['narrative'] ?><!--/noi18n--></div>
+                        <div class="rich-editable" id="editable_<?= e($lc) ?>" contenteditable="true" data-placeholder="<?= e(__a('Biyografi, belgesel fotoğrafçılık yaklaşımınız ve editoryal hikaye paragraflarınızı buraya yazın...', 'Write your biography, your approach to documentary photography and your editorial story paragraphs here...')) ?>"><!--noi18n--><?= ($d['narrative'] ?? '') ?><!--/noi18n--></div>
 
                         <!-- İsteğe Bağlı HTML Kaynak Alanı (Varsayılan olarak gizli) -->
-                        <textarea id="raw_textarea_tr" class="form-control" style="display:none; min-height:280px; font-family:monospace; font-size:12px; border-radius:0; border:none;"></textarea>
+                        <textarea id="raw_textarea_<?= e($lc) ?>" class="form-control" style="display:none; min-height:280px; font-family:monospace; font-size:12px; border-radius:0; border:none;"></textarea>
                     </div>
                 </div>
 
@@ -825,11 +837,11 @@ require __DIR__ . '/includes/image_modal.php';
                     <div class="portrait-editor-box">
                         <div>
                             <div class="portrait-preview-wrap">
-                                <img id="portrait_preview_tr" src="<?= url(ltrim($data_tr['portrait']['img'] ?? '/assets/brand/portrait-placeholder.svg', '/')) ?>" alt="Portre">
+                                <img id="portrait_preview_<?= e($lc) ?>" src="<?= url(ltrim($p_img, '/')) ?>" alt="<?= e(__a('Portre', 'Portrait')) ?>">
                             </div>
-                            <input type="hidden" name="portrait_img_tr" id="portrait_img_tr" value="<?= e($data_tr['portrait']['img'] ?? '/assets/brand/portrait-placeholder.svg') ?>">
+                            <input type="hidden" name="portrait_img_<?= e($lc) ?>" id="portrait_img_<?= e($lc) ?>" value="<?= e($p_img) ?>">
                             <div style="margin-top:8px;">
-                                <button type="button" class="btn btn-secondary btn-sm" style="width:130px; font-size:12px; padding:6px 4px; display:inline-flex; align-items:center; justify-content:center; gap:5px;" onclick="choosePortraitImage('tr')">
+                                <button type="button" class="btn btn-secondary btn-sm" style="width:130px; font-size:12px; padding:6px 4px; display:inline-flex; align-items:center; justify-content:center; gap:5px;" onclick="choosePortraitImage('<?= e($lc) ?>')">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                                     <span><?= e(__a('Fotoğraf Seç', 'Select Photo')) ?></span>
                                 </button>
@@ -839,11 +851,11 @@ require __DIR__ . '/includes/image_modal.php';
                         <div style="flex:1;">
                             <div class="form-group" style="margin-bottom:12px;">
                                 <label class="form-label"><?= e(__a('İsim & Soyisim', 'Full Name')) ?></label>
-                                <input type="text" name="portrait_name_tr" class="form-control" value="<?= e($data_tr['portrait']['name'] ?? site_owner_name()) ?>" placeholder="<?= e(__a('Örn: Ayşe Yılmaz', 'e.g. Ayşe Yılmaz')) ?>">
+                                <input type="text" name="portrait_name_<?= e($lc) ?>" class="form-control" value="<?= e($d['portrait']['name'] ?? site_owner_name()) ?>" placeholder="<?= e(__a('Örn: Ayşe Yılmaz', 'e.g. Ayşe Yılmaz')) ?>">
                             </div>
                             <div class="form-group" style="margin:0;">
                                 <label class="form-label"><?= e(__a('Ünvan ve Rol (Künye Açıklaması)', 'Title and Role (Credit Description)')) ?></label>
-                                <input type="text" name="portrait_role_tr" class="form-control" value="<?= e($data_tr['portrait']['role'] ?? '') ?>" placeholder="<?= e(__a('Örn: Belgesel Fotoğrafçı • İstanbul', 'e.g. Belgesel Fotoğrafçı • İstanbul')) ?>">
+                                <input type="text" name="portrait_role_<?= e($lc) ?>" class="form-control" value="<?= e($d['portrait']['role'] ?? '') ?>" placeholder="<?= e(__a('Örn: Belgesel Fotoğrafçı • İstanbul', 'e.g. Belgesel Fotoğrafçı • İstanbul')) ?>">
                             </div>
                         </div>
                     </div>
@@ -858,27 +870,27 @@ require __DIR__ . '/includes/image_modal.php';
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:12px;">
                         <div class="form-group" style="margin:0;">
                             <label class="form-label"><?= e(__a('Üst Etiket (Kicker)', 'Kicker')) ?></label>
-                            <input type="text" name="contact_kicker_tr" class="form-control" value="<?= e($data_tr['contact']['kicker'] ?? 'EDİTORYAL İŞ BİRLİĞİ & TEMSİL') ?>">
+                            <input type="text" name="contact_kicker_<?= e($lc) ?>" class="form-control" value="<?= e($d['contact']['kicker'] ?? $def['kicker']) ?>">
                         </div>
                         <div class="form-group" style="margin:0;">
                             <label class="form-label"><?= e(__a('Kutu Başlığı', 'Box Title')) ?></label>
-                            <input type="text" name="contact_title_tr" class="form-control" value="<?= e($data_tr['contact']['title'] ?? 'Saha Görevleri & İletişim') ?>">
+                            <input type="text" name="contact_title_<?= e($lc) ?>" class="form-control" value="<?= e($d['contact']['title'] ?? $def['ctitle']) ?>">
                         </div>
                     </div>
 
                     <div class="form-group" style="margin-bottom:12px;">
                         <label class="form-label"><?= e(__a('Açıklama Metni', 'Description Text')) ?></label>
-                        <textarea name="contact_desc_tr" class="form-control" rows="2"><?= e($data_tr['contact']['desc'] ?? 'Ulusal ve uluslararası editoryal saha çalışmaları, uzun soluklu belgesel araştırmaları ve monografi projeleri için uygundur.') ?></textarea>
+                        <textarea name="contact_desc_<?= e($lc) ?>" class="form-control" rows="2"><?= e($d['contact']['desc'] ?? $def['desc']) ?></textarea>
                     </div>
 
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
                         <div class="form-group" style="margin:0;">
                             <label class="form-label"><?= e(__a('E-Posta Adresi', 'Email Address')) ?></label>
-                            <input type="email" name="contact_email_tr" class="form-control" readonly value="<?= e(get_setting('contact_email')) ?>"><small class="form-hint"><a href="settings.php#genel"><?= e(__a('Site Ayarları › Genel', 'Site Settings › General')) ?></a><?= e(__a('’den değiştirilir', ' to change')) ?></small>">
+                            <input type="email" name="contact_email_<?= e($lc) ?>" class="form-control" readonly value="<?= e(get_setting('contact_email')) ?>"><small class="form-hint"><a href="settings.php#genel"><?= e(__a('Site Ayarları › Genel', 'Site Settings › General')) ?></a><?= e(__a('’den değiştirilir', ' to change')) ?></small>">
                         </div>
                         <div class="form-group" style="margin:0;">
                             <label class="form-label"><?= e(__a('Konum / Şehir', 'Location / City')) ?></label>
-                            <input type="text" name="contact_loc_tr" class="form-control" value="<?= e($data_tr['contact']['loc'] ?? '') ?>">
+                            <input type="text" name="contact_loc_<?= e($lc) ?>" class="form-control" value="<?= e($d['contact']['loc'] ?? '') ?>">
                         </div>
                     </div>
                 </div>
@@ -890,19 +902,19 @@ require __DIR__ . '/includes/image_modal.php';
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                             <span><?= e(__a('Sergiler, Yayınlar ve Medya Kronolojisi', 'Exhibitions, Publications and Media Chronology')) ?></span>
                         </h4>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="addChronoRow('tr')" style="border-color:#0284c7; color:#0284c7; font-weight:600;">
-                            <span>+ Yeni Madde Ekle</span>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="addChronoRow('<?= e($lc) ?>')" style="border-color:#0284c7; color:#0284c7; font-weight:600;">
+                            <span>+ <?= e(__a('Yeni Madde Ekle', 'Add New Entry')) ?></span>
                         </button>
                     </div>
 
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
                         <div class="form-group" style="margin:0;">
                             <label class="form-label"><?= e(__a('Bölüm Başlığı', 'Section Title')) ?></label>
-                            <input type="text" name="chrono_title_tr" class="form-control" value="<?= e($data_tr['chronology']['title'] ?? 'Sergi, Yayın ve Programlar') ?>">
+                            <input type="text" name="chrono_title_<?= e($lc) ?>" class="form-control" value="<?= e($d['chronology']['title'] ?? $def['chtitle']) ?>">
                         </div>
                         <div class="form-group" style="margin:0;">
                             <label class="form-label"><?= e(__a('Alt Başlık', 'Subheading')) ?></label>
-                            <input type="text" name="chrono_sub_tr" class="form-control" value="<?= e($data_tr['chronology']['sub'] ?? 'Seçilmiş Monografiler, Katılımlar ve Basın Arşivi') ?>">
+                            <input type="text" name="chrono_sub_<?= e($lc) ?>" class="form-control" value="<?= e($d['chronology']['sub'] ?? $def['chsub']) ?>">
                         </div>
                     </div>
 
@@ -919,362 +931,13 @@ require __DIR__ . '/includes/image_modal.php';
                                     <th style="width:60px; text-align:center;"><?= e(__a('İşlem', 'Action')) ?></th>
                                 </tr>
                             </thead>
-                            <tbody id="chronoTableBody_tr">
+                            <tbody id="chronoTableBody_<?= e($lc) ?>">
                                 <!-- JS ile doldurulacak -->
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-            </div>
-
-            <!-- ══════════════════════════════════════════ -->
-            <!-- ── İNGİLİZCE SEKMESİ ── -->
-            <!-- ══════════════════════════════════════════ -->
-            <div id="tab-en" class="tab-content <?= $active_tab === 'tab-en' ? 'active' : '' ?>">
-                
-                <!-- 1. Sayfa Başlığı -->
-                <div class="form-group" style="margin-bottom:20px;">
-                    <label class="form-label" style="font-weight:700;"><?= e(__a('Sayfa Başlığı (İngilizce)', 'Page Title (English)')) ?></label>
-                    <input type="text" name="title_en" class="form-control" value="<?= e($item['title_en'] ?? 'About Me') ?>" placeholder="e.g. About Me">
-                </div>
-
-                <!-- 2. Biyografi ve Anlatı (Zengin Görsel Editör) -->
-                <div class="about-section-card">
-                    <h4 style="display:flex; align-items:center; gap:8px;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                        <span><?= e(__a('Biyografi & Editoryal Anlatı Metni', 'Biography & Editorial Narrative Text')) ?></span>
-                        <span style="font-size:12px; font-weight:normal; color:var(--text-muted); margin-left:auto;">
-                            <?= e(__a('Ham HTML etiketlerini görmeden doğrudan biçimlendirilmiş zengin metin olarak düzenleyin.', 'Edit directly as formatted rich text without seeing raw HTML tags.')) ?>
-                        </span>
-                    </h4>
-
-                    <div class="rich-editor-wrap">
-                        <div class="rich-toolbar">
-                            <!-- Paragraf / Başlık Formatı -->
-                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichBlockFormat(this, 'en')" title="<?= e(__a('Paragraf veya Başlık Formatı', 'Paragraph or Heading Format')) ?>">
-                                <option value="p"><?= e(__a('Normal Paragraf', 'Normal Paragraph')) ?></option>
-                                <option value="h2"><?= e(__a('Başlık 2 (H2)', 'Heading 2 (H2)')) ?></option>
-                                <option value="h3"><?= e(__a('Bölüm Başlığı (H3)', 'Section Heading (H3)')) ?></option>
-                                <option value="h4"><?= e(__a('Alt Başlık (H4)', 'Subheading (H4)')) ?></option>
-                                <option value="blockquote"><?= e(__a('Alıntı Bloğu', 'Quote Block')) ?></option>
-                            </select>
-
-                            <!-- Yazı Boyutu Seçici -->
-                            <select class="rt-select" onfocus="saveCurrentSelection()" onmousedown="saveCurrentSelection()" onchange="execRichFontSize(this, 'en')" title="<?= e(__a('Yazı Boyutu', 'Font Size')) ?>">
-                                <option value="" disabled selected><?= e(__a('Boyut', 'Size')) ?></option>
-                                <option value="12px"><?= e(__a('12px - Küçük / Not', '12px - Small / Note')) ?></option>
-                                <option value="14px"><?= e(__a('14px - Normal', '14px - Regular')) ?></option>
-                                <option value="16px"><?= e(__a('16px - Okuma', '16px - Reading')) ?></option>
-                                <option value="18px"><?= e(__a('18px - Giriş', '18px - Lead')) ?></option>
-                                <option value="22px"><?= e(__a('22px - Başlık', '22px - Heading')) ?></option>
-                                <option value="28px"><?= e(__a('28px - Manşet', '28px - Banner')) ?></option>
-                                <option value="inherit"><?= e(__a('Sıfırla (Varsayılan)', 'Reset (Default)')) ?></option>
-                            </select>
-
-                            <div class="rt-sep"></div>
-
-                            <!-- Undo / Redo -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'undo')" title="<?= e(__a('Geri Al (Ctrl+Z)', 'Undo (Ctrl+Z)')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
-                            </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'redo')" title="<?= e(__a('İleri Al (Ctrl+Y)', 'Redo (Ctrl+Y)')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
-                            </button>
-
-                            <div class="rt-sep"></div>
-
-                            <!-- Bold / Italic / Underline / Strikethrough -->
-                            <button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'bold')" title="<?= e(__a('Kalın (Ctrl+B)', 'Bold (Ctrl+B)')) ?>"><strong>B</strong></button>
-                            <button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'italic')" title="<?= e(__a('İtalik (Ctrl+I)', 'Italic (Ctrl+I)')) ?>"><em>I</em></button>
-                            <button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'underline')" title="<?= e(__a('Altı Çizili (Ctrl+U)', 'Underline (Ctrl+U)')) ?>"><u>U</u></button>
-                            <button type="button" class="rt-btn rt-strike" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'strikeThrough')" title="<?= e(__a('Üstü Çizili', 'Strikethrough')) ?>"><s>S</s></button>
-
-                            <div class="rt-sep"></div>
-
-                            <!-- Alignments -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'justifyLeft')" title="<?= e(__a('Sola Yasla', 'Align Left')) ?>">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="18" y2="18"></line></svg>
-                            </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'justifyCenter')" title="<?= e(__a('Ortala', 'Align Center')) ?>">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="6" y1="12" x2="18" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
-                            </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'justifyRight')" title="<?= e(__a('Sağa Yasla', 'Align Right')) ?>">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="9" y1="12" x2="21" y2="12"></line><line x1="6" y1="18" x2="21" y2="18"></line></svg>
-                            </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'justifyFull')" title="<?= e(__a('İki Yana Yasla', 'Justify')) ?>">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="18" y2="18"></line></svg>
-                            </button>
-
-                            <div class="rt-sep"></div>
-
-                            <!-- Lists & Divider -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'insertUnorderedList')" title="<?= e(__a('Madde İmleri Listesi', 'Bullet List')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.5" fill="currentColor"/><circle cx="3.5" cy="12" r="1.5" fill="currentColor"/><circle cx="3.5" cy="18" r="1.5" fill="currentColor"/></svg>
-                            </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'insertOrderedList')" title="<?= e(__a('Numaralı Liste', 'Numbered List')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/></svg>
-                            </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'insertHorizontalRule')" title="<?= e(__a('Yatay Çizgi', 'Horizontal Line')) ?>">―</button>
-
-                            <div class="rt-sep"></div>
-
-                            <!-- Link -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichLink('en')" title="<?= e(__a('Bağlantı Ekle', 'Insert Link')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                            </button>
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'unlink')" title="<?= e(__a('Bağlantıyı Kaldır', 'Remove Link')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18.84 12.25 1.72-1.71a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="m5.16 11.75-1.72 1.71a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
-                            </button>
-
-                            <div class="rt-sep"></div>
-
-                            <!-- Insert Image -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="insertImageToNarrative('en')" title="<?= e(__a('Kütüphaneden Görsel Ekle', 'Insert Image from Library')) ?>" style="display:inline-flex; align-items:center; gap:5px; color:#0284c7; font-weight:600;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                                <span><?= e(__a('Görsel Ekle', 'Insert Image')) ?></span>
-                            </button>
-
-                            <div class="rt-sep"></div>
-
-                            <!-- Clear Formatting -->
-                            <button type="button" class="rt-btn" onmousedown="event.preventDefault();" onclick="execRichCmd('en', 'removeFormat')" title="<?= e(__a('Biçimlendirmeyi Temizle', 'Clear Formatting')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
-                            </button>
-
-                            <!-- HTML Mode Toggle -->
-                            <button type="button" class="rt-btn rt-html-btn" onclick="toggleHtmlMode('en')" style="margin-left:auto; font-size:12px; display:inline-flex; align-items:center; gap:5px;" title="<?= e(__a('HTML Kaynak Modunu Aç / Kapat', 'Toggle HTML Source Mode')) ?>">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                                <span id="toggleText_en"><?= e(__a('HTML Kodu', 'HTML Code')) ?></span>
-                            </button>
-                        </div>
-
-                        <!-- Görsel Zengin Editör -->
-                        <div class="rich-editable" id="editable_en" contenteditable="true" data-placeholder="<?= e(__a('Biyografinizi, belgesel yaklaşımınızı ve hikaye paragraflarınızı buraya yazın...', 'Write your biography, documentary philosophy, and story paragraphs here...')) ?>"><!--noi18n--><?= $data_en['narrative'] ?><!--/noi18n--></div>
-
-                        <!-- İsteğe Bağlı HTML Kaynak Alanı -->
-                        <textarea id="raw_textarea_en" class="form-control" style="display:none; min-height:280px; font-family:monospace; font-size:12px; border-radius:0; border:none;"></textarea>
-                    </div>
-                </div>
-
-                <!-- 3. Portre ve Profil Kimlik Kartı -->
-                <div class="about-section-card">
-                    <h4 style="display:flex; align-items:center; gap:8px;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <span><?= e(__a('Portre Fotoğrafı & Kimlik Kartı', 'Portrait Photo & Identity Card')) ?></span>
-                    </h4>
-                    <div class="portrait-editor-box">
-                        <div>
-                            <div class="portrait-preview-wrap">
-                                <img id="portrait_preview_en" src="<?= url(ltrim($data_en['portrait']['img'] ?? '/assets/brand/portrait-placeholder.svg', '/')) ?>" alt="Portrait">
-                            </div>
-                            <input type="hidden" name="portrait_img_en" id="portrait_img_en" value="<?= e($data_en['portrait']['img'] ?? '/assets/brand/portrait-placeholder.svg') ?>">
-                            <div style="margin-top:8px;">
-                                <button type="button" class="btn btn-secondary btn-sm" style="width:130px; font-size:12px; padding:6px 4px; display:inline-flex; align-items:center; justify-content:center; gap:5px;" onclick="choosePortraitImage('en')">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                                    <span><?= e(__a('Fotoğraf Seç', 'Select Photo')) ?></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div style="flex:1;">
-                            <div class="form-group" style="margin-bottom:12px;">
-                                <label class="form-label"><?= e(__a('Ad Soyad', 'Full Name')) ?></label>
-                                <input type="text" name="portrait_name_en" class="form-control" value="<?= e($data_en['portrait']['name'] ?? site_owner_name()) ?>" placeholder="e.g. Jane Doe">
-                            </div>
-                            <div class="form-group" style="margin:0;">
-                                <label class="form-label"><?= e(__a('Rol & Alt Yazı', 'Role & Caption')) ?></label>
-                                <input type="text" name="portrait_role_en" class="form-control" value="<?= e($data_en['portrait']['role'] ?? '') ?>" placeholder="e.g. Documentary Photographer • Istanbul">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. Saha Görevleri & İletişim Alanı -->
-                <div class="about-section-card">
-                    <h4 style="display:flex; align-items:center; gap:8px;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                        <span><?= e(__a('Görevler & İletişim Kutusu', 'Assignments & Contact Box')) ?></span>
-                    </h4>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:12px;">
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= e(__a('Üst Etiket Başlığı', 'Kicker Title')) ?></label>
-                            <input type="text" name="contact_kicker_en" class="form-control" value="<?= e($data_en['contact']['kicker'] ?? 'EDITORIAL INQUIRIES & COMMISSIONS') ?>">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= e(__a('Kutu Başlığı', 'Box Title')) ?></label>
-                            <input type="text" name="contact_title_en" class="form-control" value="<?= e($data_en['contact']['title'] ?? 'Assignments & Contact') ?>">
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:12px;">
-                        <label class="form-label"><?= e(__a('Açıklama Metni', 'Description Text')) ?></label>
-                        <textarea name="contact_desc_en" class="form-control" rows="2"><?= e($data_en['contact']['desc'] ?? 'Available for national and international editorial field assignments, long-term documentary research, and monograph commissions.') ?></textarea>
-                    </div>
-
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= e(__a('E-posta Adresi', 'Email Address')) ?></label>
-                            <input type="email" name="contact_email_en" class="form-control" readonly value="<?= e(get_setting('contact_email')) ?>"><small class="form-hint"><a href="settings.php#genel"><?= e(__a('Site Ayarları › Genel', 'Site Settings › General')) ?></a><?= e(__a('’den değiştirilir', ' to change')) ?></small>">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= e(__a('Konum', 'Location')) ?></label>
-                            <input type="text" name="contact_loc_en" class="form-control" value="<?= e($data_en['contact']['loc'] ?? '') ?>">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. Küratoryal Kronoloji (Sergiler, Yayınlar, Medya) -->
-                <div class="about-section-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
-                        <h4 style="margin:0; border:none; padding:0; display:flex; align-items:center; gap:8px;">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                            <span><?= e(__a('Sergiler, Yayınlar ve Medya Kronolojisi', 'Exhibitions, Publications & Media Chronology')) ?></span>
-                        </h4>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="addChronoRow('en')" style="border-color:#0284c7; color:#0284c7; font-weight:600;">
-                            <span>+ Add New Entry</span>
-                        </button>
-                    </div>
-
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= e(__a('Bölüm Başlığı', 'Section Title')) ?></label>
-                            <input type="text" name="chrono_title_en" class="form-control" value="<?= e($data_en['chronology']['title'] ?? 'Exhibitions, Publications & Media') ?>">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= e(__a('Alt Başlık', 'Subtitle')) ?></label>
-                            <input type="text" name="chrono_sub_en" class="form-control" value="<?= e($data_en['chronology']['sub'] ?? 'Selected Monographs, Features and Press Archive') ?>">
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="chrono-table">
-                            <thead>
-                                <tr>
-                                    <th style="width:70px;"><?= e(__a('Sıra', 'Order')) ?></th>
-                                    <th style="width:90px;"><?= e(__a('Yıl', 'Year')) ?></th>
-                                    <th style="width:130px;"><?= e(__a('Kategori', 'Category')) ?></th>
-                                    <th><?= e(__a('Etkinlik / Başlık', 'Event / Title')) ?></th>
-                                    <th style="width:220px;"><?= e(__a('Bağlantı (URL)', 'Link (URL)')) ?></th>
-                                    <th><?= e(__a('Mekan / Yayın', 'Venue / Publication')) ?></th>
-                                    <th style="width:60px; text-align:center;"><?= e(__a('İşlem', 'Action')) ?></th>
-                                </tr>
-                            </thead>
-                            <tbody id="chronoTableBody_en">
-                                <!-- JS ile doldurulacak -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-
-            <?php foreach ($site_languages as $sl):
-                $lc = $sl['code'];
-                if (in_array($lc, ['tr', 'en'], true)) continue;
-                $d_lc = $data_extra[$lc] ?? ['narrative' => '', 'portrait' => [], 'contact' => [], 'chronology' => ['title' => '', 'sub' => '', 'items' => []]];
-            ?>
-            <div id="tab-<?= e($lc) ?>" class="tab-content <?= $active_tab === ('tab-' . $lc) ? 'active' : '' ?>">
-                <div class="form-group" style="margin-bottom:20px;">
-                    <label class="form-label" style="font-weight:700;"><?= e($sl['flag'] ?? '🌐') ?> <?= __a('Sayfa Ana Başlığı', 'Page Title') ?> (<?= e(get_localized_language_name($sl['code'], $admin_lang)) ?>)</label>
-                    <input type="text" name="title_<?= e($lc) ?>" class="form-control" value="<?= e($item['title_' . $lc] ?? '') ?>" placeholder="<?= e($sl['name_native'] ?: strtoupper($lc)) ?>...">
-                </div>
-
-                <div class="about-section-card">
-                    <h4 style="display:flex; align-items:center; gap:8px;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                        <span><?= __a('Biyografi ve Editoryal Anlatı Metni', 'Biography & Narrative Text') ?> (<?= e($sl['name_native']) ?>)</span>
-                    </h4>
-                    <div class="rich-editor-wrap">
-                        <div class="rich-toolbar">
-                            <button type="button" class="rt-btn rt-bold" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'bold')"><strong>B</strong></button>
-                            <button type="button" class="rt-btn rt-italic" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'italic')"><em>I</em></button>
-                            <button type="button" class="rt-btn rt-underline" onmousedown="event.preventDefault();" onclick="execRichCmd('<?= e($lc) ?>', 'underline')"><u>U</u></button>
-                            <button type="button" class="rt-btn rt-html-btn" onclick="toggleHtmlMode('<?= e($lc) ?>')" style="margin-left:auto; font-size:12px; display:inline-flex; align-items:center; gap:5px;">
-                                <span id="toggleText_<?= e($lc) ?>"><?= __a('HTML Kaynak', 'HTML Source') ?></span>
-                            </button>
-                        </div>
-                        <div class="rich-editable" id="editable_<?= e($lc) ?>" contenteditable="true" data-placeholder="<?= e($sl['name_native']) ?>..."><!--noi18n--><?= $d_lc['narrative'] ?? '' ?><!--/noi18n--></div>
-                        <textarea id="raw_textarea_<?= e($lc) ?>" class="form-control" style="display:none; min-height:280px; font-family:monospace; font-size:12px; border-radius:0; border:none;"></textarea>
-                    </div>
-                </div>
-
-                <div class="about-section-card">
-                    <h4><?= __a('Portre & İletişim Kutusu', 'Portrait & Contact Box') ?> (<?= e($sl['name_native']) ?>)</h4>
-                    <input type="hidden" name="portrait_img_<?= e($lc) ?>" value="<?= e($d_lc['portrait']['img'] ?? ($data_tr['portrait']['img'] ?? '/assets/brand/portrait-placeholder.svg')) ?>">
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:12px;">
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('Tam İsim', 'Full Name') ?></label>
-                            <input type="text" name="portrait_name_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['portrait']['name'] ?? site_owner_name()) ?>">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('Unvan & Alt Yazı', 'Role & Subtitle') ?></label>
-                            <input type="text" name="portrait_role_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['portrait']['role'] ?? '') ?>">
-                        </div>
-                    </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:12px;">
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('İletişim Kicker Başlığı', 'Contact Kicker Title') ?></label>
-                            <input type="text" name="contact_kicker_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['contact']['kicker'] ?? '') ?>">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('İletişim Ana Başlığı', 'Contact Main Title') ?></label>
-                            <input type="text" name="contact_title_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['contact']['title'] ?? '') ?>">
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-bottom:12px;">
-                        <label class="form-label"><?= __a('İletişim Açıklaması', 'Contact Description') ?></label>
-                        <textarea name="contact_desc_<?= e($lc) ?>" class="form-control" rows="2"><?= e($d_lc['contact']['desc'] ?? '') ?></textarea>
-                    </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('E-Posta', 'Email') ?></label>
-                            <input type="email" name="contact_email_<?= e($lc) ?>" class="form-control" readonly value="<?= e(get_setting('contact_email')) ?>"><small class="form-hint"><a href="settings.php#genel"><?= e(__a('Site Ayarları › Genel', 'Site Settings › General')) ?></a><?= e(__a('’den değiştirilir', ' to change')) ?></small>">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('Konum', 'Location') ?></label>
-                            <input type="text" name="contact_loc_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['contact']['loc'] ?? '') ?>">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-section-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
-                        <h4 style="margin:0; border:none; padding:0; display:flex; align-items:center; gap:8px;">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                            <span><?= e(__a('Sergiler, Yayınlar ve Medya Kronolojisi', 'Exhibitions, Publications & Media Chronology')) ?> (<?= e($sl['name_native']) ?>)</span>
-                        </h4>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="addChronoRow('<?= e($lc) ?>')" style="border-color:#0284c7; color:#0284c7; font-weight:600;">
-                            <span>+ <?= e(__a('Yeni Madde Ekle', 'Add New Entry')) ?></span>
-                        </button>
-                    </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('Kronoloji Başlığı', 'Chronology Title') ?></label>
-                            <input type="text" name="chrono_title_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['chronology']['title'] ?? '') ?>">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <label class="form-label"><?= __a('Kronoloji Alt Başlığı', 'Chronology Subtitle') ?></label>
-                            <input type="text" name="chrono_sub_<?= e($lc) ?>" class="form-control" value="<?= e($d_lc['chronology']['sub'] ?? '') ?>">
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="chrono-table">
-                            <thead>
-                                <tr>
-                                    <th style="width:70px;"><?= e(__a('Sıra', 'Order')) ?></th>
-                                    <th style="width:90px;"><?= e(__a('Yıl', 'Year')) ?></th>
-                                    <th style="width:130px;"><?= e(__a('Kategori', 'Category')) ?></th>
-                                    <th><?= e(__a('Etkinlik / Başlık', 'Event / Title')) ?></th>
-                                    <th style="width:220px;"><?= e(__a('Bağlantı (URL)', 'Link (URL)')) ?></th>
-                                    <th><?= e(__a('Mekan / Yayın', 'Venue / Publication')) ?></th>
-                                    <th style="width:60px; text-align:center;"><?= e(__a('İşlem', 'Action')) ?></th>
-                                </tr>
-                            </thead>
-                            <tbody id="chronoTableBody_<?= e($lc) ?>"></tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
             <?php endforeach; ?>
 
