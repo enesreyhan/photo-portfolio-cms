@@ -69,7 +69,7 @@ if ($pf_default_surface === 'white' || $pf_default_surface === 'paper' || get_se
     $html_classes[] = 'dark hp-surface-dark';
 }
 // Tam görsel düzenlerde ziyaretçinin açık tema tercihi uygulanmaz (layout_header.php)
-if ($pf_image_fit === 'cover' && in_array($pf_template, ['cinema_fullbleed', 'editorial_magazine', 'vertical_chapters', 'split_screens', 'triptych'], true)) $html_classes[] = 'full-image-page';
+if ($pf_image_fit === 'cover' && (in_array($pf_template, ['cinema_fullbleed', 'editorial_magazine', 'vertical_chapters', 'split_screens', 'triptych'], true) || ($pf_template === 'section_banners' && get_setting('pf_banners_top', 'below_header') === 'top'))) $html_classes[] = 'full-image-page';
 $html_class = implode(' ', $html_classes);
 
 // Tab title and heading name the category instead of repeating the site title

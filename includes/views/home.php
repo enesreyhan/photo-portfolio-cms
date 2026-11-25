@@ -70,7 +70,7 @@ if ($hp_default_surface === 'white' || $hp_default_surface === 'paper' || $hp_te
     $html_classes[] = 'dark hp-surface-dark';
 }
 // Tam görsel düzenlerde ziyaretçinin açık tema tercihi uygulanmaz (layout_header.php)
-if ($hp_image_fit === 'cover' && in_array($hp_template, ['cinema_fullbleed', 'editorial_magazine', 'vertical_chapters', 'split_screens', 'triptych'], true)) $html_classes[] = 'full-image-page';
+if ($hp_image_fit === 'cover' && (in_array($hp_template, ['cinema_fullbleed', 'editorial_magazine', 'vertical_chapters', 'split_screens', 'triptych'], true) || ($hp_template === 'section_banners' && get_setting('hp_banners_top', 'below_header') === 'top'))) $html_classes[] = 'full-image-page';
 $html_class = implode(' ', $html_classes);
 
 $GLOBALS['is_homepage'] = true;
