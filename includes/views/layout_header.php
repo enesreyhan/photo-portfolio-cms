@@ -827,9 +827,9 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
                                 <?php foreach ($nav_active_langs as $l_idx => $nl):
                                     $nl_code = $nl['code'];
                                     $nl_url = $GLOBALS['er_alternate_urls'][$nl_code] ?? ($nl_code === 'tr' ? url($tr_path) : ($nl_code === 'en' ? url($en_path) : url($nl_code . '/')));
-                                    $nl_label = strtoupper($nl_code);
+                                    $nl_label = lang_switcher_code($nl);
                                     if ($sw_format === 'flag_code') {
-                                        $nl_label = trim(($nl['flag'] ?? '') . ' ' . strtoupper($nl_code));
+                                        $nl_label = trim(($nl["flag"] ?? "") . " " . $nl_label);
                                     } elseif ($sw_format === 'native') {
                                         $nl_label = $nl['name_native'] ?: strtoupper($nl_code);
                                     }
@@ -2284,9 +2284,9 @@ function render_site_navigation(string $lang, string $en_path, string $tr_path, 
                     <?php foreach ($drawer_active_langs as $d_idx => $dl):
                         $dl_code = $dl['code'];
                         $dl_url = $GLOBALS['er_alternate_urls'][$dl_code] ?? ($dl_code === 'tr' ? url($tr_path) : ($dl_code === 'en' ? url($en_path) : url($dl_code . '/')));
-                        $dl_label = strtoupper($dl_code);
+                        $dl_label = lang_switcher_code($dl);
                         if ($drawer_sw_fmt === 'flag_code') {
-                            $dl_label = trim(($dl['flag'] ?? '') . ' ' . strtoupper($dl_code));
+                            $dl_label = trim(($dl["flag"] ?? "") . " " . $dl_label);
                         } elseif ($drawer_sw_fmt === 'native') {
                             $dl_label = $dl['name_native'] ?: strtoupper($dl_code);
                         }

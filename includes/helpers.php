@@ -292,6 +292,25 @@ function get_default_language(): string {
 }
 
 /**
+ * Dil seçicide görünen kısa etiket: Latin olmayan diller kendi alfabesiyle (ՀԱՅ), diğerleri kodla (EN).
+ * URL'ler etkilenmez; onlar hâlâ Latin dil kodunu kullanır.
+ */
+function lang_switcher_code(array $l): string {
+    static $map = [
+        'hy' => 'ՀԱՅ', 'hyw' => 'ՀԱՅ', 'ru' => 'РУС', 'el' => 'ΕΛ', 'zh' => '中文', 'ja' => '日本',
+        'ko' => '한국', 'ar' => 'عربي', 'ur' => 'اردو', 'hi' => 'हिंदी',
+    ];
+    $code = (string)($l['code'] ?? '');
+    if (isset($map[$code])) return $map[$code];
+    $native = (string)($l['name_native'] ?? '');
+    // Haritada olmayan yeni Latin dışı diller: yerel adın ilk 3 harfi
+    if ($native !== '' && preg_match('/[^\p{Latin}\p{Common}\p{Inherited}]/u', $native)) {
+        return mb_strtoupper(mb_substr($native, 0, 3));
+    }
+    return strtoupper($code);
+}
+
+/**
  * Belirli bir dil kodunun detaylı bilgisini döndürür
  */
 function get_language_info(string $code): ?array {
